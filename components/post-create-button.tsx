@@ -4,9 +4,9 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 
 import { cn } from "@/lib/utils"
-import { ButtonProps, buttonVariants } from "@/src/components/ui/button"
+import { ButtonProps, buttonVariants } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
-import { Icons } from "@/src/components/icons"
+import { Icons } from "@/components/icons"
 
 interface PostCreateButtonProps extends ButtonProps {}
 

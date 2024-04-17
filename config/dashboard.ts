@@ -14,24 +14,39 @@ export const dashboardConfig: DashboardConfig = {
   ],
   sidebarNav: [
     {
-      title: "Empleados",
+      title: "Panel de control",
       href: "/dashboard",
+      icon: "layoutDashboard",
+    },
+    {
+      title: "Empleados",
+      href: "/dashboard/employee",
       icon: "user",
     },
     {
       title: "Sucursales",
-      href: "/dashboard/billing",
+      href: "/dashboard/branch",
       icon: "warehouse",
     },
     {
       title: "Productos",
-      href: "/dashboard/settings",
+      href: "/dashboard/product",
       icon: "shoppingBasket",
     },
     {
       title: "Categorias",
-      href: "/dashboard/settings",
+      href: "/dashboard/category",
       icon: "listCollapse",
+    },
+    {
+      title: "Proveedores",
+      href: "/dashboard/provider",
+      icon: "truck",
+    },
+    {
+      title: "Cajas",
+      href: "/dashboard/box ",
+      icon: "handCoins",
     },
   ],
 }

@@ -4,10 +4,10 @@ import { redirect } from "next/navigation"
 // import { db } from "@/lib/db"
 // import { getCurrentUser } from "@/lib/session"
 // import { EmptyPlaceholder } from "@/components/empty-placeholder"
-import { DashboardHeader } from "@/src/components/header"
-import { PostCreateButton } from "@/src/components/post-create-button"
+import { DashboardHeader } from "@/components/header"
+import { PostCreateButton } from "@/components/post-create-button"
 // import { PostItem } from "@/components/post-item"
-import { DashboardShell } from "@/src/components/shell"
+import { DashboardShell } from "@/components/shell"
 
 export const metadata = {
   title: "Dashboard",

@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 import { formatDate } from "@/lib/utils"
-import { Skeleton } from "@/src/components/ui/skeleton"
+import { Skeleton } from "@/components/ui/skeleton"
 // import { PostOperations } from "@/components/post-operations"
 
 interface PostItemProps {

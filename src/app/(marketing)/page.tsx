@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/src/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 const { POS_NAME } = process.env;
 
 

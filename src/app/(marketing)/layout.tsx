@@ -2,9 +2,9 @@ import Link from "next/link"
 
 import { marketingConfig } from "@/config/marketing"
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/src/components/ui/button"
-import { MainNav } from "@/src/components/main-nav"
-// import { SiteFooter } from "@/src/components/site-footer"
+import { buttonVariants } from "@/components/ui/button"
+import { MainNav } from "@/components/main-nav"
+// import { SiteFooter } from "@/components/site-footer"
 
 interface MarketingLayoutProps {
   children: React.ReactNode

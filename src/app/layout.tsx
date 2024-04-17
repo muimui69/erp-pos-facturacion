@@ -3,9 +3,7 @@ import localFont from "next/font/local"
 
 import "@/src/app/globals.css"
 import { cn } from "@/lib/utils"
-// import { Toaster } from "@/components/ui/toaster"
-// import { Analytics } from "@/components/analytics"
-import { ThemeProvider } from "@/src/components/theme-provider"
+import { ThemeProvider } from "@/components/theme-provider"
 import { siteConfig } from "@/config/site"
 
 const fontSans = FontSans({
