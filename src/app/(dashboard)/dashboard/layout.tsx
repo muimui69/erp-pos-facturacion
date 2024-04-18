@@ -28,8 +28,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
                     />
                 </div>
             </header> */}
-            <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr] mt-10">
-                <aside className="hidden w-[200px] flex-col md:flex">
+            <div className="container grid flex-1 gap-12 md:lg:grid-cols-[200px_1fr] grid-cols-[40px_1fr]  mt-10">
+                <aside className="md:lg:w-[200px] w-[40px] flex-col flex">
                     <DashboardNav items={dashboardConfig.sidebarNav} />
                 </aside>
                 <main className="flex w-full flex-1 flex-col overflow-hidden">

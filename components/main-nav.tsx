@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import Link from "next/link"
 import { useSelectedLayoutSegment } from "next/navigation"
 
@@ -8,7 +7,8 @@ import { MainNavItem } from "@/types"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
-// import { MobileNav } from "@/components/mobile-nav"
+import { MobileNav } from "@/components/mobile-nav"
+import { useState } from "react"
 
 interface MainNavProps {
   items?: MainNavItem[]
@@ -17,7 +17,11 @@ interface MainNavProps {
 
 export function MainNav({ items, children }: MainNavProps) {
   const segment = useSelectedLayoutSegment()
-  const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false)
+  const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false)
+
+  const setCloseMenu = () => {
+    setShowMobileMenu(false);
+  }
 
   return (
     <div className="flex gap-6 md:gap-10">
@@ -53,9 +57,9 @@ export function MainNav({ items, children }: MainNavProps) {
         {showMobileMenu ? <Icons.close /> : <Icons.store />}
         <span className="font-bold">Menu</span>
       </button>
-      {/* {showMobileMenu && items && (
-        <MobileNav items={items}>{children}</MobileNav>
-      )} */}
+      {showMobileMenu && items && (
+        <MobileNav items={items} setCloseMenu={setCloseMenu}>{children}</MobileNav>
+      )}
     </div>
   )
 }

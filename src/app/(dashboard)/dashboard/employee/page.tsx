@@ -43,7 +43,7 @@ export default async function EmployeePage() {
 
   return (
     <DashboardShell>
-      <DashboardHeader heading="Categorias" text="Cree y gestione la categoria de sus productos.">
+      <DashboardHeader heading="Empleados" text="Cree y gestione los empleados de su punto de venta.">
       </DashboardHeader>
       <div className="container overflow-x-auto">
         <DataTable columns={columns} data={data} />
