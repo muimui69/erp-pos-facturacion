@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 
 import { cn } from "@/lib/utils"
@@ -9,6 +8,8 @@ import { Label } from "@/components/ui/label"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 import { buttonVariants } from "@/components/ui/button"
+import { FormEvent, useState } from "react"
+import { postCreateBrandQuery } from "@/lib/queries/branch"
 
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
@@ -24,12 +25,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   // } = useForm<FormData>({
   //   resolver: zodResolver(userAuthSchema),
   // })
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
-  const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isGitHubLoading, setIsGitHubLoading] = useState<boolean>(false)
   const searchParams = useSearchParams()
 
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     navigate.push('/dashboard')
   }
 
@@ -61,7 +63,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       {/* <form onSubmit={handleSubmit(onSubmit)}> */}
-      <form onSubmit={()=>handleSubmit()}>
+      <form onSubmit={handleSubmit}>
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
