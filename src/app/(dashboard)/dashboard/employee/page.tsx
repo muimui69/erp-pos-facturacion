@@ -7,7 +7,7 @@ import { PostCreateButton } from "./post-create-button";
 
 export default async function EmployeePage() {
   const data = await getEmployees()
-
+  console.log(data.data.employees)
   return (
     <DashboardShell>
       <DashboardHeader heading="Empleados" text="Cree y gestione los empleados de su punto de venta.">

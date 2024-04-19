@@ -21,6 +21,7 @@ import { Dialog } from "@/components/ui/dialog"
 import { useState } from "react"
 import { DialogDemo } from "@/components/dialog"
 import { DialogTrigger } from "@radix-ui/react-dialog"
+import { DialogEdit } from "./edit-dialog"
 
 export type Payment = {
     id: string
@@ -32,27 +33,39 @@ export type Payment = {
 
 export const columns: ColumnDef<Payment>[] = [
     {
-        accessorKey: "status",
-        header: "Status",
+        accessorKey: "name",
+        header: "Name",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status")}</div>
+            <div className="capitalize">{row.getValue("name")}</div>
+        ),
+    },{
+        accessorKey: "address",
+        header: "address",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("address")}</div>
+        ),
+    },{
+        accessorKey: "city",
+        header: "City",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("city").name}</div>
         ),
     },
-    {
-        accessorKey: "email",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Email
-                    <CaretSortIcon className="ml-2 h-4 w-4" />
-                </Button>
-            )
-        },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
-    },
+    // {
+    //     accessorKey: "address",
+    //     header: ({ column }) => {
+    //         return (
+    //             <Button
+    //                 variant="ghost"
+    //                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+    //             >
+    //                 Email
+    //                 <CaretSortIcon className="ml-2 h-4 w-4" />
+    //             </Button>
+    //         )
+    //     },
+    //     cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+    // },
     {
         accessorKey: "amount",
         header: () => <div className="text-right">Amount</div>,
@@ -108,7 +121,7 @@ const ActionCell = ({ payment }: { payment: Payment }) => {
             {isDialogOpen && (
                 <Dialog onOpenChange={setIsDialogOpen} open={isDialogOpen}>
                     <DialogTrigger asChild>
-                        <DialogDemo />
+                        <DialogEdit/>
                     </DialogTrigger>
                 </Dialog>
             )}

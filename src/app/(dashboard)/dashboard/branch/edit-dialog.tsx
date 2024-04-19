@@ -9,12 +9,13 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { updateBranchOffice } from "@/lib/queries/branch-office";
 import { useState } from "react";
 
 export function DialogEdit() {
     const [userData, setUserData] = useState({
         name: '',
-        phone: '',
+        Address: '',
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,8 +26,8 @@ export function DialogEdit() {
         }));
     };
 
-    const handleEditEmployee = async () => {
-        
+    const handleEditBranch = async () => {
+        // updateBranchOffice(1,userData.name,userData.Address)
     };
 
     return (
@@ -53,20 +54,20 @@ export function DialogEdit() {
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="phone" className="text-right">
-                        Telefono
+                        Direccion
                     </Label>
                     <Input
-                        id="phone"
-                        name="phone"
-                        placeholder="0000000"
+                        id="Address"
+                        name="Address"
+                        placeholder="C/ Guatemala..."
                         onChange={handleChange}
-                        value={userData.phone}
+                        value={userData.Address}
                         className="col-span-3"
                     />
                 </div>
             </div>
             <DialogFooter>
-                <Button type="submit" >Guardar cambios</Button>
+                <Button type="submit" onClick={handleEditBranch}>Guardar cambios</Button>
             </DialogFooter>
         </DialogContent>
     )

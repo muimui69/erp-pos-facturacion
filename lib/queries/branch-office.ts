@@ -1,5 +1,5 @@
 import api,{converToStringfy} from "../Api";
-import { BranchOfficeData } from "../constants";
+import { BranchUpdateData } from "../constants";
 
 
 export const getAllBranchs =async ()=>{
@@ -48,7 +48,7 @@ export const DeleteBranch= async(id:number)=>{
 
 }
 
-export const updateBranchOffice = async (id: string, updatedData: BranchOfficeData) => {
+export const updateBranchOffice = async (id: string, updatedData: BranchUpdateData) => {
     try {
       return await api.put(`/branch/${id}`, updatedData);
     } catch (error) {

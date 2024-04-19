@@ -31,4 +31,11 @@ export interface Branch {
     createdAt: Date;
     updatedAt: Date;
 }
+export interface BranchUpdateData {
+    address?: string;
+    name?: string;
+    lat?: number;
+    lng?: number;
+    cityId?: number;
+  }
 
