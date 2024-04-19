@@ -1,8 +1,8 @@
 "use client"
 
+import MapComponent from "@/components/map-box"
 import { Button } from "@/components/ui/button"
 import {
-    Dialog,
     DialogContent,
     DialogDescription,
     DialogFooter,
@@ -17,7 +17,7 @@ interface DialogCreateProps {
     HandleSubmit: (email: string, name: string, phone: string) => Promise<void>;
 }
 
-export function DialogCreate({ HandleSubmit }: { HandleSubmit:(address: string, name: string, lat: number,lng:number) => Promise<void> }) {
+export function DialogCreate({ HandleSubmit }: { HandleSubmit: (address: string, name: string, lat: number, lng: number) => Promise<void> }) {
 
     const [userData, setUserData] = useState<{
         address: string;
@@ -40,7 +40,7 @@ export function DialogCreate({ HandleSubmit }: { HandleSubmit:(address: string, 
     };
 
     const handleCreateEmployee = async () => {
-        HandleSubmit(userData.address,userData.name,userData.lat,userData.lng);
+        HandleSubmit(userData.address, userData.name, userData.lat, userData.lng);
     };
 
     return (
@@ -78,32 +78,7 @@ export function DialogCreate({ HandleSubmit }: { HandleSubmit:(address: string, 
                         className="col-span-3"
                     />
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="phone" className="text-right">
-                        latitud
-                    </Label>
-                    <Input
-                        id="lat"
-                        name="lat"
-                        value={userData.lat}
-                        onChange={handleChange}
-                        placeholder="00.00"
-                        className="col-span-3"
-                    />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="phone" className="text-right">
-                        longitud
-                    </Label>
-                    <Input
-                        id="lng"
-                        name="lng"
-                        value={userData.lng}
-                        onChange={handleChange}
-                        placeholder="00.00"
-                        className="col-span-3"
-                    />
-                </div>
+                {/* <MapComponent /> */}
             </div>
             <DialogFooter>
                 <Button

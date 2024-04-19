@@ -13,7 +13,7 @@ import { PostCreateCity } from "@/lib/queries/city"
 
 interface PostCreateButtonProps extends ButtonProps { }
 
-export function PostCreateCiudad({
+export function PostCreateButton({
   className,
   variant,
   ...props

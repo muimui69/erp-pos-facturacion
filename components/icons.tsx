@@ -30,6 +30,8 @@ import {
   Truck,
   HandCoins,
   LayoutDashboard,
+  MapPinned,
+  Map,
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -63,6 +65,8 @@ export const Icons = {
   truck: Truck,
   handCoins: HandCoins,
   layoutDashboard: LayoutDashboard,
+  mapPinned:MapPinned,
+  map:Map,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
