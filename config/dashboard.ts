@@ -24,9 +24,14 @@ export const dashboardConfig: DashboardConfig = {
       icon: "user",
     },
     {
+      title: "Ciudades",
+      href: "/dashboard/city",
+      icon: "map",
+    },
+    {
       title: "Sucursales",
       href: "/dashboard/branch",
-      icon: "warehouse",
+      icon: "mapPinned",
     },
     {
       title: "Productos",
