@@ -12,17 +12,23 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
-import { SelectBranch } from "@/components/ui/select-branch"
+
 interface DialogCreateProps {
     HandleSubmit: (email: string, name: string, phone: string) => Promise<void>;
 }
 
-export function DialogCreate({ HandleSubmit }: { HandleSubmit:(email: string, name: string, phone: string) => Promise<void> }) {
+export function DialogCreate({ HandleSubmit }: { HandleSubmit:(address: string, name: string, lat: number,lng:number) => Promise<void> }) {
 
-    const [userData, setUserData] = useState({
+    const [userData, setUserData] = useState<{
+        address: string;
+        name: string;
+        lat: number;
+        lng: number;
+    }>({
+        address: '',
         name: '',
-        email: '',
-        phone: '',
+        lat: 0,
+        lng: 0,
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,73 +40,77 @@ export function DialogCreate({ HandleSubmit }: { HandleSubmit:(email: string, na
     };
 
     const handleCreateEmployee = async () => {
-        HandleSubmit(userData.email, userData.name, userData.phone);
+        HandleSubmit(userData.address,userData.name,userData.lat,userData.lng);
     };
 
     return (
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-                <DialogTitle>Crear empleado</DialogTitle>
+                <DialogTitle>Crear Sucursal</DialogTitle>
                 <DialogDescription>
-                    Cree un nuevo empleado aquí. Haga clic en crear empleado cuando haya terminado.
+                    Cree una nueva sucursal aquí. Haga clic en crear  sucursal cuando haya terminado.
                 </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="name" className="text-right">
-                        Nombre
+                        Direccion
                     </Label>
                     <Input
-                        id="name"
-                        name="name"
-                        value={userData.name}
+                        id="address"
+                        name="address"
+                        value={userData.address}
                         onChange={handleChange}
-                        placeholder="Joaquin chumacero"
+                        placeholder="Calle beijing "
                         className="col-span-3"
                     />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="email" className="text-right">
-                        Correo
+                        Nombre
                     </Label>
                     <Input
-                        id="email"
-                        name="email"
-                        value={userData.email}
+                        id="nombre"
+                        name="name"
+                        value={userData.name}
                         onChange={handleChange}
-                        placeholder="ejemplo@gmail.com"
+                        placeholder="Juan de la Rosa"
                         className="col-span-3"
                     />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="phone" className="text-right">
-                        Telefono
+                        latitud
                     </Label>
                     <Input
-                        id="phone"
-                        name="phone"
-                        value={userData.phone}
+                        id="lat"
+                        name="lat"
+                        value={userData.lat}
                         onChange={handleChange}
-                        placeholder="0000000"
+                        placeholder="00.00"
                         className="col-span-3"
                     />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="phone" className="text-right">
-                        Sucursales
+                        longitud
                     </Label>
-                    <SelectBranch />
-                    
+                    <Input
+                        id="lng"
+                        name="lng"
+                        value={userData.lng}
+                        onChange={handleChange}
+                        placeholder="00.00"
+                        className="col-span-3"
+                    />
                 </div>
-
-
             </div>
             <DialogFooter>
                 <Button
                     onClick={handleCreateEmployee}
                     type="button"
                 >
-                    Crear empleado
+                    Crear Sucursal
                 </Button>
             </DialogFooter>
         </DialogContent>
