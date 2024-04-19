@@ -6,12 +6,12 @@ export const converToStringfy =(obj:any ): string => {
   return JSON.stringify(obj);
 }
 
-const apis = axios.create({
-  baseURL,
+const api = axios.create({
+  baseURL:"http://localhost:3000/api",
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
   },
 });
 
-export default apis;
+export default api;

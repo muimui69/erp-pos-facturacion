@@ -1,30 +1,34 @@
-export interface ATM {
+export interface Employee {
     statusCode: number;
     message:    string;
     data:       Data;
 }
 
 export interface Data {
-    employee: Employee;
+    total:     number;
+    employees: EmployeeElement[];
 }
 
-export interface Employee {
-    id:           string;
-    codeEmployee: string;
-    email:        string;
-    name:         string;
-    phone:        string;
-    photo:        null;
-    status:       boolean;
-    rol:          string;
-    branchId:     number;
-    createdAt:    Date;
-    updatedAt:    Date;
+export interface EmployeeElement {
+    id:        string;
+    email:     string;
+    phone:     string;
+    rol:       string;
+    branch:    Branch;
+    status:    boolean;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
-export interface BranchOfficeData {
-    address?: string;
-    name?: string;
-    lng?: string;
-    lat?: string;
+export interface Branch {
+    id:        number;
+    address:   string;
+    name:      string;
+    lat:       string;
+    lng:       string;
+    status:    boolean;
+    cityId:    number;
+    createdAt: Date;
+    updatedAt: Date;
 }
+

@@ -1,27 +1,25 @@
-import apis,{converToStringfy} from "../Api";
+import api, { converToStringfy } from "../Api";
+import { Employee } from "../constants";
 
-export const getEmployees=async()=>{
+export const getEmployees = async () => {
     try {
-        const {data}=await apis.get('/employee')
+        const { data } = await api.get<Employee>('/employee')
         return data;
-
     } catch (error) {
-        throw error        
+        throw error
     }
 }
 
 
-export const CreateAtm= async(email:string,name:string,phone:string,BranchId:number)=>{
+export const postCreateAtm = async (email: string, name: string, phone: string) => {
     try {
-        const obj={
-            email,
-            nombre:name,
-            telefono:phone,
-            BranchId
+        const obj = {
+            email:email,
+            name:name,
+            phone:phone,
+            branchId:1,
         }
-        
-        return await apis.post('/employee/atm',converToStringfy(obj));
-       
+        return await api.post('/employee/atm', converToStringfy(obj));
     } catch (error) {
         throw error
     }

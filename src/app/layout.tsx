@@ -5,6 +5,7 @@ import "@/src/app/globals.css"
 import { cn } from "@/lib/utils"
 import { ThemeProvider } from "@/components/theme-provider"
 import { siteConfig } from "@/config/site"
+import ProviderUseReactQuery from "@/provider/ReactQueryClient"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -40,7 +41,7 @@ export const metadata = {
     },
   ],
   creator: "shadcn",
- 
+
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -75,9 +76,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
           fontHeading.variable
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-        </ThemeProvider>
+        <ProviderUseReactQuery>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {children}
+          </ThemeProvider>
+        </ProviderUseReactQuery>
       </body>
     </html>
   )
