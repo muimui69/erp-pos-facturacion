@@ -32,6 +32,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useState } from "react"
+import { useCitys } from "@/hooks/use-city"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -47,8 +48,10 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
 
+  const { citys, isLoading, isError } = useCitys();
+
   const table = useReactTable({
-    data,
+    data: data || citys,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -65,6 +68,10 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   })
+
+  if (isLoading) {
+    return <><h1>Cargando ... </h1></>
+  }
 
   return (
     <div className="w-full">
@@ -132,12 +139,17 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
+                    cell.row.original.status === true &&
+                    <>
+                      < TableCell key={cell.id} >
+
+                        {
+                          flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                      </TableCell>
+                    </>
                   ))}
                 </TableRow>
               ))
@@ -174,6 +186,6 @@ export function DataTable<TData, TValue>({
           </Button>
         </div>
       </div> */}
-    </div>
+    </div >
   )
 }

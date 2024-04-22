@@ -2,7 +2,7 @@
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 export default function ProviderUseReactQuery({ children }: { children: React.ReactNode }) {
     return (

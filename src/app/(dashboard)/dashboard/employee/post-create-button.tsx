@@ -1,56 +1,45 @@
 "use client"
-import { useRouter } from "next/navigation"
-
 import { cn } from "@/lib/utils"
 import { ButtonProps, buttonVariants } from "@/components/ui/button"
-import { useToast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 import { useState } from "react"
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogCreate } from "./create-dialog"
 import { postCreateAtm } from "@/lib/queries"
+import { toast } from 'sonner'
 
 interface PostCreateButtonProps extends ButtonProps { }
 
-export function PostCreateButton({
+export function PostCreateButtonEmployee({
   className,
   variant,
   ...props
 }: PostCreateButtonProps) {
-  const { toast } = useToast()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleSubmit = async (email: string, name: string, phone: string) => {
+
+  const handleSubmit = async (email: string, name: string, phone: string, idBranch: string): Promise<void> => {
     try {
       setIsLoading(true);
-      const new_employee = await postCreateAtm(email, name, phone);
+      const new_employee = await postCreateAtm(email, name, phone, idBranch);
+      console.log('=-=========', new_employee)
       setIsDialogOpen(false)
       setIsLoading(false);
-      console.log('++++++++++++++++++++++++++++++++++++++', new_employee)
-
-      return toast({
-        description: "Usuario creado correctamente",
-        variant: "default"
-      });
-
+      toast.success("Usuario creado correctamente")
     } catch (err) {
       console.error("Error creando el usuario", err);
-
       setIsDialogOpen(false);
       setIsLoading(false);
-
-      return toast({
-        title: "Ha ocurrido un error.",
-        description: "No se creo el empleado. Intente de nuevo.",
-        variant: "destructive",
-      })
+      toast.error("No se creo el empleado. Intente de nuevo")
     }
   }
+
 
   return (
     <>
       <button
+        type="button"
         onClick={() => setIsDialogOpen(true)}
         className={cn(
           buttonVariants({ variant }),

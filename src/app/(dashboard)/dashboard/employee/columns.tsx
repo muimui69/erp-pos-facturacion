@@ -17,10 +17,10 @@ import {
 import { Dialog } from "@/components/ui/dialog"
 import { useState } from "react"
 import { DialogTrigger } from "@radix-ui/react-dialog"
-import { Employee } from '@/lib/constants';
 import { DialogEdit } from "./edit-dialog"
+import { EmployeeElement } from "@/lib/queries/interfaces/employee.interface"
 
-export const columns: ColumnDef<Employee>[] = [
+export const columns: ColumnDef<EmployeeElement>[] = [
     {
         accessorKey: "email",
         header: "Correo",
@@ -44,9 +44,9 @@ export const columns: ColumnDef<Employee>[] = [
     },
     {
         id: "actions",
+        header: "Accion",
         enableHiding: false,
-        cell: ({ row }) => {
-            const payment = row.original
+        cell: () => {
             return <ActionCell />;
         },
     },
@@ -65,8 +65,6 @@ const ActionCell = () => {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
                     <DropdownMenuItem >
                         Ver detalles
                     </DropdownMenuItem>

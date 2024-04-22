@@ -33,11 +33,11 @@ export const dashboardConfig: DashboardConfig = {
       href: "/dashboard/branch",
       icon: "mapPinned",
     },
-    {
-      title: "Productos",
-      href: "/dashboard/product",
-      icon: "shoppingBasket",
-    },
+    // {
+    //   title: "Productos",
+    //   href: "/dashboard/product",
+    //   icon: "shoppingBasket",
+    // },
     {
       title: "Categorias",
       href: "/dashboard/category",

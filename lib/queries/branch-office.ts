@@ -1,36 +1,36 @@
-import api,{converToStringfy} from "../Api";
-import { BranchUpdateData } from "../constants";
+import api, { converToStringfy } from "../Api";
+import { Branch, BranchUpdateData } from "./interfaces/branch.interface";
 
 
-export const getAllBranchs =async ()=>{
+export const getAllBranchs = async () => {
     try {
-        const {data}= await api.get('/branch')
-        return data
+        const { data } = await api.get<Branch>('/branch')
+        return data;
     } catch (error) {
         throw error
     }
 }
 
-export const getBranchsId =async (id:number)=>{
+export const getBranchsId = async (id: number) => {
     try {
-        const {data}= await api.get(`/branch/${id}`)
+        const { data } = await api.get(`/branch/${id}`)
         return data
     } catch (error) {
         throw error
-        
+
     }
 }
 
-export const PostCreateBranch =async (address:string,name:string,lat:number,lng:number,cityId:number)=>{
+export const postCreateBranch = async ({ address, name, lat, lng, cityId }: { address: string, name: string, lat: number, lng: number, cityId: string }) => {
     try {
-        const obj={
+        const obj = {
             address,
             name,
             lng,
             lat,
-            cityId
+            cityId: parseInt(cityId)
         }
-        return await api.post('/branch',converToStringfy(obj))
+        return await api.post('/branch', converToStringfy(obj))
 
     } catch (error) {
         throw error
@@ -38,7 +38,7 @@ export const PostCreateBranch =async (address:string,name:string,lat:number,lng:
 
 }
 
-export const DeleteBranch= async(id:number)=>{
+export const deleteBranchId = async (id: number) => {
     try {
         const { data } = await api.delete(`/branch/${id}`);
         return data;
@@ -48,10 +48,10 @@ export const DeleteBranch= async(id:number)=>{
 
 }
 
-export const updateBranchOffice = async (id: string, updatedData: BranchUpdateData) => {
+export const patchBranchOffice = async (id: string, updatedData: BranchUpdateData) => {
     try {
-      return await api.put(`/branch/${id}`, updatedData);
+        return await api.patch(`/branch/${parseInt(id)}`, updatedData);
     } catch (error) {
-      throw error
+        throw error
     }
-  };
+};

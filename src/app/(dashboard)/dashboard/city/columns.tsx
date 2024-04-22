@@ -1,11 +1,11 @@
 "use client"
 import {
-    CaretSortIcon,
     DotsHorizontalIcon,
 } from "@radix-ui/react-icons"
 
 import {
     ColumnDef,
+    Row,
 } from "@tanstack/react-table"
 
 import { Button } from "@/components/ui/button"
@@ -19,18 +19,14 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Dialog } from "@/components/ui/dialog"
 import { useState } from "react"
-import { DialogDemo } from "@/components/dialog"
 import { DialogTrigger } from "@radix-ui/react-dialog"
+import { DialogEditCity } from "./edit-dialog"
+import { CityElement } from "@/lib/queries/interfaces/city.interface"
+import { deleteCityId, putUpdateCity } from "@/lib/queries/city"
+import { useMutation } from "@tanstack/react-query"
+import { queryClient } from "@/provider/ReactQueryClient"
 
-export type Payment = {
-    id: string
-    amount: number
-    status: "pending" | "processing" | "success" | "failed"
-    email: string
-}
-
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<CityElement>[] = [
     {
         accessorKey: "name",
         header: "City",
@@ -38,19 +34,35 @@ export const columns: ColumnDef<Payment>[] = [
             <div className="capitalize">{row.getValue("name")}</div>
         ),
     },
-  
+
     {
         id: "actions",
         enableHiding: false,
         cell: ({ row }) => {
-            const payment = row.original
-            return <ActionCell payment={payment} />;
+            return <ActionCell row={row} />;
         },
     },
 ]
 
-const ActionCell = ({ payment }: { payment: Payment }) => {
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
+const ActionCell = ({ row }: { row: Row<CityElement> }) => {
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+    const cityName = row.original.name;
+    const cityId = row.original.id;
+
+    const mutation = useMutation({
+        mutationFn: deleteCityId,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['citys'] });
+        },
+    })
+
+    const deleteCityById = async (id: number) => {
+        try {
+            await mutation.mutateAsync(id);
+        } catch (err) {
+            console.error("Error al eliminar una ciudad: ", err);
+        }
+    }
 
     return (
         <>
@@ -70,16 +82,20 @@ const ActionCell = ({ payment }: { payment: Payment }) => {
                     <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
                         Editar
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => deleteCityById(cityId)}>
                         Eliminar
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
 
             {isDialogOpen && (
-                <Dialog onOpenChange={setIsDialogOpen} open={isDialogOpen}>
+                <Dialog onOpenChange={() => setIsDialogOpen(false)} open={isDialogOpen}>
                     <DialogTrigger asChild>
-                        <DialogDemo />
+                        <DialogEditCity
+                            setIsDialogOpen={setIsDialogOpen}
+                            cityName={cityName}
+                            cityId={cityId}
+                        />
                     </DialogTrigger>
                 </Dialog>
             )}

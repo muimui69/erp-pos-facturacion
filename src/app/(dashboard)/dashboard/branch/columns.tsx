@@ -1,11 +1,11 @@
 "use client"
 import {
-    CaretSortIcon,
     DotsHorizontalIcon,
 } from "@radix-ui/react-icons"
 
 import {
     ColumnDef,
+    Row,
 } from "@tanstack/react-table"
 
 import { Button } from "@/components/ui/button"
@@ -22,77 +22,58 @@ import { useState } from "react"
 import { DialogDemo } from "@/components/dialog"
 import { DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogEdit } from "./edit-dialog"
+import { Branch, BranchElement } from "@/lib/queries/interfaces/branch.interface"
+import { useMutation } from "@tanstack/react-query"
+import { deleteBranchId } from "@/lib/queries/branch-office"
+import { queryClient } from "@/provider/ReactQueryClient"
 
-export type Payment = {
-    id: string
-    amount: number
-    status: "pending" | "processing" | "success" | "failed"
-    email: string
-}
-
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<BranchElement>[] = [
     {
         accessorKey: "name",
-        header: "Name",
+        header: "Nombre",
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("name")}</div>
         ),
-    },{
+    }, {
         accessorKey: "address",
-        header: "address",
+        header: "Direccion",
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("address")}</div>
         ),
-    },{
+    }, {
         accessorKey: "city",
-        header: "City",
+        header: "Ciudad",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("city").name}</div>
+            <div className="capitalize">{row.getValue("city")?.name}</div>
         ),
-    },
-    // {
-    //     accessorKey: "address",
-    //     header: ({ column }) => {
-    //         return (
-    //             <Button
-    //                 variant="ghost"
-    //                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-    //             >
-    //                 Email
-    //                 <CaretSortIcon className="ml-2 h-4 w-4" />
-    //             </Button>
-    //         )
-    //     },
-    //     cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
-    // },
-    {
-        accessorKey: "amount",
-        header: () => <div className="text-right">Amount</div>,
-        cell: ({ row }) => {
-            const amount = parseFloat(row.getValue("amount"))
-
-            // Format the amount as a dollar amount
-            const formatted = new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-            }).format(amount)
-
-            return <div className="text-right font-medium">{formatted}</div>
-        },
     },
     {
         id: "actions",
-        enableHiding: false,
+        header: "Acciones",
         cell: ({ row }) => {
-            const payment = row.original
-            return <ActionCell payment={payment} />;
+            return <ActionCell row={row} />;
         },
     },
 ]
 
-const ActionCell = ({ payment }: { payment: Payment }) => {
+const ActionCell = ({ row }: { row: Row<BranchElement> }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const branchId = row.original.id;
+
+    const mutation = useMutation({
+        mutationFn: deleteBranchId,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['citys'] });
+        },
+    })
+
+    const deleteBranchById = async (id: number) => {
+        try {
+            await mutation.mutateAsync(id);
+        } catch (err) {
+            console.error("Error al eliminar una sucursal: ", err);
+        }
+    }
 
     return (
         <>
@@ -112,7 +93,7 @@ const ActionCell = ({ payment }: { payment: Payment }) => {
                     <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
                         Editar
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => deleteBranchById(branchId)}>
                         Eliminar
                     </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -121,7 +102,10 @@ const ActionCell = ({ payment }: { payment: Payment }) => {
             {isDialogOpen && (
                 <Dialog onOpenChange={setIsDialogOpen} open={isDialogOpen}>
                     <DialogTrigger asChild>
-                        <DialogEdit/>
+                        <DialogEdit
+                            setIsDialogOpen={setIsDialogOpen}
+                            data={row.original}
+                        />
                     </DialogTrigger>
                 </Dialog>
             )}

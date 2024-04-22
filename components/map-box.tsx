@@ -1,76 +1,101 @@
 "use client"
+import { useState, useEffect, useRef, SetStateAction } from 'react';
+import mapboxgl from 'mapbox-gl';
 
-import React, { useState, useEffect } from 'react';
-import ReactMapGL, { Marker } from 'react-map-gl';
-import { FC } from 'react';
+mapboxgl.accessToken = 'pk.eyJ1IjoibW9pc28iLCJhIjoiY2xwYmt0ZTdrMGVtNzJxbjc1YmJidGhxbyJ9.HmrYzjcQq_cc7twbyewIMg';
 
+interface MapProps {
+    setCoords: React.Dispatch<SetStateAction<{ lat: number; lng: number; }>>;
+}
 
-const MAPBOX_TOKEN = "pk.eyJ1IjoibW9pc28iLCJhIjoiY2xwYmt0ZTdrMGVtNzJxbjc1YmJidGhxbyJ9.HmrYzjcQq_cc7twbyewIMg";
+const MapComponent: React.FC<MapProps> = ({ setCoords }) => {
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const mapContainer = useRef(null);
+    const map = useRef(null);
+    const markerRef = useRef(null); // Referencia al marcador
+    const [lng, setLng] = useState<number>();
+    const [lat, setLat] = useState<number>();
+    const [zoom, setZoom] = useState(14);
+    const [markerLng, setMarkerLng] = useState<number>(); // Coordenadas del marcador
+    const [markerLat, setMarkerLat] = useState<number>(); // Coordenadas del marcador
 
-const MapComponent: FC = () => {
-    const [viewport, setViewport] = useState({
-        latitude: 0, // Initial latitude (adjust as needed)
-        longitude: 0, // Initial longitude (adjust as needed)
-        zoom: 12, // Initial zoom level
-    });
-    const [markerPosition, setMarkerPosition] = useState({
-        latitude: 0, // Initial marker latitude (adjust as needed)
-        longitude: 0, // Initial marker longitude (adjust as needed)
-    });
+    const currentPositiionUser = () => {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const longitude = position.coords.longitude;
+                const latitude = position.coords.latitude;
+                setLng(longitude)
+                setLat(latitude)
+                setMarkerLng(longitude)
+                setMarkerLat(latitude)
+                console.log("Coordenadas actuales:");
+                console.log("Latitud:", latitude);
+                console.log("Longitud:", longitude);
+                setIsLoading(false);
+            }, (error) => {
+                // Manejo de errores
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        console.error("El usuario denegó la solicitud de geolocalización.");
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        console.error("La información de la posición no está disponible.");
+                        break;
+                    case error.TIMEOUT:
+                        console.error("Se agotó el tiempo para obtener la posición.");
+                        break;
+                    default:
+                        console.error("Ocurrió un error desconocido.");
+                        break;
+                }
+            });
+        } else {
+            console.error("La geolocalización no es compatible en este navegador.");
+        }
+    }
 
     useEffect(() => {
-        const success = (position:any) => {
-            const { latitude, longitude } = position.coords;
-            setViewport({ ...viewport, latitude, longitude });
-            setMarkerPosition({ latitude, longitude });
-        };
+        currentPositiionUser();
+    }, []);
 
-        const error = () => {
-            console.error('Error getting geolocation');
-            // Handle geolocation error gracefully, e.g., display a message to the user
-        };
 
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(success, error);
-        } else {
-            console.error('Geolocation is not supported by this browser');
-            // Provide alternative functionality or inform the user
-        }
-    }, []); // Empty dependency array to run only once on component mount
+    useEffect(() => {
+        if (!mapContainer.current) return;
 
-    const handleMapClick = (event:any) => {
-        setMarkerPosition({
-            latitude: event.lngLat.lat,
-            longitude: event.lngLat.lng,
+        if (map.current) return;
+
+        map.current = new mapboxgl.Map({
+            container: mapContainer.current as string,
+            style: 'mapbox://styles/mapbox/streets-v8',
+            center: [lng as never, lat as never],
+            zoom: zoom
         });
-    };
 
-    const handleMarkerDrag = (event:any) => {
-        setMarkerPosition({
-            latitude: event.lngLat.lat,
-            longitude: event.lngLat.lng,
+        markerRef.current = new mapboxgl.Marker({ color: 'green', draggable: true, anchor: "bottom" })
+            .setLngLat([markerLng as never, markerLat as never])
+            .addTo(map.current as never);
+
+
+        markerRef.current.on('dragend', () => {
+            const lngLat = markerRef.current.getLngLat();
+            console.log('::::::::::::::::::::::::', lngLat)
+            setMarkerLng(lngLat.lng);
+            setMarkerLat(lngLat.lat);
+            setCoords({ lng: lngLat.lng, lat: lngLat.lat })
         });
-    };
+
+
+    }, [lat, lng, zoom, markerLng, markerLat]); // Dependencias vacías porque las variables no cambian
+
+    if (isLoading) {
+        return <h1>Cargando ...</h1>
+    }
 
     return (
-        <div className='w-full h-80 rounded-md'>
-            <ReactMapGL
-                mapboxAccessToken={MAPBOX_TOKEN}
-                mapStyle="mapbox://styles/mapbox/streets-v11"
-                initialViewState={viewport}
-                onClick={handleMapClick}
-                onDragEnd={handleMarkerDrag} // Handle marker drag events
-            >
-                <Marker
-                    latitude={markerPosition.latitude}
-                    longitude={markerPosition.longitude}
-                    draggable={true} // Allow marker dragging
-                >
-                    <div style={{ color: 'red', fontSize: '24px' }}></div>
-                </Marker>
-            </ReactMapGL>
+        <div style={{ width: '100%', height: '400px' }}>
+            <div ref={mapContainer} style={{ width: '100%', height: '100%' }} />
         </div>
     );
-};
+}
 
 export default MapComponent;

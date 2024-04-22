@@ -17,11 +17,11 @@ interface DialogCreateProps {
     HandleSubmit: (email: string, name: string, phone: string) => Promise<void>;
 }
 
-export function DialogCreate({ HandleSubmit }: { HandleSubmit:( name: string) => Promise<void> }) {
+export function DialogCreate({ HandleSubmit }: { HandleSubmit: (name: string) => Promise<void> }) {
 
     const [userData, setUserData] = useState({
         name: '',
-       
+
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +33,7 @@ export function DialogCreate({ HandleSubmit }: { HandleSubmit:( name: string) =>
     };
 
     const handleCreateEmployee = async () => {
-        HandleSubmit( userData.name);
+        HandleSubmit(userData.name);
     };
 
     return (
@@ -58,7 +58,7 @@ export function DialogCreate({ HandleSubmit }: { HandleSubmit:( name: string) =>
                         className="col-span-3"
                     />
                 </div>
-               
+
             </div>
             <DialogFooter>
                 <Button

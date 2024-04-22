@@ -32,6 +32,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useState } from "react"
+import { useBranchs } from "@/hooks/use-branch"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -47,8 +48,10 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
 
+  const { branchs, isLoading, isError } = useBranchs();
+
   const table = useReactTable({
-    data,
+    data: data || branchs,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -65,6 +68,10 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   })
+
+  if (isLoading) {
+    return <><h1>Cargando ... </h1></>
+  }
 
   return (
     <div className="w-full">
@@ -132,12 +139,17 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
+                    cell.row.original.status === true &&
+                    <>
+                      < TableCell key={cell.id} >
+
+                        {
+                          flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                      </TableCell>
+                    </>
                   ))}
                 </TableRow>
               ))
@@ -154,7 +166,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-   
+
     </div>
   )
 }

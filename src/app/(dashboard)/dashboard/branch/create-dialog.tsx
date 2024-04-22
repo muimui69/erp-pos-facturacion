@@ -12,12 +12,13 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
+import SelectCity from "./select-city"
 
 interface DialogCreateProps {
-    HandleSubmit: (email: string, name: string, phone: string) => Promise<void>;
+    // HandleSubmit: (email: string, name: string, phone: string) => Promise<void>;
 }
 
-export function DialogCreate({ HandleSubmit }: { HandleSubmit: (address: string, name: string, lat: number, lng: number) => Promise<void> }) {
+export function DialogCreate({ HandleSubmit }: { HandleSubmit: (address: string, name: string, lat: number, lng: number, cityId: string) => Promise<void> }) {
 
     const [userData, setUserData] = useState<{
         address: string;
@@ -31,6 +32,15 @@ export function DialogCreate({ HandleSubmit }: { HandleSubmit: (address: string,
         lng: 0,
     });
 
+    const [coords, setCoords] = useState<{ lat: number, lng: number }>({
+        lat: 0,
+        lng: 0
+    });
+
+    const [userCity, setUserCity] = useState({
+        idCity: '',
+    });
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setUserData(prevData => ({
@@ -40,7 +50,7 @@ export function DialogCreate({ HandleSubmit }: { HandleSubmit: (address: string,
     };
 
     const handleCreateEmployee = async () => {
-        HandleSubmit(userData.address, userData.name, userData.lat, userData.lng);
+        HandleSubmit(userData.address, userData.name, coords.lat, coords.lng, userCity.idCity);
     };
 
     return (
@@ -78,7 +88,13 @@ export function DialogCreate({ HandleSubmit }: { HandleSubmit: (address: string,
                         className="col-span-3"
                     />
                 </div>
-                {/* <MapComponent /> */}
+                <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="phone" className="text-right">
+                        Cidudad
+                    </Label>
+                    <SelectCity setUserCity={setUserCity} />
+                </div>
+                <MapComponent setCoords={setCoords} />
             </div>
             <DialogFooter>
                 <Button

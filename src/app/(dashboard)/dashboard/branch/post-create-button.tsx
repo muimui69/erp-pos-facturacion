@@ -8,12 +8,13 @@ import { Icons } from "@/components/icons"
 import { useState } from "react"
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogCreate } from "./create-dialog"
-import { postCreateAtm } from "@/lib/queries"
-import { PostCreateBranch } from "@/lib/queries/branch-office"
+import { postCreateBranch } from "@/lib/queries/branch-office"
+import { useMutation } from "@tanstack/react-query"
+import { queryClient } from "@/provider/ReactQueryClient"
 
 interface PostCreateButtonProps extends ButtonProps { }
 
-export function PostCreateSucursal({
+export function PostCreateButtonBranch({
   className,
   variant,
   ...props
@@ -22,26 +23,28 @@ export function PostCreateSucursal({
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleSubmit = async (address: string, name: string, lat: number,lng:number) => {
+  const mutation = useMutation({
+    mutationFn: postCreateBranch,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['branchs'] });
+    },
+  })
+
+  const handleSubmit = async (address: string, name: string, lat: number, lng: number, cityId: string) => {
     try {
       setIsLoading(true);
-      const new_sucursal = await PostCreateBranch(address, name,lat,lng,1);
+      await mutation.mutateAsync({ address, name, lat, lng, cityId });
       setIsDialogOpen(false)
       setIsLoading(false);
-      console.log('++++++++++++++++++++++++++++++++++++++', new_sucursal)
-
-      return toast({
+      toast({
         description: "Sucursal creado correctamente",
         variant: "default"
       });
-
     } catch (err) {
       console.error("Error creando la sucursal", err);
-
       setIsDialogOpen(false);
       setIsLoading(false);
-
-      return toast({
+      toast({
         title: "Ha ocurrido un error.",
         description: "No se creo la sucursal. Intente de nuevo.",
         variant: "destructive",

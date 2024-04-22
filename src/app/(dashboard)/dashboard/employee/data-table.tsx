@@ -32,6 +32,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useState } from "react"
+import { useMutation } from "@tanstack/react-query"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -84,7 +85,7 @@ export function DataTable<TData, TValue>({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            
+
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
@@ -135,7 +136,7 @@ export function DataTable<TData, TValue>({
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
-                        
+
                         cell.column.columnDef.cell,
                         cell.getContext()
                       )}
@@ -156,7 +157,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-    
+
     </div>
   )
 }

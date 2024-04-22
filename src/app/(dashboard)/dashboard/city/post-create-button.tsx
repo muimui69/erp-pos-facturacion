@@ -8,12 +8,13 @@ import { Icons } from "@/components/icons"
 import { useState } from "react"
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogCreate } from "./create-dialog"
-import { postCreateAtm } from "@/lib/queries"
-import { PostCreateCity } from "@/lib/queries/city"
+import { postCreateCity } from "@/lib/queries/city"
+import { QueryClient, useMutation } from "@tanstack/react-query"
+import { queryClient } from "@/provider/ReactQueryClient"
 
 interface PostCreateButtonProps extends ButtonProps { }
 
-export function PostCreateButton({
+export function PostCreateButtonCity({
   className,
   variant,
   ...props
@@ -22,15 +23,23 @@ export function PostCreateButton({
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleSubmit = async ( name: string) => {
+  const mutation = useMutation({
+    mutationFn: postCreateCity,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey:['citys']});
+    },
+  })
+
+  const handleSubmit = async (name: string) => {
+    setIsLoading(true);
+
     try {
       setIsLoading(true);
-      const new_city = await PostCreateCity(name)
+      // const new_city = await postCreateCity(name)
+      await mutation.mutateAsync(name);
       setIsDialogOpen(false)
       setIsLoading(false);
-      console.log('++++++++++++++++++++++++++++++++++++++', new_city)
-
-      return toast({
+      toast({
         description: "Ciudad creado correctamente",
         variant: "default"
       });
@@ -41,7 +50,7 @@ export function PostCreateButton({
       setIsDialogOpen(false);
       setIsLoading(false);
 
-      return toast({
+      toast({
         title: "Ha ocurrido un error.",
         description: "No se creo la ciudad. Intente de nuevo.",
         variant: "destructive",

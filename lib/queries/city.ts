@@ -1,35 +1,36 @@
-import api,{converToStringfy} from "../Api";
+import api, { converToStringfy } from "../Api";
+import { City } from "./interfaces/city.interface";
 
-export const GetCity=async ()=>{
+export const getAllCity = async () => {
     try {
-        const {data}=await api.get('/city')
+        const { data } = await api.get<City>('/city')
         return data
     } catch (error) {
         throw error
     }
 }
 
-export const GetCityById=async (id:number)=>{
+export const getCityById = async (id: number) => {
     try {
-        const {data}=await api.get(`/city/${id}`)
+        const { data } = await api.get(`/city/${id}`)
         return data
     } catch (error) {
         throw error
     }
 }
 
-export const PostCreateCity=async (Nombre:string)=>{
+export const postCreateCity = async (Nombre: string) => {
     try {
-        const obj={
-            name:Nombre
+        const obj = {
+            name: Nombre
         }
-        return await api.post('/city',converToStringfy(obj))
+        return await api.post('/city', converToStringfy(obj))
     } catch (error) {
         throw error
     }
 
 }
-export const DeleteCityId= async(id:number)=>{
+export const deleteCityId = async (id: number) => {
     try {
         const { data } = await api.delete(`/city/${id}`);
         return data;
@@ -41,9 +42,10 @@ export const DeleteCityId= async(id:number)=>{
 export const putUpdateCity = async (nombre: string, id: string) => {
     try {
         const obj = {
-            name:nombre
+            name: nombre,
+            status:true
         }
-        return await api.put(`/city/${id}`, converToStringfy(obj));
+        return await api.patch(`/city/${id}`, converToStringfy(obj));
     } catch (err) {
         throw err;
     }

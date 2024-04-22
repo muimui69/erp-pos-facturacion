@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button"
 import {
-    Dialog,
     DialogContent,
     DialogDescription,
     DialogFooter,
@@ -11,13 +10,14 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useState } from "react"
-import { SelectBranch } from "@/components/ui/select-branch"
+import { ChangeEvent, useState } from "react"
+import SelectBranch from "@/src/app/(dashboard)/dashboard/employee/select-branch"
+
 interface DialogCreateProps {
-    HandleSubmit: (email: string, name: string, phone: string) => Promise<void>;
+    HandleSubmit: (email: string, name: string, phone: string, idBranch: string) => Promise<void>,
 }
 
-export function DialogCreate({ HandleSubmit }: { HandleSubmit:(email: string, name: string, phone: string) => Promise<void> }) {
+export function DialogCreate({ HandleSubmit }: DialogCreateProps) {
 
     const [userData, setUserData] = useState({
         name: '',
@@ -25,7 +25,11 @@ export function DialogCreate({ HandleSubmit }: { HandleSubmit:(email: string, na
         phone: '',
     });
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const [userBranch, setUserBranch] = useState({
+        idBranch: '',
+    });
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setUserData(prevData => ({
             ...prevData,
@@ -34,7 +38,7 @@ export function DialogCreate({ HandleSubmit }: { HandleSubmit:(email: string, na
     };
 
     const handleCreateEmployee = async () => {
-        HandleSubmit(userData.email, userData.name, userData.phone);
+        HandleSubmit(userData.email, userData.name, userData.phone, userBranch.idBranch);
     };
 
     return (
@@ -87,13 +91,10 @@ export function DialogCreate({ HandleSubmit }: { HandleSubmit:(email: string, na
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="phone" className="text-right">
-                        Sucursales
+                        Sucursal
                     </Label>
-                    <SelectBranch />
-                    
+                    <SelectBranch setUserBranch={setUserBranch} />
                 </div>
-
-
             </div>
             <DialogFooter>
                 <Button
