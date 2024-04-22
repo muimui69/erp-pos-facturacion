@@ -48,6 +48,13 @@ export const columns: ColumnDef<BranchElement>[] = [
         ),
     },
     {
+        accessorKey: "status",
+        header: "Estado",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("status") === true ? "Activo" : "Inactivo"}</div>
+        ),
+    },
+    {
         id: "actions",
         header: "Acciones",
         cell: ({ row }) => {

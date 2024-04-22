@@ -139,7 +139,6 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    cell.row.original.status === true &&
                     <>
                       < TableCell key={cell.id} >
 

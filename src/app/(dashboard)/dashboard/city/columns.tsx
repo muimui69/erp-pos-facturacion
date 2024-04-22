@@ -34,7 +34,13 @@ export const columns: ColumnDef<CityElement>[] = [
             <div className="capitalize">{row.getValue("name")}</div>
         ),
     },
-
+    {
+        accessorKey: "status",
+        header: "Estado",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("status") === true ? "Activo" : "Inactivo"}</div>
+        ),
+    },
     {
         id: "actions",
         enableHiding: false,
