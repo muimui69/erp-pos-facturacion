@@ -1,12 +1,9 @@
 import axios from 'axios';
-const { BASE_URL_PRODUCTION, NEXT_PUBLIC_BASE_URL_LOCALHOST } = process.env;
-const baseURL = process.env.NODE_ENV === "production" ? BASE_URL_PRODUCTION : NEXT_PUBLIC_BASE_URL_LOCALHOST;
+const baseURL = process.env.NODE_ENV === "production" ? process.env.BASE_URL_PRODUCTION : process.env.NEXT_PUBLIC_BASE_URL_LOCALHOST;
 
 export const converToStringfy = (obj: any): string => {
   return JSON.stringify(obj);
 }
-
-console.log(baseURL)
 
 const api = axios.create({
   baseURL,

@@ -22,10 +22,8 @@ import { useState } from "react"
 import { DialogDemo } from "@/components/dialog"
 import { DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogEdit } from "./edit-dialog"
-import { Branch, BranchElement } from "@/lib/queries/interfaces/branch.interface"
-import { useMutation } from "@tanstack/react-query"
-import { deleteBranchId } from "@/lib/queries/branch-office"
-import { queryClient } from "@/provider/ReactQueryClient"
+import {  BranchElement } from "@/lib/queries/interfaces/branch.interface"
+import { useBranchs } from "@/hooks/use-branch"
 
 export const columns: ColumnDef<BranchElement>[] = [
     {
@@ -65,18 +63,12 @@ export const columns: ColumnDef<BranchElement>[] = [
 
 const ActionCell = ({ row }: { row: Row<BranchElement> }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const { deleteBranch } = useBranchs();
     const branchId = row.original.id;
-
-    const mutation = useMutation({
-        mutationFn: deleteBranchId,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['citys'] });
-        },
-    })
 
     const deleteBranchById = async (id: number) => {
         try {
-            await mutation.mutateAsync(id);
+            deleteBranch.mutateAsync(id);
         } catch (err) {
             console.error("Error al eliminar una sucursal: ", err);
         }
