@@ -2,9 +2,15 @@ import { MarketingConfig } from "@/types/index"
 
 export const marketingConfig: MarketingConfig = {
   mainNav: [
-    // {
-    //   title: "Precios",
-    //   href: "/pricing",
-    // }
+    {
+      title: "Aplicaciones",
+      href: "/",
+    },{
+      title: "Membresias",
+      href:"/pricing"
+    },{
+      title: "Contacto",
+      href:"/"
+    }
   ],
 }

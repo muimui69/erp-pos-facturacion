@@ -11,7 +11,7 @@ export default async function CategoryPage() {
 
   return (
     <DashboardShell>
-      <DashboardHeader heading="Cajeros Automaticos" text="Cree y gestione los Cajeros Automaticos.">
+      <DashboardHeader heading="Sucursales" text="Cree y gestione las Sucursales.">
       </DashboardHeader>
       <div className="container overflow-x-auto">
         <DataTable columns={columns} data={data.data.atms} />

@@ -14,7 +14,7 @@ export default async function BlogPage() {
     .filter((post) => post.published)
     .sort((a, b) => {
       return compareDesc(new Date(a.date), new Date(b.date))
-    })
+  })
 
   return (
     <div className="container max-w-4xl py-6 lg:py-10">
