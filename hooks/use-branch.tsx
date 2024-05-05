@@ -25,11 +25,20 @@ export function useBranchs() {
         },
     })
 
+    const patchBranchMutation = useMutation({
+        // mutationFn: patchBranchId,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [queryKeyName] });
+        },
+    })
+
+
     return {
         branchs: branchs?.data?.branchs || [],
         isLoading,
         isError,
         createBranch: createBranchMutation,
-        deleteBranch: deleteBranchMutation
+        deleteBranch: deleteBranchMutation,
+        patchBranch: patchBranchMutation
     };
 }

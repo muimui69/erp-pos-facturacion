@@ -14,7 +14,7 @@ export function useCitys() {
     const createCityMutation = useMutation({
         mutationFn: postCreateCity,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['citys'] });
+            queryClient.invalidateQueries({ queryKey: [queryKeyName] });
         },
     })
 
@@ -25,11 +25,19 @@ export function useCitys() {
         },
     })
 
+    const patchCityMutation = useMutation({
+        // mutationFn: patchCityId,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [queryKeyName] });
+        },
+    })
+
     return {
         citys: citys?.data?.citys || [],
         isLoading,
         isError,
         createCity: createCityMutation,
-        deleteCity: deleteCityMutation
+        deleteCity: deleteCityMutation,
+        patchCity: patchCityMutation
     };
 }
