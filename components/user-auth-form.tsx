@@ -1,19 +1,24 @@
 "use client"
 
-import { useSearchParams, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 
-import { cn } from "@/lib/utils"
+import { cn, createSubdomainUrl, createUrl } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 import { buttonVariants } from "@/components/ui/button"
 import { FormEvent, useState } from "react"
-import { postCreateBrandQuery } from "@/lib/queries/branch"
+// import { postCreateBrandQuery } from "@/lib/queries/branch"
 
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
+
+interface Userdata {
+  codigo: string;
+  espacio_de_trabajo: string;
+}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const navigate = useRouter()
@@ -27,13 +32,30 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   // })
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isGitHubLoading, setIsGitHubLoading] = useState<boolean>(false)
-  const searchParams = useSearchParams()
+
+  const [userData, setUserData] = useState<Userdata>({
+    codigo: '',
+    espacio_de_trabajo: ''
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setUserData(prevData => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate.push('/dashboard')
+    // navigate.push('/dashboard')
+
+    const { espacio_de_trabajo, ...rest } = userData;
+    const subdomainUrl = createSubdomainUrl(espacio_de_trabajo, rest);
+    navigate.replace(subdomainUrl);
   }
+
 
   async function onSubmit(data: FormData) {
     setIsLoading(true)
@@ -66,25 +88,42 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       <form onSubmit={handleSubmit}>
         <div className="grid gap-2">
           <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="email">
+
+            <Label className="sr-only" htmlFor="codigo">
               Codigo
             </Label>
             <Input
-              id="email"
+              id="codigo"
               placeholder="codigo"
-              type="email"
+              name="codigo"
+              type="text"
               autoCapitalize="none"
-              autoComplete="email"
               autoCorrect="off"
               disabled={isLoading || isGitHubLoading}
-            // {...register("email")}
+              onChange={handleChange}
+              value={userData.codigo}
             />
-            {/* {errors?.email && (
-              <p className="px-1 text-xs text-red-600">
-                {errors.email.message}
-              </p>
-            )} */}
           </div>
+
+          <div className="grid gap-1">
+
+            <Label className="sr-only" htmlFor="espacio_de_trabajo">
+              Espacio de trabajo
+            </Label>
+
+            <Input
+              id="espacio_de_trabajo"
+              placeholder="espacio de trabajo"
+              name="espacio_de_trabajo"
+              type="text"
+              autoCapitalize="none"
+              autoCorrect="off"
+              disabled={isLoading || isGitHubLoading}
+              onChange={handleChange}
+              value={userData.espacio_de_trabajo}
+            />
+          </div>
+
           <button className={cn(buttonVariants())} disabled={isLoading}>
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

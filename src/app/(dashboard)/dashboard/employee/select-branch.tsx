@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useBranches } from '@/hooks/use-branch';
+import { useBranchs } from '@/hooks/use-branch';
 import { Dispatch, SetStateAction } from "react";
 
 interface SelectBranchProps {
@@ -16,7 +16,7 @@ interface SelectBranchProps {
 }
 
 export default function SelectBranch({ setUserBranch }: SelectBranchProps) {
-  const { branches, isLoading, isError } = useBranches();
+  const { branchs, isLoading, isError } = useBranchs();
 
   const handleSelectBranch = (value: string) => {
     setUserBranch({ idBranch: value })
@@ -29,7 +29,7 @@ export default function SelectBranch({ setUserBranch }: SelectBranchProps) {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {branches.map(({ id, name }) => (
+          {branchs.map(({ id, name }) => (
             <SelectItem key={id} value={id.toString()}>
               {name}
             </SelectItem>

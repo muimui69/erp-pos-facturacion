@@ -7,8 +7,9 @@ import { cn } from "@/lib/utils"
 import { ButtonProps, buttonVariants } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
+import { parseUrl } from "next/dist/shared/lib/router/utils/parse-url"
 
-interface PostCreateButtonProps extends ButtonProps {}
+interface PostCreateButtonProps extends ButtonProps { }
 
 export function PostCreateButton({
   className,
@@ -56,6 +57,7 @@ export function PostCreateButton({
 
     router.push(`/editor/${post.id}`)
   }
+
 
   return (
     <button

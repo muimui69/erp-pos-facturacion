@@ -3,11 +3,12 @@ const nextConfig = {
     async rewrites() {
         return [
             {
-                source: '/site.webmanifest',
-                destination: 'https://tx.shadcn.com/site.webmanifest',
+                source: '/:subdomain/oauth',
+                destination: '/subdomain',
             },
         ]
     },
+
 };
 
 export default nextConfig;
