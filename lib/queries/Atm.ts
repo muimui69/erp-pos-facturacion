@@ -1,4 +1,4 @@
-import api,{converToStringfy} from "../Api";
+import api,{converToStringfy} from "../api";
 
 export const GetAtm=async ()=>{
     try {

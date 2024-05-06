@@ -1,4 +1,4 @@
-import api, { converToStringfy } from "../Api";
+import api, { converToStringfy } from "../api";
 import { City } from "./interfaces/city.interface";
 
 export const getAllCity = async () => {

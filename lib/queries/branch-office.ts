@@ -1,4 +1,4 @@
-import api, { converToStringfy } from "../Api";
+import api, { converToStringfy } from "../api";
 import { Branch, BranchUpdateData } from "./interfaces/branch.interface";
 
 

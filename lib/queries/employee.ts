@@ -1,4 +1,4 @@
-import api, { converToStringfy } from "../Api";
+import api, { converToStringfy } from "../api";
 import { Employee } from "./interfaces/employee.interface";
 
 export const getEmployees = async () => {
