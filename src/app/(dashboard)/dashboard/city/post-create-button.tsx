@@ -8,9 +8,7 @@ import { Icons } from "@/components/icons"
 import { useState } from "react"
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogCreate } from "./create-dialog"
-import { postCreateCity } from "@/lib/queries/city"
-import { QueryClient, useMutation } from "@tanstack/react-query"
-import { queryClient } from "@/provider/ReactQueryClient"
+import { useCitys } from "@/hooks/use-city"
 
 interface PostCreateButtonProps extends ButtonProps { }
 
@@ -22,21 +20,14 @@ export function PostCreateButtonCity({
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const mutation = useMutation({
-    mutationFn: postCreateCity,
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey:['citys']});
-    },
-  })
+  const { createCity } = useCitys();
 
   const handleSubmit = async (name: string) => {
     setIsLoading(true);
 
     try {
       setIsLoading(true);
-      // const new_city = await postCreateCity(name)
-      await mutation.mutateAsync(name);
+      await createCity.mutateAsync(name);
       setIsDialogOpen(false)
       setIsLoading(false);
       toast({

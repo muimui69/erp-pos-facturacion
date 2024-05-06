@@ -22,9 +22,7 @@ import { useState } from "react"
 import { DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogEditCity } from "./edit-dialog"
 import { CityElement } from "@/lib/queries/interfaces/city.interface"
-import { deleteCityId, putUpdateCity } from "@/lib/queries/city"
-import { useMutation } from "@tanstack/react-query"
-import { queryClient } from "@/provider/ReactQueryClient"
+import { useCitys } from "@/hooks/use-city"
 
 export const columns: ColumnDef<CityElement>[] = [
     {
@@ -55,16 +53,11 @@ const ActionCell = ({ row }: { row: Row<CityElement> }) => {
     const cityName = row.original.name;
     const cityId = row.original.id;
 
-    const mutation = useMutation({
-        mutationFn: deleteCityId,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['citys'] });
-        },
-    })
+    const { deleteCity } = useCitys();
 
     const deleteCityById = async (id: number) => {
         try {
-            await mutation.mutateAsync(id);
+            await deleteCity.mutateAsync(id);
         } catch (err) {
             console.error("Error al eliminar una ciudad: ", err);
         }

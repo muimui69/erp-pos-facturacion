@@ -8,9 +8,7 @@ import { Icons } from "@/components/icons"
 import { useState } from "react"
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogCreate } from "./create-dialog"
-import { postCreateBranch } from "@/lib/queries/branch-office"
-import { useMutation } from "@tanstack/react-query"
-import { queryClient } from "@/provider/ReactQueryClient"
+import { useBranchs } from "@/hooks/use-branch"
 
 interface PostCreateButtonProps extends ButtonProps { }
 
@@ -22,18 +20,13 @@ export function PostCreateButtonBranch({
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { createBranch } = useBranchs();
 
-  const mutation = useMutation({
-    mutationFn: postCreateBranch,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['branchs'] });
-    },
-  })
 
   const handleSubmit = async (address: string, name: string, lat: number, lng: number, cityId: string) => {
     try {
       setIsLoading(true);
-      await mutation.mutateAsync({ address, name, lat, lng, cityId });
+      await createBranch.mutateAsync({ address, name, lat, lng, cityId });
       setIsDialogOpen(false)
       setIsLoading(false);
       toast({
