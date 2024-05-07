@@ -19,7 +19,7 @@ export default async function IndexPage() {
           </p>
           <div className="space-x-4">
             <Link href="/login" className={cn(buttonVariants({ size: "lg" }))}>
-              Comenzar
+              Comenzar 
             </Link>
           </div>
         </div>

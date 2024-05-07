@@ -8,14 +8,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useBranchs } from '@/hooks/use-branch';
+import { useBranchs } from "@/hooks/use-branch";
+
 import { Dispatch, SetStateAction } from "react";
 
 interface SelectBranchProps {
   setUserBranch: Dispatch<SetStateAction<{ idBranch: string; }>>;
 }
 
-export default function SelectBranch({ setUserBranch }: SelectBranchProps) {
+export default function SelectSucursal({ setUserBranch }: SelectBranchProps) {
   const { branchs, isLoading, isError } = useBranchs();
 
   const handleSelectBranch = (value: string) => {
@@ -24,7 +25,6 @@ export default function SelectBranch({ setUserBranch }: SelectBranchProps) {
 
   return (
     <Select onValueChange={handleSelectBranch}>
-    
       <SelectTrigger className="col-span-3">
         <SelectValue placeholder="Selecciona una sucursal" />
       </SelectTrigger>
