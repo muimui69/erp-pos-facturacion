@@ -43,7 +43,7 @@ export const putUpdateCity = async (nombre: string, id: string) => {
     try {
         const obj = {
             name: nombre,
-            status:true
+            status: true
         }
         return await api.patch(`/city/${id}`, converToStringfy(obj));
     } catch (err) {

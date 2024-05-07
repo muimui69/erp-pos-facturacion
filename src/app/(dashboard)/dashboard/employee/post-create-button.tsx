@@ -5,7 +5,7 @@ import { Icons } from "@/components/icons"
 import { useState } from "react"
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogCreate } from "./create-dialog"
-import { postCreateAtm } from "@/lib/queries"
+import { postCreateAtm } from "@/lib/queries/employee"
 import { toast } from 'sonner'
 
 interface PostCreateButtonProps extends ButtonProps { }
