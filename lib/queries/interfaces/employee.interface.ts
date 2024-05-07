@@ -20,17 +20,18 @@ export interface EmployeeElement {
     updatedAt: Date;
 }
 
-// // export interface Branch {
-// //     id:        number;
-// //     address:   string;
-// //     name:      string;
-// //     lat:       string;
-// //     lng:       string;
-// //     status:    boolean;
-// //     cityId:    number;
-// //     createdAt: Date;
-// //     updatedAt: Date;
-// // }
+export interface Branch {
+    id:        number;
+    address:   string;
+    name:      string;
+    lat:       string;
+    lng:       string;
+    status:    boolean;
+    cityId:    number;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 // export interface BranchUpdateData {
 //     address?: string;
 //     name?: string;

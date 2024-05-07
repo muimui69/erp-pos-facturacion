@@ -2,7 +2,7 @@ import { DashboardHeader } from "@/components/header";
 import { DashboardShell } from "@/components/shell";
 import { DataTable } from "./data-table"
 import { columns, Payment } from "./columns";
-import { GetAtm } from "@/lib/queries/Atm";
+import { GetAtm } from "@/lib/queries/atm";
 
 
  

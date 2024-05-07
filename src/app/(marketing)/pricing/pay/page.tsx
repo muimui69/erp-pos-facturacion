@@ -27,7 +27,7 @@ const userCreditCardsExample: CreditCard[] = [
   { id: '2', cardNumber: '9876 5432 1098 7654', expirationDate: '06/25' },
 ];
 
-function PagePay({ selectedPlan, userCreditCards }: BuyMembershipProps) {
+function PagePay() {
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-center">
