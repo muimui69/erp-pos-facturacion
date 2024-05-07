@@ -14,7 +14,7 @@ export default async function BoxPage() {
   return (
     <DashboardShell>
       <DashboardHeader heading="Cajas" text="Cree y gestione apertura y cierre de cajas.">
-        <PostCreateButtonAtm className="mr-6" />
+        {/* <PostCreateButtonAtm className="mr-6" /> */}
       </DashboardHeader>
       {/* <div className="container overflow-x-auto">
         <DataTable columns={columns} data={data.data.atms} />

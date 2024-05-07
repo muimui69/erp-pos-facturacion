@@ -7,7 +7,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 import { useState } from "react"
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog" 
-import {CreateAtm} from '@/lib/queries/atm'
+// import {CreateAtm} from '@/lib/queries/atm'
 
 import { useMutation } from "@tanstack/react-query"
 import { queryClient } from "@/provider/ReactQueryClient"
