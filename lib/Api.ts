@@ -6,7 +6,7 @@ export const converToStringfy = (obj: any): string => {
 }
 
 const api = axios.create({
-  baseURL,
+  baseURL:process.env.NEXT_PUBLIC_BASE_URL_LOCALHOST,
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
