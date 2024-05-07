@@ -17,16 +17,16 @@ interface BuyMembershipProps {
   userCreditCards: CreditCard[];
 }
 const selectedPlanExample: MembershipPlan = {
-    name: 'Premium Plan',
-    description: 'Acceso completo a todas las funciones',
-    price: 29.99,
-  };
-  
-  const userCreditCardsExample: CreditCard[] = [
-    { id: '1', cardNumber: '1234 5678 9012 3456', expirationDate: '12/23' },
-    { id: '2', cardNumber: '9876 5432 1098 7654', expirationDate: '06/25' },
-  ];
-  
+  name: 'Premium Plan',
+  description: 'Acceso completo a todas las funciones',
+  price: 29.99,
+};
+
+const userCreditCardsExample: CreditCard[] = [
+  { id: '1', cardNumber: '1234 5678 9012 3456', expirationDate: '12/23' },
+  { id: '2', cardNumber: '9876 5432 1098 7654', expirationDate: '06/25' },
+];
+
 function PagePay({ selectedPlan, userCreditCards }: BuyMembershipProps) {
   return (
     <div className="container mx-auto py-8">
@@ -69,19 +69,19 @@ function PagePay({ selectedPlan, userCreditCards }: BuyMembershipProps) {
 
           {/* Lista de tarjetas vinculadas */}
           <div>
-      <h2 className="text-lg font-semibold mb-4">Tarjetas Vinculadas</h2>
-      <ul>
-        {userCreditCardsExample.map((card) => (
-          <li
-            key={card.id}
-            className={`mb-2 p-4 rounded border cursor-pointer `}
-          
-          >
-            <span>{card.cardNumber}</span> - <span>{card.expirationDate}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
+            <h2 className="text-lg font-semibold mb-4">Tarjetas Vinculadas</h2>
+            <ul>
+              {userCreditCardsExample.map((card) => (
+                <li
+                  key={card.id}
+                  className={`mb-2 p-4 rounded border cursor-pointer `}
+
+                >
+                  <span>{card.cardNumber}</span> - <span>{card.expirationDate}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         {/* Información del plan seleccionado */}
