@@ -3,12 +3,12 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
+import { useRouter } from "next/router"
 
-export const metadata = {
-  title: "Pricing",
-}
 
 export default function PricingPage() {
+  
+
   return (
    
 <div className="bg-[#141414] flex items-center justify-center min-h-screen relative z-10">
@@ -35,7 +35,14 @@ export default function PricingPage() {
                     <span className="text-4xl font-bold">$16</span>
                     <span className="text-black/40 text-center"></span>
                 </p>
-                <button className="w-full p-2 bg-[#13181f] text-white rounded-md font-semibold hover:bg-[#ff2865] transition-all duration-150 ease-in mb-8 border-[#13181f]">add to cart</button>
+                <div className="w-full text-center mb-8">
+                    <Link href="/pricing/pay" >
+                        <div className="w-full p-2 bg-[#13181f] text-white rounded-md font-semibold hover:bg-[#ff2865] transition-all duration-150 ease-in border-[#13181f]">
+                         add to cart
+                        </div>
+                    </Link>
+                </div>
+                
                 <ol className="list-disc text-[#ff2865] w-[80%] mx-auto">
                     <li><span className="text-black text-xs font-semibold">439,000 Est. Impressions</span></li>
                     <li><span className="text-black text-xs font-semibold">180 x 150</span></li>
@@ -55,7 +62,14 @@ export default function PricingPage() {
                     <span className="text-4xl font-bold">$46</span>
                     <span className="text-black/40 text-center"></span>
                 </p>
-                <button className="w-full p-2 bg-[#13181f] text-white rounded-md font-semibold hover:bg-[#ff2865] transition-all duration-150 ease-in mb-8 border-[#13181f]">add to cart</button>
+                <div className="w-full text-center mb-8">
+                    <Link href="/pricing/pay" >
+                        <div className="w-full p-2 bg-[#13181f] text-white rounded-md font-semibold hover:bg-[#ff2865] transition-all duration-150 ease-in border-[#13181f]">
+                         add to cart
+                        </div>
+                    </Link>
+                </div>
+                
                 <ol className="list-disc text-[#ff2865] w-[80%] mx-auto">
                     <li><span className="text-black text-xs font-semibold">439,000 Est. Impressions</span></li>
                     <li><span className="text-black text-xs font-semibold">300 x 250</span></li>
@@ -75,7 +89,15 @@ export default function PricingPage() {
                     <span className="text-4xl font-bold">98$</span>
                     <span className="text-black/40 text-center"></span>
                 </p>
-                <button className="w-full p-2 bg-[#13181f] text-white rounded-md font-semibold hover:bg-[#ff2865] transition-all duration-150 ease-in mb-8 border-[#13181f]">add to cart</button>
+                <div className="w-full text-center mb-8">
+                    <Link href="/pricing/pay" >
+                        <div className="w-full p-2 bg-[#13181f] text-white rounded-md font-semibold hover:bg-[#ff2865] transition-all duration-150 ease-in border-[#13181f]">
+                         add to cart
+                        </div>
+                    </Link>
+                </div>
+                
+               
                 <ol className="list-disc text-[#ff2865] w-[80%] mx-auto">
                     <li><span className="text-black text-xs font-semibold">2,000,000 Est. Impressions</span></li>
                     <li><span className="text-black text-xs font-semibold">300 x 250</span></li>
