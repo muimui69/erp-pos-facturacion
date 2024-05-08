@@ -1,3 +1,5 @@
+import { Icons } from "@/components/icons"
+
 export type SidebarNavItem = {
     title: string
     disabled?: boolean

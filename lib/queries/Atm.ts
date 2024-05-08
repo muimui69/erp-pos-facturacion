@@ -1,31 +1,31 @@
-import api,{converToStringfy} from "../Api";
+import api, { converToStringfy } from "../api";
 
-export const GetAtm=async ()=>{
+export const GetAtm = async () => {
     try {
-        const {data}=await api.get('/atm?skip=0&limit=20');
+        const { data } = await api.get('/atm?skip=0&limit=20');
         return data
     } catch (error) {
         throw error
     }
 }
-export const getAtmId =async (id:number)=>{
+export const getAtmId = async (id: number) => {
     try {
-        const {data}= await api.get(`/atm/${id}`)
+        const { data } = await api.get(`/atm/${id}`)
         return data
     } catch (error) {
         throw error
-        
+
     }
 }
-export const CreateAtm=async (name:string,branchId:number)=>{
+export const CreateAtm = async (name: string, branchId: number) => {
     try {
-        const obj={
+        const obj = {
             name,
             branchId
         }
-        return await api.post('/atm',converToStringfy(obj))
+        return await api.post('/atm', converToStringfy(obj))
     } catch (error) {
-        
+
     }
 
 }
@@ -41,7 +41,7 @@ export const deleteAtmId = async (id: number) => {
 export const putUpdateAtm = async (nombre: string, id: string) => {
     try {
         const obj = {
-            name:nombre
+            name: nombre
         }
         return await api.put(`/atm/${id}`, converToStringfy(obj));
     } catch (err) {

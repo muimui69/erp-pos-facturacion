@@ -1,4 +1,4 @@
-import api, { converToStringfy } from "../Api";
+import api, { converToStringfy } from "../api";
 import { City } from "./interfaces/city.interface";
 
 export const getAllCity = async () => {
@@ -43,7 +43,7 @@ export const putUpdateCity = async (nombre: string, id: string) => {
     try {
         const obj = {
             name: nombre,
-            status:true
+            status: true
         }
         return await api.patch(`/city/${id}`, converToStringfy(obj));
     } catch (err) {

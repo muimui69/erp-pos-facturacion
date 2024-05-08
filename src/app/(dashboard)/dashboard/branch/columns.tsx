@@ -42,7 +42,8 @@ export const columns: ColumnDef<BranchElement>[] = [
         accessorKey: "city",
         header: "Ciudad",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("city")?.name}</div>
+            // row.getValue("city")?.name
+            <div className="capitalize">{row.getValue("city")}</div>
         ),
     },
     {

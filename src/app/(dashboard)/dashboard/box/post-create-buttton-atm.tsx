@@ -7,7 +7,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 import { useState } from "react"
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog" 
-import {CreateAtm} from '@/lib/queries/Atm'
+// import {CreateAtm} from '@/lib/queries/atm'
 
 import { useMutation } from "@tanstack/react-query"
 import { queryClient } from "@/provider/ReactQueryClient"
@@ -25,7 +25,7 @@ export function PostCreateButtonAtm({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const mutation = useMutation({
-    mutationFn: CreateAtm,
+    // mutationFn: CreateAtm,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['branchs'] });
     },
@@ -34,7 +34,7 @@ export function PostCreateButtonAtm({
   const handleSubmit = async ( name: string, branchId: string) => {
     try {
       setIsLoading(true);
-      await mutation.mutateAsync({  name, branchId });
+      // await mutation.mutateAsync({  name, branchId });
       setIsDialogOpen(false)
       setIsLoading(false);
       toast({
