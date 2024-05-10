@@ -1,11 +1,11 @@
 "use client"
 import {
+    CaretSortIcon,
     DotsHorizontalIcon,
 } from "@radix-ui/react-icons"
 
 import {
     ColumnDef,
-    Row,
 } from "@tanstack/react-table"
 
 import { Button } from "@/components/ui/button"
@@ -21,59 +21,64 @@ import { Dialog } from "@/components/ui/dialog"
 import { useState } from "react"
 import { DialogDemo } from "@/components/dialog"
 import { DialogTrigger } from "@radix-ui/react-dialog"
-import { DialogEdit } from "./edit-dialog"
-import {  BranchElement } from "@/lib/queries/interfaces/branch.interface"
-import { useBranchs } from "@/hooks/use-branch"
+import { Avatar } from "@/components/ui/avatar"
 
-export const columns: ColumnDef<BranchElement>[] = [
+export type Payment = {
+    id: string
+    amount: number
+    status: "pending" | "processing" | "success" | "failed"
+    email: string
+}
+
+
+export const columns: ColumnDef<Payment>[] = [
     {
         accessorKey: "name",
-        header: "Nombre",
+        header: "Name",
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("name")}</div>
         ),
-    }, {
-        accessorKey: "address",
-        header: "Direccion",
+    },
+    {
+        accessorKey: "description",
+        header: "Description",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("address")}</div>
-        ),
-    }, {
-        accessorKey: "city",
-        header: "Ciudad",
-        cell: ({ row }) => (
-            // row.getValue("city")?.name
-            <div className="capitalize">{row.getValue("city")}</div>
+            <div className="capitalize">{row.getValue("description")}</div>
         ),
     },
     {
-        accessorKey: "status",
-        header: "Estado",
+        accessorKey: "price",
+        header: "Price",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status") === true ? "Activo" : "Inactivo"}</div>
+            <div className="capitalize">{row.getValue("price")}</div>
         ),
     },
+//    {
+//         accessorKey: "image",
+//         header: "Image",
+//         cell: ({ row }) => {
+//             const product = row.original;
+//             return (
+//                 <Avatar
+//                 readOnly
+//                 src={"https://i.pinimg.com/564x/9a/8b/cf/9a8bcfaba81783eff9241538b00343b1.jpg"}
+//                     alt="Isabella"
+//                     />
+//             );
+//         },
+//     },
     {
         id: "actions",
-        header: "Acciones",
+        enableHiding: false,
         cell: ({ row }) => {
-            return <ActionCell row={row} />;
+            const payment = row.original
+            return <ActionCell payment={payment} />;
         },
     },
 ]
 
-const ActionCell = ({ row }: { row: Row<BranchElement> }) => {
+const ActionCell = ({ payment }: { payment: Payment }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const { deleteBranch } = useBranchs();
-    const branchId = row.original.id;
-   
-    const deleteBranchById = async (id: number) => {
-        try {
-            deleteBranch.mutateAsync(id);
-        } catch (err) {
-            console.error("Error al eliminar una sucursal: ", err);
-        }
-    }
 
     return (
         <>
@@ -93,7 +98,7 @@ const ActionCell = ({ row }: { row: Row<BranchElement> }) => {
                     <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
                         Editar
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => deleteBranchById(branchId)}>
+                    <DropdownMenuItem>
                         Eliminar
                     </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -102,10 +107,7 @@ const ActionCell = ({ row }: { row: Row<BranchElement> }) => {
             {isDialogOpen && (
                 <Dialog onOpenChange={setIsDialogOpen} open={isDialogOpen}>
                     <DialogTrigger asChild>
-                        <DialogEdit
-                            setIsDialogOpen={setIsDialogOpen}
-                            data={row.original}
-                        />
+                        <DialogDemo />
                     </DialogTrigger>
                 </Dialog>
             )}

@@ -7,8 +7,9 @@ export default function SubdomainPageTest(req: Params) {
     const { subdomain } = req.params;
 
     const hostname = headerList.get("host")
-
+    console.log(req);
     return (
         <div>hello from subdomain {hostname} {subdomain}</div>
+
     )
 }
