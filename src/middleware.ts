@@ -14,27 +14,27 @@ export const config = {
 };
 
 export default async function middleware(req: NextRequest) {
-  const url = req.nextUrl;
+  // const url = req.nextUrl;
 
-  const hostname = req.headers.get("host")!;
+  // const hostname = req.headers.get("host")!;
 
-  const path = url.pathname;
+  // const path = url.pathname;
 
-  let subdomain = hostname.split(".")[0];
+  // let subdomain = hostname.split(".")[0];
 
-  subdomain = subdomain.replace("localhost:3000" || "localhost:3001", "");
+  // subdomain = subdomain.replace("localhost:3000" || "localhost:3001", "");
 
-  //es opcional a modificar
-  if (subdomain === "www" || subdomain === "") {
-    return NextResponse.next();
-  }
+  // //es opcional a modificar
+  // if (subdomain === "www" || subdomain === "") {
+  //   return NextResponse.next();
+  // }
 
-  //es opcional a modificar
-  if (subdomain !== "app") {
-    return NextResponse.rewrite(
-      new URL(`/subdomain/${subdomain}${path === "/" ? "" : path}`, req.url)
-    );
-  }
+  // //es opcional a modificar
+  // if (subdomain !== "app") {
+  //   return NextResponse.rewrite(
+  //     new URL(`/subdomain/${subdomain}${path === "/" ? "" : path}`, req.url)
+  //   );
+  // }
 
   return NextResponse.next();
 }
