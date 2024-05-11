@@ -1,23 +1,31 @@
 import api, { converToStringfy } from "../api";
-import { PostProduct, Product } from "./interfaces/product.interface";
+import { GetProductsResponse, GetProdutIdResponse, PatchProductParams } from "./interfaces/product.interface";
 
-export const getAllProducts = async () => {
+export const getAllProducts = async (subdomain: string) => {
     try {
-        const { data } = await api.get<Product>('/product')
-        return data
+        const { data } = await api.get<GetProductsResponse>('/product', {
+            headers: {
+                "subdomain": subdomain,
+            }
+        });
+        return data;
     } catch (error) {
-        throw error
+        throw error;
     }
 }
 
-// export const getCityById = async (id: number) => {
-//     try {
-//         const { data } = await api.get(`/city/${id}`)
-//         return data
-//     } catch (error) {
-//         throw error
-//     }
-// }
+export const getProductById = async (subdomain: string, id: string) => {
+    try {
+        const { data } = await api.get<GetProdutIdResponse>(`/product/${parseInt(id)}`, {
+            headers: {
+                "subdomain": subdomain,
+            }
+        });
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
 
 export const postCreateProduct = async (subdomain: string, formData: FormData) => {
     try {
@@ -26,29 +34,42 @@ export const postCreateProduct = async (subdomain: string, formData: FormData) =
                 "subdomain": subdomain,
                 'Content-Type': 'multipart/form-data',
             }
-        })
+        });
     } catch (error) {
-        throw error
+        throw error;
     }
 }
 
-// export const deleteCityId = async (id: number) => {
-//     try {
-//         const { data } = await api.delete(`/city/${id}`);
-//         return data;
-//     } catch (err) {
-//         throw err;
-//     }
+export const deleteProductId = async (subdomain: string, id: string) => {
+    try {
+        const { data } = await api.delete(`/product/${parseInt(id)}`, {
+            headers: {
+                "subdomain": subdomain,
+            }
+        });
+        return data;
+    } catch (err) {
+        throw err;
+    }
 
-// }
-// export const putUpdateCity = async (nombre: string, id: string) => {
-//     try {
-//         const obj = {
-//             name: nombre,
-//             status: true
-//         }
-//         return await api.patch(`/city/${id}`, converToStringfy(obj));
-//     } catch (err) {
-//         throw err;
-//     }
-// }
+}
+
+export const patchUpdateProduct = async (subdomain: string, id: string, product: PatchProductParams) => {
+    try {
+        const obj: PatchProductParams = {
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            discount: product.discount,
+            photo: product.photo,
+            categories: product.categories
+        }
+        return await api.patch(`/product/${parseInt(id)}`, converToStringfy(obj), {
+            headers: {
+                "subdomain": subdomain,
+            }
+        });
+    } catch (err) {
+        throw err;
+    }
+}

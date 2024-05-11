@@ -1,4 +1,4 @@
-export interface GetCategoryResponse {
+export interface GetCategoriesResponse {
     statusCode: number;
     message: string;
     data: Data;
@@ -18,7 +18,7 @@ export interface AllCategory {
     tenantId: number;
 }
 
-export type GetCategoryIdResponse = Pick<GetCategoryResponse, keyof GetCategoryResponse>;
+export type GetCategoryIdResponse = Pick<GetCategoriesResponse, keyof GetCategoriesResponse>;
 
 export type PostCategoryParams = Pick<AllCategory, 'description'>;
 

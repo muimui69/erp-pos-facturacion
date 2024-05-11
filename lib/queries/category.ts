@@ -1,9 +1,9 @@
 import api, { converToStringfy } from "../api";
-import { GetCategoryIdResponse, GetCategoryResponse, PatchCategoryParams, PostCategoryParams } from "./interfaces/category.interface";
+import { GetCategoryIdResponse, GetCategoriesResponse, PatchCategoryParams, PostCategoryParams } from "./interfaces/category.interface";
 
 export const getAllCategories = async (subdomain: string) => {
     try {
-        return await api.get<GetCategoryResponse>('/category', {
+        return await api.get<GetCategoriesResponse>('/category', {
             headers: {
                 subdomain
             }
@@ -28,7 +28,7 @@ export const getCategoryById = async (subdomain: string, id: number) => {
 }
 
 
-export const postCreateProvider = async (subdomain: string, category: PostCategoryParams) => {
+export const postCreateCategory = async (subdomain: string, category: PostCategoryParams) => {
     try {
         const obj: PostCategoryParams = {
             description: category.description
@@ -44,7 +44,7 @@ export const postCreateProvider = async (subdomain: string, category: PostCatego
 }
 
 
-export const deleteProviderByUuid = async (subdomain: string, id: string) => {
+export const deleteCategoryById = async (subdomain: string, id: string) => {
     try {
         const { data } = await api.delete(`/category/${id}`, {
             headers: {
@@ -58,12 +58,12 @@ export const deleteProviderByUuid = async (subdomain: string, id: string) => {
 }
 
 
-export const patchProviderByUuid = async (subdomain: string, id: string, category: PatchCategoryParams) => {
+export const patchCategoryById = async (subdomain: string, id: string, category: PatchCategoryParams) => {
     try {
         const obj: PatchCategoryParams = {
             description: category.description
         }
-        const { data } = await api.patch(`/provider/${id}`, converToStringfy(obj), {
+        const { data } = await api.patch(`/category/${id}`, converToStringfy(obj), {
             headers: {
                 subdomain
             }

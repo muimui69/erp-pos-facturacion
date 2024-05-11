@@ -1,24 +1,24 @@
-export interface Product {
+export interface GetProductsResponse {
     statusCode: number;
-    message:    string;
-    data:       Data;
+    message: string;
+    data: Data;
 }
 
 export interface Data {
     allProducts: AllProduct[];
-    total:       number;
+    total?: number;
 }
 
 export interface AllProduct {
-    id:          number;
-    name:        string;
+    id: number;
+    name: string;
     description: string;
-    discount:    string;
-    price:       string;
-    images:      string[];
-    categories:  CategoryElement[];
-    createdAt:   string;
-    updatedAt:   string;
+    discount: string;
+    price: string;
+    images: string[];
+    categories: CategoryElement[];
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface CategoryElement {
@@ -26,11 +26,29 @@ export interface CategoryElement {
 }
 
 export interface CategoryCategory {
-    id:          number;
+    id: number;
     description: string;
 }
 
+interface Stock {
+    id: number;
+    cantTotal: number;
+    inventorys: any[]
+}
 
-export type PostProduct = Omit<AllProduct, 'id'  | 'createdAt' | 'images' |'updatedAt'>&{
-    photo : File;
+export type GetProdutIdResponse = Pick<GetProductsResponse, keyof GetProductsResponse> & {
+    data: {
+        product: (AllProduct & {
+            stock: Stock,
+            status: boolean,
+        })[];
+    }
 };
+
+export type PostProductParams = Omit<AllProduct, 'id' | 'images' | 'createdAt' | 'updatedAt'> & {
+    photo: File;
+};
+
+export type PatchProductParams = Partial<Omit<AllProduct, 'id' | 'images' | 'createdAt' | 'updatedAt'> & {
+    photo: File;
+}>;

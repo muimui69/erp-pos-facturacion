@@ -6,7 +6,7 @@ export interface GetProvidersResponse {
 
 
 export interface Data {
-    total: number;
+    total?: number;
     allProviders: AllProvider[];
 }
 
