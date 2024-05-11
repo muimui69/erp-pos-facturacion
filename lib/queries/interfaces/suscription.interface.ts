@@ -1,20 +1,26 @@
-export interface Suscription {
+export interface GetSuscriptionsResponse {
     statusCode: number;
-    message:    string;
-    data:       Data;
+    message: string;
+    data: Data;
 }
 
 export interface Data {
-    total:        number;
+    total: number;
     allSuscription: SuscriptionElement[];
 }
 
 export interface SuscriptionElement {
-    id:        number;
-    name:      string;
-    price:     string;
-    duracion:  number;
-    status:    boolean;
+    id: number;
+    name: string;
+    price: string;
+    duracion: number;
+    status: boolean;
     createdAt: Date;
     updatedAt: Date;
+}
+
+
+export interface PostSuscriptionParams {
+    suscriptionId: number;
+    hosting: string;
 }

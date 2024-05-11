@@ -1,8 +1,10 @@
-import * as React from "react"
+"use client"
+
+import { useLayoutEffect } from "react"
 
 // @see https://usehooks.com/useLockBodyScroll.
 export function useLockBody() {
-  React.useLayoutEffect((): (() => void) => {
+  useLayoutEffect((): (() => void) => {
     const originalStyle: string = window.getComputedStyle(
       document.body
     ).overflow

@@ -40,7 +40,7 @@ export const postCreateProduct = async (subdomain: string, formData: FormData) =
     }
 }
 
-export const deleteProductId = async (subdomain: string, id: string) => {
+export const deleteProductById = async (subdomain: string, id: string) => {
     try {
         const { data } = await api.delete(`/product/${parseInt(id)}`, {
             headers: {
@@ -54,7 +54,7 @@ export const deleteProductId = async (subdomain: string, id: string) => {
 
 }
 
-export const patchUpdateProduct = async (subdomain: string, id: string, product: PatchProductParams) => {
+export const patchProviderById = async (subdomain: string, id: string, product: PatchProductParams) => {
     try {
         const obj: PatchProductParams = {
             name: product.name,
