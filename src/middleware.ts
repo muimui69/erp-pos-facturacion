@@ -14,13 +14,13 @@ export const config = {
 };
 
 export default async function middleware(req: NextRequest) {
-  const url = req.nextUrl;
+  // const url = req.nextUrl;
 
-  const hostname = req.headers.get("host")!;
+  // const hostname = req.headers.get("host")!;
 
-  const path = url.pathname;
+  // const path = url.pathname;
 
-  let subdomain = hostname.split(".")[0];
+  // let subdomain = hostname.split(".")[0];
 
   // subdomain = subdomain.replace("localhost:3000" || "localhost:3001", "");
 

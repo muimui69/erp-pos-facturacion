@@ -6,7 +6,7 @@ export const converToStringfy = (obj: any): string => {
 }
 
 const api = axios.create({
-  baseURL,
+  baseURL:"http://localhost:3000/api",
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',

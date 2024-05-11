@@ -1,40 +1,27 @@
 import { DashboardHeader } from "@/components/header";
 import { DashboardShell } from "@/components/shell";
 import { DataTable } from "./data-table"
-import { columns, Payment } from "./columns";
+import { Category, columns,} from "./columns";
+import { PostCreateButtonCategory } from "./post-create-button";
 
-async function getData(): Promise<Payment[]> {
+async function getData(): Promise<Category[]> {
   return [
     {
       id: "m5gr84i9",
-      amount: 316,
-      status: "success",
-      email: "ken99@yahoo.com",
+      description: "Lacteos",
+     
     },
     {
       id: "3u1reuv4",
-      amount: 242,
-      status: "success",
-      email: "Abe45@gmail.com",
+      description: "Limpieza",
+      
     },
     {
       id: "derv1ws0",
-      amount: 837,
-      status: "processing",
-      email: "Monserrat44@gmail.com",
+      description: "Dulces",
+     
     },
-    {
-      id: "5kma53ae",
-      amount: 874,
-      status: "success",
-      email: "Silas22@gmail.com",
-    },
-    {
-      id: "bhqecj4p",
-      amount: 721,
-      status: "failed",
-      email: "carmella@hotmail.com",
-    },
+
   ]
 }
 
@@ -44,6 +31,7 @@ export default async function ProviderPage() {
   return (
     <DashboardShell>
       <DashboardHeader heading="Categorias" text="Cree y gestione las diferentes Categorias en su Punto de Venta.">
+      <PostCreateButtonCategory className="mr-6" />
       </DashboardHeader>
       <div className="container overflow-x-auto">
         <DataTable columns={columns} data={data} />

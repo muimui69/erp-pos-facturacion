@@ -6,6 +6,7 @@ import {
 
 import {
     ColumnDef,
+    Row,
 } from "@tanstack/react-table"
 
 import { Button } from "@/components/ui/button"
@@ -21,21 +22,22 @@ import { Dialog } from "@/components/ui/dialog"
 import { useState } from "react"
 import { DialogDemo } from "@/components/dialog"
 import { DialogTrigger } from "@radix-ui/react-dialog"
+import { DialogEditProvider } from "./edit-dialog"
 
-export type Payment = {
+export type Provider = {
     id: string
-    amount: number
-    status: "pending" | "processing" | "success" | "failed"
+    name: string
     email: string
+    phone:string
 }
 
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Provider>[] = [
     {
-        accessorKey: "status",
-        header: "Status",
+        accessorKey: "name",
+        header: "Name",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status")}</div>
+            <div className="capitalize">{row.getValue("name")}</div>
         ),
     },
     {
@@ -54,31 +56,23 @@ export const columns: ColumnDef<Payment>[] = [
         cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
     },
     {
-        accessorKey: "amount",
-        header: () => <div className="text-right">Amount</div>,
-        cell: ({ row }) => {
-            const amount = parseFloat(row.getValue("amount"))
-
-            // Format the amount as a dollar amount
-            const formatted = new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-            }).format(amount)
-
-            return <div className="text-right font-medium">{formatted}</div>
-        },
+        accessorKey: "phone",
+        header: "Phone",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("phone")}</div>
+        ),
     },
     {
         id: "actions",
         enableHiding: false,
         cell: ({ row }) => {
             const payment = row.original
-            return <ActionCell payment={payment} />;
+            return <ActionCell row={row} />;
         },
     },
 ]
 
-const ActionCell = ({ payment }: { payment: Payment }) => {
+const ActionCell = ({ row}: { row: Row<Provider>}) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     return (
@@ -105,10 +99,14 @@ const ActionCell = ({ payment }: { payment: Payment }) => {
                 </DropdownMenuContent>
             </DropdownMenu>
 
+            
             {isDialogOpen && (
-                <Dialog onOpenChange={setIsDialogOpen} open={isDialogOpen}>
+                <Dialog onOpenChange={() => setIsDialogOpen(false)} open={isDialogOpen}>
                     <DialogTrigger asChild>
-                        <DialogDemo />
+                        <DialogEditProvider
+                            setIsDialogOpen={setIsDialogOpen}
+                            data={row.original}
+                        />
                     </DialogTrigger>
                 </Dialog>
             )}

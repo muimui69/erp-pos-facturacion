@@ -10,7 +10,7 @@ import { toast } from "@/components/ui/use-toast"
 
 interface PostCreateButtonProps extends ButtonProps { }
 
-export function PostCreateButtonEmployee({
+export function PostCreateButtonCategory({
   className,
   variant,
   ...props
@@ -19,22 +19,23 @@ export function PostCreateButtonEmployee({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
 
-  const handleSubmit = async (email: string, name: string, phone: string, idBranch: string): Promise<void> => {
+  const handleSubmit = async (  description: string): Promise<void> => {
     try {
       setIsLoading(true);
-      const new_employee = await postCreateAtm(email, name, phone, idBranch);
-      console.log('=-=========', new_employee)
+      //Consumo Api Crear Categoria
+    //   const new_employee = await postCreateAtm(name,description,price,photo,cat);
+    //   console.log('=-=========', new_employee)
       setIsDialogOpen(false)
       setIsLoading(false);
       toast({
-        description: "Usuario creado correctamente"
+        description: "Categoria creado correctamente"
       })
     } catch (err) {
-      console.error("Error creando el usuario", err);
+      console.error("Error creando la Categoria", err);
       setIsDialogOpen(false);
       setIsLoading(false);
       toast({
-        description: "No se creo el empleado. Intente de nuevo"
+        description: "No se creo la Categoria. Intente de nuevo"
       })
     }
   }
@@ -60,7 +61,7 @@ export function PostCreateButtonEmployee({
         ) : (
           <Icons.add className="mr-2 h-4 w-4" />
         )}
-        Nuevo empleado
+        Nueva Categoria
       </button>
 
       {isDialogOpen && (

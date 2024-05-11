@@ -9,10 +9,9 @@ import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 import { buttonVariants } from "@/components/ui/button"
 import { FormEvent, useState } from "react"
-// import { postCreateBrandQuery } from "@/lib/queries/branch"
 
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
+interface UserSignupFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 
 interface Userdata {
@@ -20,16 +19,8 @@ interface Userdata {
   espacio_de_trabajo: string;
 }
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+export function UserSignupForm({ className, ...props }: UserSignupFormProps) {
   const navigate = useRouter()
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm<FormData>({
-  //   resolver: zodResolver(userAuthSchema),
-  // })
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isGitHubLoading, setIsGitHubLoading] = useState<boolean>(false)
 

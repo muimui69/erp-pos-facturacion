@@ -6,6 +6,7 @@ import {
 
 import {
     ColumnDef,
+    Row,
 } from "@tanstack/react-table"
 
 import { Button } from "@/components/ui/button"
@@ -21,17 +22,19 @@ import { Dialog } from "@/components/ui/dialog"
 import { useState } from "react"
 import { DialogDemo } from "@/components/dialog"
 import { DialogTrigger } from "@radix-ui/react-dialog"
-import { Avatar } from "@/components/ui/avatar"
+import { Avatar } from "@files-ui/react";
+import { DialogEditProducto } from "./edit-dialog"
 
-export type Payment = {
-    id: string
-    amount: number
-    status: "pending" | "processing" | "success" | "failed"
-    email: string
-}
+export interface Product {
+    name: string;
+    description: string;
+    price: number;
+    categories: string;
+    photo: string;
+  }
 
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Product>[] = [
     {
         accessorKey: "name",
         header: "Name",
@@ -50,34 +53,40 @@ export const columns: ColumnDef<Payment>[] = [
         accessorKey: "price",
         header: "Price",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("price")}</div>
+            <div className="capitalize">{row.getValue(`price`) + " "+ "bs"}</div>
         ),
     },
-//    {
-//         accessorKey: "image",
-//         header: "Image",
-//         cell: ({ row }) => {
-//             const product = row.original;
-//             return (
-//                 <Avatar
-//                 readOnly
-//                 src={"https://i.pinimg.com/564x/9a/8b/cf/9a8bcfaba81783eff9241538b00343b1.jpg"}
-//                     alt="Isabella"
-//                     />
-//             );
-//         },
-//     },
+   {
+        accessorKey: "photo",
+        header: "Image",
+        cell: ({ row }) => {
+            const product = row.getValue('photo');
+            console.log(product)
+            return (
+                <Avatar src={`${product}`} readOnly 
+                style={{ width: "200px", height: "200px" }}
+                />
+            );
+        },
+    },
+{
+    accessorKey: "categories",
+    header: "Categories",
+    cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("categories")}</div>
+    ),
+},
     {
         id: "actions",
         enableHiding: false,
         cell: ({ row }) => {
-            const payment = row.original
-            return <ActionCell payment={payment} />;
+            const product = row.original
+            return <ActionCell row={row}/>;
         },
     },
 ]
 
-const ActionCell = ({ payment }: { payment: Payment }) => {
+const ActionCell = ({ row }: { row: Row<Product> }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     return (
@@ -105,9 +114,12 @@ const ActionCell = ({ payment }: { payment: Payment }) => {
             </DropdownMenu>
 
             {isDialogOpen && (
-                <Dialog onOpenChange={setIsDialogOpen} open={isDialogOpen}>
+                <Dialog onOpenChange={() => setIsDialogOpen(false)} open={isDialogOpen}>
                     <DialogTrigger asChild>
-                        <DialogDemo />
+                        <DialogEditProducto
+                            setIsDialogOpen={setIsDialogOpen}
+                            data={row.original}
+                        />
                     </DialogTrigger>
                 </Dialog>
             )}

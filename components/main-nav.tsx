@@ -44,7 +44,6 @@ export function MainNav({ items, children }: MainNavProps) {
                   : "text-foreground/60",
                 item.disabled && "cursor-not-allowed opacity-80"
               )}
-              style={{ fontSize: "16px", color: "black" }} 
             >
               {item.title}
             </Link>

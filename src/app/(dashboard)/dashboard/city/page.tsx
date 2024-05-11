@@ -7,6 +7,7 @@ import { PostCreateButtonCity } from "./post-create-button";
 
 export default async function CityPage() {
   const data = await getAllCity()
+  console.log(data);
   return (
     <DashboardShell>
       <DashboardHeader heading="Ciudades" text="Cree y gestione las ciudades">
