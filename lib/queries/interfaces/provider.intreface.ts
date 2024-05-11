@@ -1,43 +1,45 @@
-import { User } from "./auth.interface";
-
-export interface Provider {
+export interface GetProvidersResponse {
     statusCode: number;
-    message:    string;
-    data:       Data;
+    message: string;
+    data: Data;
 }
 
+
 export interface Data {
-    total:        number;
+    total: number;
     allProviders: AllProvider[];
 }
 
+
 export interface AllProvider {
-    id:        string;
-    email:     string;
-    name:      string;
-    phone:     string;
-    status:    boolean;
+    id: string;
+    email: string;
+    name: string;
+    phone: string;
+    status: boolean;
     createdAt: string;
     updatedAt: string;
-    tenantId:  number;
+    tenantId: number;
 }
-
-
-export type PostProviderParams = Pick<User, 'name' | 'email' | 'phone'> 
 
 
 interface Buy {
-    id:         number;
-    total:      number;
+    id: number;
+    total: number;
     user: {
-      id:       number;
-      name:     string;
+        id: number;
+        name: string;
     };
-    time:       Date;
+    time: Date;
 }
 
-export type GetProviderUuid = Omit<User, 'id' | 'photo' > & {
-    buys : Buy[]
-}
 
-export type PatchProviderParams = Partial<Pick<User, 'name' | 'email' | 'phone'>>;
+export type GetProviderIdResponse = Pick<GetProvidersResponse, keyof GetProvidersResponse> & {
+    data: {
+        allProviders: (AllProvider & { buys: Buy[] })[];
+    }
+};
+
+export type PostProviderParams = Pick<AllProvider, 'name' | 'email' | 'phone'>;
+
+export type PatchProviderParams = Partial<Pick<AllProvider, 'name' | 'email' | 'phone'>>;

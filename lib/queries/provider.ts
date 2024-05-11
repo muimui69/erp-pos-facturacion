@@ -1,9 +1,9 @@
 import api, { converToStringfy } from "../api";
-import { GetProviderUuid, PatchProviderParams, PostProviderParams, Provider } from "./interfaces/provider.intreface";
+import { GetProviderIdResponse, GetProvidersResponse, PatchProviderParams, PostProviderParams } from "./interfaces/provider.intreface";
 
 export const getAllProviders = async (subdomain: string) => {
     try {
-        return await api.get<Provider>('/provider', {
+        return await api.get<GetProvidersResponse>('/provider', {
             headers: {
                 subdomain
             }
@@ -14,9 +14,9 @@ export const getAllProviders = async (subdomain: string) => {
 }
 
 
-export const getProviderByUuid = async (subdomain: string, uuid: string) => {
+export const getProviderById = async (subdomain: string, id: string) => {
     try {
-        const { data } = await api.get<GetProviderUuid>(`/provider/${uuid}`, {
+        const { data } = await api.get<GetProviderIdResponse>(`/provider/${id}`, {
             headers: {
                 subdomain
             }
@@ -46,9 +46,9 @@ export const postCreateProvider = async (subdomain: string, provider: PostProvid
 }
 
 
-export const deleteProviderByUuid = async (subdomain: string, uuid: string) => {
+export const deleteProviderById = async (subdomain: string, id: string) => {
     try {
-        const { data } = await api.delete(`/provider/${uuid}`, {
+        const { data } = await api.delete(`/provider/${id}`, {
             headers: {
                 subdomain
             }
@@ -60,14 +60,14 @@ export const deleteProviderByUuid = async (subdomain: string, uuid: string) => {
 }
 
 
-export const patchProviderByUuid = async (subdomain: string, uuid: string, provider: PatchProviderParams) => {
+export const patchProviderById = async (subdomain: string, id: string, provider: PatchProviderParams) => {
     try {
         const obj: PatchProviderParams = {
             name: provider.name,
             email: provider.email,
             phone: provider.phone
         }
-        const { data } = await api.patch(`/provider/${uuid}`, converToStringfy(obj), {
+        const { data } = await api.patch(`/provider/${id}`, converToStringfy(obj), {
             headers: {
                 subdomain
             }

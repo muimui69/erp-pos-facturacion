@@ -1,9 +1,9 @@
 import api, { converToStringfy } from "../api";
-import { GetProviderUuid, PatchProviderParams, PostProviderParams, Provider } from "./interfaces/provider.intreface";
+import { GetCategoryIdResponse, GetCategoryResponse, PatchCategoryParams, PostCategoryParams } from "./interfaces/category.interface";
 
-export const getAllProviders = async (subdomain: string) => {
+export const getAllCategories = async (subdomain: string) => {
     try {
-        return await api.get<Provider>('/provider', {
+        return await api.get<GetCategoryResponse>('/category', {
             headers: {
                 subdomain
             }
@@ -14,9 +14,9 @@ export const getAllProviders = async (subdomain: string) => {
 }
 
 
-export const getProviderByUuid = async (subdomain: string, uuid: string) => {
+export const getCategoryById = async (subdomain: string, id: number) => {
     try {
-        const { data } = await api.get<GetProviderUuid>(`/provider/${uuid}`, {
+        const { data } = await api.get<GetCategoryIdResponse>(`/category/${id}`, {
             headers: {
                 subdomain
             }
@@ -28,14 +28,12 @@ export const getProviderByUuid = async (subdomain: string, uuid: string) => {
 }
 
 
-export const postCreateProvider = async (subdomain: string, provider: PostProviderParams) => {
+export const postCreateProvider = async (subdomain: string, category: PostCategoryParams) => {
     try {
-        const obj: PostProviderParams = {
-            name: provider.name,
-            email: provider.email,
-            phone: provider.phone
+        const obj: PostCategoryParams = {
+            description: category.description
         }
-        return await api.post('/provider', converToStringfy(obj), {
+        return await api.post('/category', converToStringfy(obj), {
             headers: {
                 subdomain
             }
@@ -46,9 +44,9 @@ export const postCreateProvider = async (subdomain: string, provider: PostProvid
 }
 
 
-export const deleteProviderByUuid = async (subdomain: string, uuid: string) => {
+export const deleteProviderByUuid = async (subdomain: string, id: string) => {
     try {
-        const { data } = await api.delete(`/provider/${uuid}`, {
+        const { data } = await api.delete(`/category/${id}`, {
             headers: {
                 subdomain
             }
@@ -60,14 +58,12 @@ export const deleteProviderByUuid = async (subdomain: string, uuid: string) => {
 }
 
 
-export const patchProviderByUuid = async (subdomain: string, uuid: string, provider: PatchProviderParams) => {
+export const patchProviderByUuid = async (subdomain: string, id: string, category: PatchCategoryParams) => {
     try {
-        const obj: PatchProviderParams = {
-            name: provider.name,
-            email: provider.email,
-            phone: provider.phone
+        const obj: PatchCategoryParams = {
+            description: category.description
         }
-        const { data } = await api.patch(`/provider/${uuid}`, converToStringfy(obj), {
+        const { data } = await api.patch(`/provider/${id}`, converToStringfy(obj), {
             headers: {
                 subdomain
             }

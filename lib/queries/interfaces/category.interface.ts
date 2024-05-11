@@ -1,43 +1,27 @@
-import { User } from "./auth.interface";
-
-export interface Provider {
+export interface GetCategoryResponse {
     statusCode: number;
-    message:    string;
-    data:       Data;
+    message: string;
+    data: Data;
 }
 
 export interface Data {
-    total:        number;
-    allProviders: AllProvider[];
+    total: number;
+    allCategories: AllCategory[];
 }
 
-export interface AllProvider {
-    id:        string;
-    email:     string;
-    name:      string;
-    phone:     string;
-    status:    boolean;
-    createdAt: string;
-    updatedAt: string;
-    tenantId:  number;
+export interface AllCategory {
+    id: number;
+    description: string;
+    status: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    tenantId: number;
 }
 
+export type GetCategoryIdResponse = Pick<GetCategoryResponse, keyof GetCategoryResponse>;
 
-export type PostProviderParams = Pick<User, 'name' | 'email' | 'phone'> 
+export type PostCategoryParams = Pick<AllCategory, 'description'>;
+
+export type PatchCategoryParams = Partial<Pick<AllCategory, 'description'>>;
 
 
-interface Buy {
-    id:         number;
-    total:      number;
-    user: {
-      id:       number;
-      name:     string;
-    };
-    time:       Date;
-}
-
-export type GetProviderUuid = Omit<User, 'id' | 'photo' > & {
-    buys : Buy[]
-}
-
-export type PatchProviderParams = Partial<Pick<User, 'name' | 'email' | 'phone'>>;
