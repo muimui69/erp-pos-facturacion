@@ -6,7 +6,7 @@ import { useState } from "react"
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogCreate } from "./create-dialog"
 import { postCreateAtm } from "@/lib/queries/employee"
-import { toast } from 'sonner'
+import { toast } from "@/components/ui/use-toast"
 
 interface PostCreateButtonProps extends ButtonProps { }
 
@@ -26,12 +26,16 @@ export function PostCreateButtonEmployee({
       console.log('=-=========', new_employee)
       setIsDialogOpen(false)
       setIsLoading(false);
-      toast.success("Usuario creado correctamente")
+      toast({
+        description: "Usuario creado correctamente"
+      })
     } catch (err) {
       console.error("Error creando el usuario", err);
       setIsDialogOpen(false);
       setIsLoading(false);
-      toast.error("No se creo el empleado. Intente de nuevo")
+      toast({
+        description: "No se creo el empleado. Intente de nuevo"
+      })
     }
   }
 

@@ -2,9 +2,6 @@ import { DashboardHeader } from "@/components/header";
 import { DashboardShell } from "@/components/shell";
 import { DataTable } from "./data-table"
 import { columns, Payment } from "./columns";
-import { getAllProviders } from "@/lib/queries/provider";
-import { Params } from "@/lib/constants";
-import { headers } from "next/headers"
 
 async function getData(): Promise<Payment[]> {
   return [
@@ -42,20 +39,14 @@ async function getData(): Promise<Payment[]> {
 }
 
 export default async function ProviderPage() {
-
-  // const headerList = headers();
-  // const { subdomain } = req.params;
-
-  // const hostname = headerList.get("host")
-
-  // const data = await getAllProviders()
+  const data = await getData()
 
   return (
     <DashboardShell>
       <DashboardHeader heading="Proveedores" text="Cree y gestione los diferentes proveedores de su punto de venta.">
       </DashboardHeader>
       <div className="container overflow-x-auto">
-        {/* <DataTable columns={columns} data={data} /> */}
+        <DataTable columns={columns} data={data} />
       </div>
     </DashboardShell>
   )
