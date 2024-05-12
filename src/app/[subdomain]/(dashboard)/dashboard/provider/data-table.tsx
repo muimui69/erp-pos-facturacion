@@ -32,7 +32,6 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useState } from "react"
-import { useProviders } from "@/hooks/use-provider"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -47,11 +46,9 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
-  const { providers } = useProviders();
-
 
   const table = useReactTable({
-    data:data || providers,
+    data,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

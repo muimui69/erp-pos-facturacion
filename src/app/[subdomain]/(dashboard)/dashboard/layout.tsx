@@ -21,7 +21,6 @@ export default async function DashboardLayout({ children }: { children: React.Re
                     <UserAccountNav
                         user={{
                             name: user?.user.name!,
-                            // image: user.image,
                             email: user?.user.email!,
                         }}
                     />

@@ -67,7 +67,6 @@ export function UserSigninForm({ className, ...props }: UserSigninFormProps) {
       <form onSubmit={handleSubmit}>
         <div className="grid gap-2">
           <div className="grid gap-1 py-2">
-
             <Label htmlFor="email">
               Correo:
             </Label>
@@ -78,6 +77,7 @@ export function UserSigninForm({ className, ...props }: UserSigninFormProps) {
               type="text"
               autoCapitalize="none"
               autoCorrect="off"
+              disabled={isLoading}
               onChange={handleChange}
               value={userData.email}
             />
@@ -96,6 +96,7 @@ export function UserSigninForm({ className, ...props }: UserSigninFormProps) {
               type="password"
               autoCapitalize="none"
               autoCorrect="off"
+              disabled={isLoading}
               onChange={handleChange}
               value={userData.password}
             />
@@ -109,7 +110,7 @@ export function UserSigninForm({ className, ...props }: UserSigninFormProps) {
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Inicia sesion
+            Iniciar sesion
           </Button>
         </div>
       </form>

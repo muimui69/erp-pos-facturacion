@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from "clsx"
 import { ReadonlyURLSearchParams } from "next/navigation"
 import { twMerge } from "tailwind-merge"
 import { Params } from "@/lib/constants";
+import { NextRequest } from "next/server";
 
 interface SubadomainsParams {
   [key: string]: string;
@@ -91,5 +92,6 @@ export const getCurrentSubdomain = (req: Params) => {
   const { subdomain } = req.params;
   return subdomain;
 }
+
 
 

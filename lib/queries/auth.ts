@@ -1,13 +1,27 @@
 import api, { converToStringfy } from "../api";
-import { PostUser, Signin } from "./interfaces/auth.interface";
+import { PostUserSigninParams, GetSigninResponse, PostUserSingupParams, PostUserSingupResponse } from "./interfaces/auth.interface";
 
-export const postSigninUser = async (user: PostUser) => {
+export const postSigninUser = async (user: PostUserSigninParams) => {
     try {
-        const obj: PostUser = {
+        const obj: PostUserSigninParams = {
             email: user.email,
             password: user.password
         }
-        return await api.post<Signin>('/auth/login', converToStringfy(obj))
+        return await api.post<GetSigninResponse>('/auth/login', converToStringfy(obj))
+    } catch (err) {
+        throw err;
+    }
+}
+
+export const postSingupUser = async (user: PostUserSingupParams) => {
+    try {
+        const obj: PostUserSingupParams = {
+            name: user.name,
+            phone: user.phone,
+            email: user.email,
+            password: user.password
+        }
+        return await api.post<PostUserSingupResponse>('/users', converToStringfy(obj))
     } catch (err) {
         throw err;
     }

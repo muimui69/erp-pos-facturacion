@@ -13,10 +13,7 @@ interface MarketingLayoutProps {
 }
 
 export default async function MarketingLayout({ children }: MarketingLayoutProps) {
-
   const user = await getUserCredentials();
-  // const isLoadingUser = user === undefined;
-  // const isAuthenticated = user !== null;
 
   return (
     <>

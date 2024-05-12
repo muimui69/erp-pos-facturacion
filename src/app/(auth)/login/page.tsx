@@ -38,11 +38,12 @@ export default function LoginPage() {
         </div>
         <UserSigninForm />
         <p className="px-8 text-center text-sm text-muted-foreground">
+          Todavia no tienes una cuenta? {" "}
           <Link
             href="/register"
             className="hover:text-brand underline underline-offset-4"
           >
-            Todavia no tienes una cuenta? Registrate
+            Registrate
           </Link>
         </p>
       </div>

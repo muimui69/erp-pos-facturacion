@@ -4,7 +4,7 @@ import { queryClient } from '@/provider/ReactQueryClient';
 import { deleteCategoryById, getAllCategories, patchCategoryById, postCreateCategory } from '@/lib/queries/category';
 import { PatchCategoryParams, PostCategoryParams } from '@/lib/queries/interfaces/category.interface';
 
-export function useProviders() {
+export function useCategories() {
     const queryKeyName = 'categories';
 
     const { data: categories, isLoading, isError } = useQuery({

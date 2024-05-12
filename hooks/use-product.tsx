@@ -4,7 +4,7 @@ import { queryClient } from '@/provider/ReactQueryClient';
 import { deleteProductById, getAllProducts, patchProviderById, postCreateProduct } from '@/lib/queries/product';
 import { PatchProductParams } from '@/lib/queries/interfaces/product.interface';
 
-export function useProviders() {
+export function useProducts() {
     const queryKeyName = 'products';
 
     const { data: products, isLoading, isError } = useQuery({

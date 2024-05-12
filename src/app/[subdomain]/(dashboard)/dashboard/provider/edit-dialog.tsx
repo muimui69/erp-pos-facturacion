@@ -93,4 +93,3 @@ export const DialogEditProvider = ({data, setIsDialogOpen }: { setIsDialogOpen: 
         </DialogContent>
     );
 };
-
