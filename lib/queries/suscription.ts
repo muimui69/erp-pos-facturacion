@@ -10,7 +10,7 @@ export const getAllSuscriptions = async () => {
     }
 }
 
-export const postCreateSuscription = async (subdomain: string, token: string, suscription: PostSuscriptionParams) => {
+export const postCreateSuscription = async (token: string, suscription: PostSuscriptionParams) => {
     try {
         const obj: PostSuscriptionParams = {
             suscriptionId: suscription.suscriptionId,
@@ -18,7 +18,6 @@ export const postCreateSuscription = async (subdomain: string, token: string, su
         }
         return await api.post('/product', converToStringfy(obj), {
             headers: {
-                "subdomain": subdomain,
                 "auth-token": token
             }
         });

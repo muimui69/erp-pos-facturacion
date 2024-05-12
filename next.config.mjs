@@ -1,13 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-    async rewrites() {
-        return [
-            {
-                source: '/:subdomain/oauth',
-                destination: '/subdomain',
-            },
-        ]
-    },
-};
+const nextConfig = {};
 
 export default nextConfig;

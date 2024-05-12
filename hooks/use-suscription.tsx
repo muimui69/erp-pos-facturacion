@@ -1,7 +1,8 @@
 "use client"
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getAllSuscriptions } from '@/lib/queries/suscription';
+import { getAllSuscriptions, postCreateSuscription } from '@/lib/queries/suscription';
 import { queryClient } from '@/provider/ReactQueryClient';
+import { PostSuscriptionParams } from '@/lib/queries/interfaces/suscription.interface';
 
 export function useSuscriptions() {
     const queryKeyName = 'suscriptions';
@@ -12,7 +13,9 @@ export function useSuscriptions() {
     });
 
     const createSuscriptionMutation = useMutation({
-        // mutationFn: postCreateSuscription,
+        mutationFn: async ({ token, suscription }: { token: string, suscription: PostSuscriptionParams }) => {
+            return postCreateSuscription(token, suscription);
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [queryKeyName] });
         },
@@ -37,8 +40,8 @@ export function useSuscriptions() {
         suscriptions: suscriptions?.data?.allSuscription || [],
         isLoading,
         isError,
-        createBranch: createSuscriptionMutation,
-        deleteBranch: deleteSuscriptionMutation,
-        patchBranch: patchSuscriptionMutation
+        createSuscription: createSuscriptionMutation,
+        deleteSucription: deleteSuscriptionMutation,
+        patchSuscription: patchSuscriptionMutation
     };
 }

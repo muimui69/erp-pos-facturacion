@@ -5,7 +5,7 @@ export interface GetSuscriptionsResponse {
 }
 
 export interface Data {
-    total: number;
+    total?: number;
     allSuscription: SuscriptionElement[];
 }
 

@@ -3,3 +3,11 @@ export interface Params {
         [param: string]: any;
     }
 }
+
+export interface SearchParams {
+    searchParams: {
+        [key: string]: string
+    }
+}
+
+
