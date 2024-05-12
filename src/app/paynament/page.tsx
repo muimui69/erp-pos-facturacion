@@ -12,10 +12,7 @@ export const metadata: Metadata = {
 }
 
 export default function PaynamentPage({ params, searchParams }: { params: { id: string }; searchParams?: { [key: string]: string | string[] | undefined }}){
-
   const { name } = searchParams as { [key: string]: string };
-  console.log(':::::::::::::::::',params,name)
-
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
       <Link
@@ -41,14 +38,6 @@ export default function PaynamentPage({ params, searchParams }: { params: { id: 
           </p>
         </div>
         <UserPaynamentForm />
-        <p className="px-8 text-center text-sm text-muted-foreground">
-          <Link
-            href="/register"
-            className="hover:text-brand underline underline-offset-4"
-          >
-            Todavia no tienes una cuenta? Registrate
-          </Link>
-        </p>
       </div>
     </div>
   )

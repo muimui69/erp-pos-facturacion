@@ -1,4 +1,5 @@
 import api, { converToStringfy } from "../api";
+import { Stripe } from "./interfaces/stripe";
 import { GetSuscriptionsResponse, PostSuscriptionParams } from "./interfaces/suscription.interface";
 
 export const getAllSuscriptions = async () => {
@@ -16,7 +17,7 @@ export const postCreateSuscription = async (token: string, suscription: PostSusc
             suscriptionId: suscription.suscriptionId,
             hosting: suscription.hosting
         }
-        return await api.post('/product', converToStringfy(obj), {
+        return await api.post<Stripe>('/suscription', converToStringfy(obj), {
             headers: {
                 "auth-token": token
             }

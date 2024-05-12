@@ -1,7 +1,7 @@
 "use client"
 
 import Cookie from 'js-cookie';
-import { usePathname, useRouter, useSearchParams,useParams } from "next/navigation"
+import { usePathname, useRouter, useSearchParams, useParams } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -25,11 +25,11 @@ export function UserPaynamentForm({ className, ...props }: UserPaynamentFormProp
   const { createSuscription } = useSuscriptions();
 
   const searchParams = useSearchParams()
- 
+
   const searchParamId = searchParams.get('id')
   const searchParamName = searchParams.get('name')
 
-  console.log('-------------------',searchParamId,searchParamName)
+  console.log('-------------------', searchParamId, searchParamName)
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [paynamentData, setPaynamentData] = useState<PaynamentData>({
@@ -53,22 +53,42 @@ export function UserPaynamentForm({ className, ...props }: UserPaynamentFormProp
       const userString = Cookie.get('user')!;
       const { token } = JSON.parse(userString) as Data;
       const response = await createSuscription.mutateAsync({
-        token, suscription: {
+        token,
+        suscription: {
           hosting: paynamentData.hosting,
           suscriptionId: parseInt(searchParamId!)
         }
       });
-      navigate.push('/dashboard');
+      // navigate.push('/dashboard');
+      const urlStripe = response.data.data.paymentSuscription.paymentStripe.url;
+      const cancelUrlStripe = response.data.data.paymentSuscription.paymentStripe.cancel_url;
+      const successUrlStripe = response.data.data.paymentSuscription.paymentStripe.success_url;
+      
+      const width = 600;
+      const height = 800;
+
+      const left = (window.innerWidth - width) / 2;
+      const top = (window.innerHeight - height) / 2;
+
+      const popup = window.open(urlStripe, '_blank', `width=${width},height=${height},left=${left},top=${top}`);
+
+      // Agregar un listener para el evento 'load' en la ventana emergente
+      // popup?.addEventListener('load', () => {
+      //   // Redirigir la ventana emergente a otra URL
+      //   popup.location.href = cancelUrlStripe || successUrlStripe;
+      // });
+
+
       setIsLoading(false);
       return toast({
-        title: `Gracias por su compra ${response.data.data.user.name} ${String.fromCodePoint(128079)}!`,
+        title: `Gracias por su compra  ${String.fromCodePoint(129309)}!`,
       })
     } catch (err) {
       setIsLoading(false);
       console.error(err);
       return toast({
         title: "Ha ocurrido un error",
-        description: "Verifique que su correo y contraseña sean los correctos",
+        description: "Ya existe el area de trabajo",
         variant: "destructive"
       })
     }
@@ -124,7 +144,7 @@ export function UserPaynamentForm({ className, ...props }: UserPaynamentFormProp
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Inicia sesion
+            Proceder con el pago
           </Button>
         </div>
       </form>

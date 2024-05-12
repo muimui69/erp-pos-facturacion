@@ -66,10 +66,10 @@ export function UserSigninForm({ className, ...props }: UserSigninFormProps) {
     <div className={cn("grid gap-6", className)} {...props}>
       <form onSubmit={handleSubmit}>
         <div className="grid gap-2">
-          <div className="grid gap-1">
+          <div className="grid gap-1 py-2">
 
-            <Label className="sr-only" htmlFor="email">
-              Correo
+            <Label htmlFor="email">
+              Correo:
             </Label>
             <Input
               id="email"
@@ -83,10 +83,10 @@ export function UserSigninForm({ className, ...props }: UserSigninFormProps) {
             />
           </div>
 
-          <div className="grid gap-1">
+          <div className="grid gap-1 py-2">
 
-            <Label className="sr-only" htmlFor="password">
-              Contraseña
+            <Label htmlFor="password">
+              Contraseña:
             </Label>
 
             <Input
