@@ -1,5 +1,6 @@
 "use client"
 import {
+    CaretSortIcon,
     DotsHorizontalIcon,
 } from "@radix-ui/react-icons"
 
@@ -19,50 +20,74 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Dialog } from "@/components/ui/dialog"
 import { useState } from "react"
+import { DialogDemo } from "@/components/dialog"
 import { DialogTrigger } from "@radix-ui/react-dialog"
-import { DialogEditCity } from "./edit-dialog"
-import { CityElement } from "@/lib/queries/interfaces/city.interface"
-import { useCitys } from "@/hooks/use-city"
+import { Avatar } from "@files-ui/react";
+import { DialogEditProducto } from "./edit-dialog"
 
-export const columns: ColumnDef<CityElement>[] = [
+export interface Product {
+    name: string;
+    description: string;
+    price: number;
+    categories: string;
+    photo: string;
+  }
+
+
+export const columns: ColumnDef<Product>[] = [
     {
         accessorKey: "name",
-        header: "City",
+        header: "Name",
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("name")}</div>
         ),
     },
     {
-        accessorKey: "status",
-        header: "Estado",
+        accessorKey: "description",
+        header: "Description",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status") === true ? "Activo" : "Inactivo"}</div>
+            <div className="capitalize">{row.getValue("description")}</div>
         ),
     },
+    {
+        accessorKey: "price",
+        header: "Price",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue(`price`) + " "+ "bs"}</div>
+        ),
+    },
+   {
+        accessorKey: "photo",
+        header: "Image",
+        cell: ({ row }) => {
+            const product = row.getValue('photo');
+            console.log(product)
+            return (
+                <Avatar src={`${product}`} readOnly 
+                style={{ width: "200px", height: "200px" }}
+                />
+            );
+        },
+    },
+{
+    accessorKey: "categories",
+    header: "Categories",
+    cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("categories")}</div>
+    ),
+},
     {
         id: "actions",
         enableHiding: false,
         cell: ({ row }) => {
-            return <ActionCell row={row} />;
+            const product = row.original
+            return <ActionCell row={row}/>;
         },
     },
 ]
 
-const ActionCell = ({ row }: { row: Row<CityElement> }) => {
-    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-    
-    const cityName = row.original.name;
-    const cityId = row.original.id;
-
-    const { deleteCity } = useCitys();
-
-    const deleteCityById = async (id: number) => {
-        try {
-            await deleteCity.mutateAsync(id);
-        } catch (err) {
-            console.error("Error al eliminar una ciudad: ", err);
-        }
-    }
+const ActionCell = ({ row }: { row: Row<Product> }) => {
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     return (
         <>
@@ -82,7 +107,7 @@ const ActionCell = ({ row }: { row: Row<CityElement> }) => {
                     <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
                         Editar
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => deleteCityById(cityId)}>
+                    <DropdownMenuItem>
                         Eliminar
                     </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -91,10 +116,9 @@ const ActionCell = ({ row }: { row: Row<CityElement> }) => {
             {isDialogOpen && (
                 <Dialog onOpenChange={() => setIsDialogOpen(false)} open={isDialogOpen}>
                     <DialogTrigger asChild>
-                        <DialogEditCity
+                        <DialogEditProducto
                             setIsDialogOpen={setIsDialogOpen}
-                            cityName={cityName}
-                            cityId={cityId}
+                            data={row.original}
                         />
                     </DialogTrigger>
                 </Dialog>

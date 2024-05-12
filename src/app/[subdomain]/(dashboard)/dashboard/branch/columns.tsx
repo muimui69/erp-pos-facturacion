@@ -66,7 +66,7 @@ const ActionCell = ({ row }: { row: Row<BranchElement> }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const { deleteBranch } = useBranchs();
     const branchId = row.original.id;
-
+   
     const deleteBranchById = async (id: number) => {
         try {
             deleteBranch.mutateAsync(id);

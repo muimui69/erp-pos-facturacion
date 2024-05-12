@@ -6,7 +6,7 @@ import { getEmployees } from "@/lib/queries/employee";
 import { PostCreateButtonEmployee } from "./post-create-button";
 
 export default async function EmployeePage() {
-  // const employee = await getEmployees()
+   const employee = await getEmployees()
 
   return (
     <DashboardShell>

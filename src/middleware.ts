@@ -3,11 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 export const config = {
   matcher: [
     /*
-     * Match all paths except for:
-     * 1. /api routes
-     * 2. /_next (Next.js internals)
-     * 3. /_static (inside /public)
-     * 4. all root files inside /public
+    //  * Match all paths except for:
+    //  * 1. /api routes
+    //  * 2. /_next (Next.js internals)
+    //  * 3. /_static (inside /public)
+    //  * 4. all root files inside /public
      */
     "/((?!api/|_next/|_static/|[\\w-]+\\.\\w+).*)",
   ],
@@ -57,7 +57,7 @@ export default async function middleware(req: NextRequest) {
 
   const subdomainData = subdomains.find(d => d.subdomain === subdomain);
 
-  // //es opcional a modificar
+  // // es opcional a modificar
   // if (subdomain === "www" || subdomain === "") {
   //   return NextResponse.next();
   // }

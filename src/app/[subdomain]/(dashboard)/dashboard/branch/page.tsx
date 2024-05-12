@@ -7,6 +7,7 @@ import { PostCreateButtonBranch } from "./post-create-button";
 
 export default async function BranchPage() {
   const data = await getAllBranchs()
+ 
 
   return (
     <DashboardShell>
