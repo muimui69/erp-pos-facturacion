@@ -2,14 +2,18 @@ import { DashboardConfig } from "@/types"
 
 export const dashboardConfig: DashboardConfig = {
   mainNav: [
+    // {
+    //   title: "Documentation",
+    //   href: "/docs",
+    // },
+    // {
+    //   title: "Support",
+    //   href: "/support",
+    //   disabled: true,
+    // },
     {
-      title: "Documentation",
-      href: "/docs",
-    },
-    {
-      title: "Support",
-      href: "/support",
-      disabled: true,
+      title: "",
+      href: "",
     },
   ],
   sidebarNav: [
@@ -24,6 +28,11 @@ export const dashboardConfig: DashboardConfig = {
       icon: "user",
     },
     {
+      title: "Cajas",
+      href: "/dashboard/box ",
+      icon: "handCoins",
+    },
+    {
       title: "Ciudades",
       href: "/dashboard/city",
       icon: "map",
@@ -33,11 +42,6 @@ export const dashboardConfig: DashboardConfig = {
       href: "/dashboard/branch",
       icon: "mapPinned",
     },
-    // {
-    //   title: "Productos",
-    //   href: "/dashboard/product",
-    //   icon: "shoppingBasket",
-    // },
     {
       title: "Categorias",
       href: "/dashboard/category",
@@ -49,9 +53,9 @@ export const dashboardConfig: DashboardConfig = {
       icon: "truck",
     },
     {
-      title: "Cajas",
-      href: "/dashboard/box ",
-      icon: "handCoins",
+      title: "Productos",
+      href: "/dashboard/product",
+      icon: "shoppingBasket",
     },
   ],
 }

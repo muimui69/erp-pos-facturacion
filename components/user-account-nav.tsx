@@ -11,10 +11,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { UserAvatar } from "@/components/user-avatar"
 import { User } from "@/lib/queries/interfaces/auth.interface"
-import { Button } from "./ui/button"
 import Cookie from 'js-cookie';
 import { useRouter } from "next/navigation"
-import { toast } from "./ui/use-toast"
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, "name" | "email">
