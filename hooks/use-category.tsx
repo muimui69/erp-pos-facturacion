@@ -4,15 +4,12 @@ import { queryClient } from '@/provider/ReactQueryClient';
 import { deleteCategoryById, getAllCategories, patchCategoryById, postCreateCategory } from '@/lib/queries/category';
 import { PatchCategoryParams, PostCategoryParams } from '@/lib/queries/interfaces/category.interface';
 
-export function useCategories() {
+export function useCategories(subdomain?: string) {
     const queryKeyName = 'categories';
 
     const { data: categories, isLoading, isError } = useQuery({
-        queryKey: [queryKeyName],
-        queryFn: async ({ queryKey }) => {
-            const [subdomain] = queryKey;
-            return getAllCategories(subdomain);
-        }
+        queryKey: [queryKeyName, subdomain],
+        queryFn: () => getAllCategories(subdomain!)
     });
 
     const createCategoryMutation = useMutation({
@@ -44,13 +41,13 @@ export function useCategories() {
         },
     })
 
-
+    
     return {
         categories: categories?.data?.data.allCategories || [],
         isLoading,
         isError,
-        createBranch: createCategoryMutation,
-        deleteBranch: deleteCategoryMutation,
-        patchBranch: patchCategoryMutation
+        createCategory: createCategoryMutation,
+        deleteCategory: deleteCategoryMutation,
+        patchCategory: patchCategoryMutation
     };
 }

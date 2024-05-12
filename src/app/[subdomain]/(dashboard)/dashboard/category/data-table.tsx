@@ -32,7 +32,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useState } from "react"
-import { useProviders } from "@/hooks/use-provider"
+import { useCategories } from "@/hooks/use-category"
+import { useParams } from "next/navigation"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -47,11 +48,12 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
-  const { providers } = useProviders();
-
+  
+  const { subdomain  } = useParams();
+  const { categories } = useCategories(subdomain as never);
 
   const table = useReactTable({
-    data:data || providers,
+    data: data || categories,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -73,8 +75,8 @@ export function DataTable<TData, TValue>({
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filtrar por descripcion..."
+          value={(table.getColumn("description")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("email")?.setFilterValue(event.target.value)
           }

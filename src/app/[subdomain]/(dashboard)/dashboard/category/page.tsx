@@ -1,39 +1,16 @@
 import { DashboardHeader } from "@/components/header";
 import { DashboardShell } from "@/components/shell";
 import { DataTable } from "./data-table"
-import { Category, columns, } from "./columns";
+import { columns, } from "./columns";
 import { PostCreateButtonCategory } from "./post-create-button";
-import { getAllProviders } from "@/lib/queries/provider";
-import { NextRequest } from "next/server";
 import { Params } from "@/lib/constants";
 import { getCurrentSubdomain } from "@/lib/utils";
+import { getAllCategories } from "@/lib/queries/category";
 
-async function getData(): Promise<Category[]> {
-  return [
-    {
-      id: "m5gr84i9",
-      description: "Lacteos",
-
-    },
-    {
-      id: "3u1reuv4",
-      description: "Limpieza",
-
-    },
-    {
-      id: "derv1ws0",
-      description: "Dulces",
-
-    },
-
-  ]
-}
-
-export default async function ProviderPage(params: Params) {
+export default async function CategoryPage(params: Params) {
   const subdomain = getCurrentSubdomain(params);
-  console.log('????????????', subdomain)
-
-  const data = await getAllProviders(subdomain)
+  console.log('>>>>>>>>>>>>>>>>>>>',subdomain)
+  const data = await getAllCategories(subdomain)
 
   return (
     <DashboardShell>
@@ -41,7 +18,7 @@ export default async function ProviderPage(params: Params) {
         <PostCreateButtonCategory className="mr-6" />
       </DashboardHeader>
       <div className="container overflow-x-auto">
-        {/* <DataTable columns={columns} data={data.data.data.allProviders} /> */}
+        <DataTable columns={columns} data={data.data.data.allCategories} />
       </div>
     </DashboardShell>
   )

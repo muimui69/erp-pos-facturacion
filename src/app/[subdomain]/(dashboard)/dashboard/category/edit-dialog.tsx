@@ -5,20 +5,30 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { putUpdateCity } from "@/lib/queries/city";
-import { Category } from "./columns";
+import { AllCategory } from "@/lib/queries/interfaces/category.interface";
+import { Icons } from "@/components/icons";
+import { useCategories } from "@/hooks/use-category";
+import { useParams } from "next/navigation";
 
-export const DialogEditCategory = ({data, setIsDialogOpen }: { setIsDialogOpen: Dispatch<SetStateAction<boolean>>, data: Category}) => {
+interface CategoryData {
+    id: string;
+    description: string ;
+}
 
-    const [ProductData, setProductData] = useState({
-        
-     
-        description:data.description,
-      
+export const DialogEditCategory = ({ data, setIsDialogOpen }: { setIsDialogOpen: Dispatch<SetStateAction<boolean>>, data: AllCategory }) => {
+
+    const { patchCategory } = useCategories();
+    const { subdomain } = useParams();
+    console.log('??????????',)
+    const [isLoading, setIsloading] = useState<boolean>(false);
+    const [categoryData, setCategoryData] = useState<CategoryData>({
+        id: data.id.toString(),
+        description: data.description
     });
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        setProductData(prevData => ({
+        setCategoryData(prevData => ({
             ...prevData,
             [name]: value,
         }));
@@ -26,10 +36,16 @@ export const DialogEditCategory = ({data, setIsDialogOpen }: { setIsDialogOpen: 
 
     const handleEditCategory = async () => {
         try {
-            //Consumir Api Edit Category
-            // await putUpdateCity(cityData.name, cityData.id.toString());
+            setIsloading(true);
+            await patchCategory.mutateAsync({
+                subdomain: subdomain as never,
+                id: categoryData.id,
+                category: categoryData.description
+            });
+            setIsloading(false);
             setIsDialogOpen(false)
         } catch (e) {
+            setIsloading(false);
             console.error(e)
         }
     }
@@ -37,36 +53,39 @@ export const DialogEditCategory = ({data, setIsDialogOpen }: { setIsDialogOpen: 
     return (
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-                <DialogTitle>Editar Producto</DialogTitle>
+                <DialogTitle>Editar Categoria</DialogTitle>
                 <DialogDescription>
                     Realice cambios aquí. Haga clic en guardar cambios cuando haya terminado.
                 </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
-               
                 <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="name" className="text-right">
+                    <Label htmlFor="description" className="text-right">
                         Descripcion
                     </Label>
                     <Input
                         id="description"
                         name="description"
-                        value={ProductData.description}
+                        value={categoryData.description}
                         onChange={handleChange}
-                        className="col-span-3"
+                        className="col-span-3 capitalize"
                     />
                 </div>
-              
-                
             </div>
+
             <DialogFooter>
                 <Button
                     onClick={handleEditCategory}
+                    disabled={isLoading}
                     type="button"
                 >
+                    {isLoading && (
+                        <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                    )}
                     Guardar cambios
                 </Button>
             </DialogFooter>
+
         </DialogContent>
     );
 };

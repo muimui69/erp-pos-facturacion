@@ -45,6 +45,7 @@ export function UserSigninForm({ className, ...props }: UserSigninFormProps) {
       const user = response.data.data;
       const data = JSON.stringify(user);
       Cookie.set('user', data);
+      // Cookie.set('user', data, { domain: '.localhost' });
       navigate.push('/');
       setIsLoading(false);
       return toast({
