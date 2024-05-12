@@ -33,7 +33,8 @@ import {
 } from "@/components/ui/table"
 import { useState } from "react"
 import { useCategories } from "@/hooks/use-category"
-import { useParams } from "next/navigation"
+import { useParamsClient } from "@/hooks/use-params"
+import { useTranslation } from "@/hooks/use-translation-columns"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -48,8 +49,9 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
-  
-  const { subdomain  } = useParams();
+
+  const { translation } = useTranslation()
+  const { subdomain } = useParamsClient();
   const { categories } = useCategories(subdomain as never);
 
   const table = useReactTable({
@@ -78,7 +80,7 @@ export function DataTable<TData, TValue>({
           placeholder="Filtrar por descripcion..."
           value={(table.getColumn("description")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("description")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -102,7 +104,7 @@ export function DataTable<TData, TValue>({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {translation[column.id as never]}
                   </DropdownMenuCheckboxItem>
                 )
               })}
@@ -152,7 +154,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  No hay resultados.
                 </TableCell>
               </TableRow>
             )}

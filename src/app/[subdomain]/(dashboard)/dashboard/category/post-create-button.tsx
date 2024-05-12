@@ -5,8 +5,9 @@ import { Icons } from "@/components/icons"
 import { useState } from "react"
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogCreate } from "./create-dialog"
-import { postCreateAtm } from "@/lib/queries/employee"
 import { toast } from "@/components/ui/use-toast"
+import { useCategories } from "@/hooks/use-category"
+import { useParamsClient } from "@/hooks/use-params"
 
 interface PostCreateButtonProps extends ButtonProps { }
 
@@ -15,20 +16,24 @@ export function PostCreateButtonCategory({
   variant,
   ...props
 }: PostCreateButtonProps) {
+  const { createCategory } = useCategories();
+  const { subdomain } = useParamsClient();
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-
-  const handleSubmit = async (  description: string): Promise<void> => {
+  const handleSubmit = async (description: string): Promise<void> => {
     try {
       setIsLoading(true);
-      //Consumo Api Crear Categoria
-    //   const new_employee = await postCreateAtm(name,description,price,photo,cat);
-    //   console.log('=-=========', new_employee)
+      await createCategory.mutateAsync({
+        subdomain: subdomain as never,
+        category: {
+          description
+        },
+      });
       setIsDialogOpen(false)
       setIsLoading(false);
       toast({
-        description: "Categoria creado correctamente"
+        description: "Categoria creada correctamente"
       })
     } catch (err) {
       console.error("Error creando la Categoria", err);

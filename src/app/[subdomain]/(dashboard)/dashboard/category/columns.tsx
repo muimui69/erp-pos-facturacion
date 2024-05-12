@@ -22,8 +22,9 @@ import { Dialog } from "@/components/ui/dialog"
 import { useState } from "react"
 import { DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogEditCategory } from "./edit-dialog"
-import { AllProvider } from "@/lib/queries/interfaces/provider.intreface"
 import { AllCategory } from "@/lib/queries/interfaces/category.interface"
+import { useCategories } from "@/hooks/use-category"
+import { useParamsClient } from "@/hooks/use-params"
 
 export const columns: ColumnDef<AllCategory>[] = [
     {
@@ -37,7 +38,7 @@ export const columns: ColumnDef<AllCategory>[] = [
         accessorKey: "status",
         header: "Estado",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status") === false ? "Activo" : "Activo"}</div>
+            <div className="capitalize">{row.getValue("status") === false ? "Activo" : "Inactivo"}</div>
         ),
     },
     {
@@ -49,8 +50,22 @@ export const columns: ColumnDef<AllCategory>[] = [
     },
 ]
 
-const ActionCell = ({ row }: { row: Row<AllCategory>  }) => {
+const ActionCell = ({ row }: { row: Row<AllCategory> }) => {
+    const { subdomain } = useParamsClient();
+    const { deleteCategory } = useCategories(subdomain as never);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const categoryId = row.original.id;
+
+    const deleteCategoryById = async (id: number) => {
+        try {
+            await deleteCategory.mutateAsync({
+                subdomain: subdomain as never,
+                id: id.toString()
+            });
+        } catch (error) {
+            console.error("Error al eliminar una categoria: ", error);
+        }
+    }
 
     return (
         <>
@@ -70,7 +85,7 @@ const ActionCell = ({ row }: { row: Row<AllCategory>  }) => {
                     <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
                         Editar
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => deleteCategoryById(categoryId)}>
                         Eliminar
                     </DropdownMenuItem>
                 </DropdownMenuContent>

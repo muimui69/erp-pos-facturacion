@@ -12,7 +12,7 @@ import { useParams } from "next/navigation";
 
 interface CategoryData {
     id: string;
-    description: string ;
+    description: string;
 }
 
 export const DialogEditCategory = ({ data, setIsDialogOpen }: { setIsDialogOpen: Dispatch<SetStateAction<boolean>>, data: AllCategory }) => {
@@ -40,12 +40,15 @@ export const DialogEditCategory = ({ data, setIsDialogOpen }: { setIsDialogOpen:
             await patchCategory.mutateAsync({
                 subdomain: subdomain as never,
                 id: categoryData.id,
-                category: categoryData.description
+                category: {
+                    description: categoryData.description
+                }
             });
             setIsloading(false);
             setIsDialogOpen(false)
         } catch (e) {
             setIsloading(false);
+            setIsDialogOpen(false);
             console.error(e)
         }
     }
