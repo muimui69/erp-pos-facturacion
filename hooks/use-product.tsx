@@ -4,15 +4,12 @@ import { queryClient } from '@/provider/ReactQueryClient';
 import { deleteProductById, getAllProducts, patchProviderById, postCreateProduct } from '@/lib/queries/product';
 import { PatchProductParams } from '@/lib/queries/interfaces/product.interface';
 
-export function useProducts() {
+export function useProducts(subdomain?: string) {
     const queryKeyName = 'products';
 
     const { data: products, isLoading, isError } = useQuery({
-        queryKey: [queryKeyName],
-        queryFn: async ({ queryKey }) => {
-            const [subdomain] = queryKey;
-            return getAllProducts(subdomain);
-        }
+        queryKey: [queryKeyName, subdomain],
+        queryFn: async () => getAllProducts(subdomain as never)
     });
 
     const createProductMutation = useMutation({
@@ -49,8 +46,8 @@ export function useProducts() {
         products: products?.data?.allProducts || [],
         isLoading,
         isError,
-        createBranch: createProductMutation,
-        deleteBranch: deleteProductMutation,
-        patchBranch: patchProductMutation
+        createProduct: createProductMutation,
+        deleteProduct: deleteProductMutation,
+        patchProduct: patchProductMutation
     };
 }

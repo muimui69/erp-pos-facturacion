@@ -3,7 +3,7 @@ import { GetCategoryIdResponse, GetCategoriesResponse, PatchCategoryParams, Post
 
 export const getAllCategories = async (subdomain: string) => {
     try {
-        return await api.get('/category', {
+        return await api.get<GetCategoriesResponse>('/category', {
             headers: {
                 subdomain
             }

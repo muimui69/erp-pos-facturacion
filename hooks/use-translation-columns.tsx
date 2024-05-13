@@ -3,7 +3,13 @@ import { useMemo } from "react";
 
 const translationMap = {
     description: "Descripcion",
-    status:"Estado"
+    status: "Estado",
+    phone: "Telefono",
+    name: "Nombre",
+    email: "Correo",
+    price: "Precio",
+    discount: "descuento",
+    categories: "Categorias",
 };
 
 export function useTranslation() {

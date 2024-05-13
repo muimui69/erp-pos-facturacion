@@ -5,16 +5,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { putUpdateCity } from "@/lib/queries/city";
-import { Provider } from "./columns";
+import { AllProvider } from "@/lib/queries/interfaces/provider.intreface";
+import { useParams } from "next/navigation";
+import { useProviders } from "@/hooks/use-provider";
 
 
-export const DialogEditProvider = ({data, setIsDialogOpen }: { setIsDialogOpen: Dispatch<SetStateAction<boolean>>, data: Provider }) => {
+export const DialogEditProvider = ({ data, setIsDialogOpen }: { setIsDialogOpen: Dispatch<SetStateAction<boolean>>, data: AllProvider }) => {
 
-    const [ProviderData, setProviderData] = useState({
-        
+    const { subdomain } = useParams();
+    const { patchProvider } = useProviders(subdomain as never);
+    const [isLoading, setIsloading] = useState<boolean>(false);
+    const [providerData, setProviderData] = useState({
+        id:data.id,
         name: data.name,
-        email:data.email,
-        phone:data.phone
+        email: data.email,
+        phone: data.phone
     });
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -25,12 +30,23 @@ export const DialogEditProvider = ({data, setIsDialogOpen }: { setIsDialogOpen: 
         }));
     };
 
-    const handleEditProvider= async () => {
+    const handleEditProvider = async () => {
         try {
-            //Consumir Api Edit Provider
-            // await putUpdateCity(cityData.name, cityData.id.toString());
+            setIsloading(true);
+            await patchProvider.mutateAsync({
+                subdomain: subdomain as never,
+                id:providerData.id,
+                provider: {
+                    name: providerData.name,
+                    email: providerData.email,
+                    phone: providerData.phone
+                }
+            });
+            setIsloading(false);
             setIsDialogOpen(false)
         } catch (e) {
+            setIsloading(false);
+            setIsDialogOpen(false);
             console.error(e)
         }
     }
@@ -51,7 +67,7 @@ export const DialogEditProvider = ({data, setIsDialogOpen }: { setIsDialogOpen: 
                     <Input
                         id="name"
                         name="name"
-                        value={ProviderData.name}
+                        value={providerData.name}
                         onChange={handleChange}
                         className="col-span-3"
                     />
@@ -63,7 +79,7 @@ export const DialogEditProvider = ({data, setIsDialogOpen }: { setIsDialogOpen: 
                     <Input
                         id="email"
                         name="email"
-                        value={ProviderData.email}
+                        value={providerData.email}
                         onChange={handleChange}
                         className="col-span-3"
                     />
@@ -75,12 +91,12 @@ export const DialogEditProvider = ({data, setIsDialogOpen }: { setIsDialogOpen: 
                     <Input
                         id="phone"
                         name="phone"
-                        value={ProviderData.phone}
+                        value={providerData.phone}
                         onChange={handleChange}
                         className="col-span-3"
                     />
                 </div>
-             
+
             </div>
             <DialogFooter>
                 <Button

@@ -20,74 +20,88 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Dialog } from "@/components/ui/dialog"
 import { useState } from "react"
-import { DialogDemo } from "@/components/dialog"
 import { DialogTrigger } from "@radix-ui/react-dialog"
 import { Avatar } from "@files-ui/react";
 import { DialogEditProducto } from "./edit-dialog"
+import { AllProduct, CategoryElement } from "@/lib/queries/interfaces/product.interface"
+import { useParamsClient } from "@/hooks/use-params"
+import { useProducts } from "@/hooks/use-product"
 
-export interface Product {
-    name: string;
-    description: string;
-    price: number;
-    categories: string;
-    photo: string;
-  }
-
-
-export const columns: ColumnDef<Product>[] = [
+export const columns: ColumnDef<AllProduct>[] = [
     {
         accessorKey: "name",
-        header: "Name",
+        header: "Nombre",
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("name")}</div>
         ),
     },
     {
         accessorKey: "description",
-        header: "Description",
+        header: "Descripcion",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("description")}</div>
+            <div >{row.getValue("description")}</div>
         ),
     },
     {
         accessorKey: "price",
-        header: "Price",
+        header: "Precio",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue(`price`) + " "+ "bs"}</div>
+            <div >{"Bs " + row.getValue(`price`)}</div>
         ),
     },
-   {
-        accessorKey: "photo",
-        header: "Image",
+    {
+        accessorKey: "images",
+        header: "Foto",
         cell: ({ row }) => {
-            const product = row.getValue('photo');
-            console.log(product)
+            const product = row.getValue('images');
             return (
-                <Avatar src={`${product}`} readOnly 
-                style={{ width: "200px", height: "200px" }}
+                <Avatar src={`${product}`} readOnly
+                    style={{ width: "100px", height: "100px" }}
                 />
             );
         },
     },
-{
-    accessorKey: "categories",
-    header: "Categories",
-    cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("categories")}</div>
-    ),
-},
+    {
+        accessorKey: "categories",
+        header: "Categorias",
+        cell: ({ row }) => {
+            const categories: CategoryElement[] = row.getValue("categories");
+            const categoriesString = categories.map(category => category.category.description).join(", ");
+            return <div className="capitalize">{categoriesString}</div>
+        },
+    },
+    // {
+    //     accessorKey: "status",
+    //     header: "Estado",
+    //     cell: ({ row }) => (
+    //         <div className="capitalize">{row.getValue("status") === false ? "Inactivo" : "Activo"}</div>
+    //     ),
+    // },
     {
         id: "actions",
         enableHiding: false,
         cell: ({ row }) => {
-            const product = row.original
-            return <ActionCell row={row}/>;
+            return <ActionCell row={row} />;
         },
     },
 ]
 
-const ActionCell = ({ row }: { row: Row<Product> }) => {
+const ActionCell = ({ row }: { row: Row<AllProduct> }) => {
+    const { subdomain } = useParamsClient();
+    const { deleteProduct } = useProducts(subdomain as never);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const productId = row.original.id;
+
+    const deleteCategoryById = async (id: number) => {
+        try {
+            await deleteProduct.mutateAsync({
+                subdomain: subdomain as never,
+                id: id.toString()
+            });
+        } catch (error) {
+            console.error("Error al eliminar un producto: ", error);
+        }
+    }
 
     return (
         <>
@@ -107,7 +121,7 @@ const ActionCell = ({ row }: { row: Row<Product> }) => {
                     <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
                         Editar
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => deleteCategoryById(productId)}>
                         Eliminar
                     </DropdownMenuItem>
                 </DropdownMenuContent>

@@ -23,57 +23,65 @@ import { useState } from "react"
 import { DialogDemo } from "@/components/dialog"
 import { DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogEditProvider } from "./edit-dialog"
-
-export type Provider = {
-    id: string
-    name: string
-    email: string
-    phone:string
-}
+import { AllProvider } from "@/lib/queries/interfaces/provider.intreface"
+import { useParamsClient } from "@/hooks/use-params"
+import { useProviders } from "@/hooks/use-provider"
 
 
-export const columns: ColumnDef<Provider>[] = [
+export const columns: ColumnDef<AllProvider>[] = [
     {
         accessorKey: "name",
-        header: "Name",
+        header: "Nombre",
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("name")}</div>
         ),
     },
     {
         accessorKey: "email",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Email
-                    <CaretSortIcon className="ml-2 h-4 w-4" />
-                </Button>
-            )
-        },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+        header: "Correo",
+        cell: ({ row }) => (
+            <div    >{row.getValue("email")}</div>
+        ),
     },
     {
         accessorKey: "phone",
-        header: "Phone",
+        header: "Telefono",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("phone")}</div>
+            <div >{row.getValue("phone")}</div>
+        ),
+    },
+    {
+        accessorKey: "status",
+        header: "Estado",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("status") === false ? "Inactivo" : "Activo"}</div>
         ),
     },
     {
         id: "actions",
         enableHiding: false,
         cell: ({ row }) => {
-            const payment = row.original
             return <ActionCell row={row} />;
         },
     },
 ]
 
-const ActionCell = ({ row}: { row: Row<Provider>}) => {
+const ActionCell = ({ row }: { row: Row<AllProvider> }) => {
+    const { subdomain } = useParamsClient();
+    const { deleteProvider } = useProviders(subdomain as never);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const providerId = row.original.id;
+
+    const deleteProviderById = async (id: string) => {
+        try {
+            await deleteProvider.mutateAsync({
+                subdomain: subdomain as never,
+                id: id.toString()
+            });
+        } catch (error) {
+            console.error("Error al eliminar un proveedor: ", error);
+        }
+    }
 
     return (
         <>
@@ -93,13 +101,13 @@ const ActionCell = ({ row}: { row: Row<Provider>}) => {
                     <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
                         Editar
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => deleteProviderById(providerId)}>
                         Eliminar
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
 
-            
+
             {isDialogOpen && (
                 <Dialog onOpenChange={() => setIsDialogOpen(false)} open={isDialogOpen}>
                     <DialogTrigger asChild>

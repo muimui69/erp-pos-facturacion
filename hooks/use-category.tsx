@@ -9,7 +9,7 @@ export function useCategories(subdomain?: string) {
 
     const { data: categories, isLoading, isError } = useQuery({
         queryKey: [queryKeyName, subdomain],
-        queryFn: () => getAllCategories(subdomain!)
+        queryFn: () => getAllCategories(subdomain as never)
     });
 
     const createCategoryMutation = useMutation({
@@ -41,7 +41,7 @@ export function useCategories(subdomain?: string) {
         },
     })
 
-    
+
     return {
         categories: categories?.data?.data.allCategories || [],
         isLoading,

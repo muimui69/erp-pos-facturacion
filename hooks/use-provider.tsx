@@ -4,15 +4,12 @@ import { queryClient } from '@/provider/ReactQueryClient';
 import { deleteProviderById, getAllProviders, patchProviderById, postCreateProvider } from '@/lib/queries/provider';
 import { PatchProviderParams, PostProviderParams } from '@/lib/queries/interfaces/provider.intreface';
 
-export function useProviders() {
+export function useProviders(subdomain?: string) {
     const queryKeyName = 'providers';
 
     const { data: providers, isLoading, isError } = useQuery({
-        queryKey: [queryKeyName],
-        queryFn: async ({ queryKey }) => {
-            const [subdomain] = queryKey;
-            return getAllProviders(subdomain);
-        }
+        queryKey: [queryKeyName, subdomain],
+        queryFn: async () => getAllProviders(subdomain as never)
     });
 
     const createProviderMutation = useMutation({
@@ -49,8 +46,8 @@ export function useProviders() {
         providers: providers?.data?.data.allProviders || [],
         isLoading,
         isError,
-        createBranch: createProviderMutation,
-        deleteBranch: deleteProviderMutation,
-        patchBranch: patchProviderMutation
+        createProvider: createProviderMutation,
+        deleteProvider: deleteProviderMutation,
+        patchProvider: patchProviderMutation
     };
 }

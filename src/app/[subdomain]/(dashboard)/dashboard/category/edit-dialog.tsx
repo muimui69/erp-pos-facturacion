@@ -17,9 +17,8 @@ interface CategoryData {
 
 export const DialogEditCategory = ({ data, setIsDialogOpen }: { setIsDialogOpen: Dispatch<SetStateAction<boolean>>, data: AllCategory }) => {
 
-    const { patchCategory } = useCategories();
     const { subdomain } = useParams();
-    console.log('??????????',)
+    const { patchCategory } = useCategories(subdomain as never);
     const [isLoading, setIsloading] = useState<boolean>(false);
     const [categoryData, setCategoryData] = useState<CategoryData>({
         id: data.id.toString(),

@@ -52,3 +52,12 @@ export type PostProductParams = Omit<AllProduct, 'id' | 'images' | 'createdAt' |
 export type PatchProductParams = Partial<Omit<AllProduct, 'id' | 'images' | 'createdAt' | 'updatedAt'> & {
     photo: File;
 }>;
+
+
+interface Elemento {
+    id: string;
+}
+
+export interface CategoriesProduct {
+    categories: Elemento[];
+}

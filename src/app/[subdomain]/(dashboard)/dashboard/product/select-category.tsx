@@ -8,28 +8,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useCitys } from "@/hooks/use-city";
+import { useCategories } from "@/hooks/use-category";
+import { useParamsClient } from "@/hooks/use-params";
+import { CategoriesProduct } from "@/lib/queries/interfaces/product.interface";
 import { Dispatch, SetStateAction } from "react";
 
 interface SelectBranchProps {
-  setUserCategory: Dispatch<SetStateAction<{ idCategory: string; }>>;
+  setUserCategory: Dispatch<SetStateAction<CategoriesProduct>>;
 }
 
-const category=[
-    {
-        id:1,
-        name:"lacteos"
-
-    },{
-        id:2,
-        name:"Chocolates"
-    }
-]
 export default function SelectCategory({ setUserCategory }: SelectBranchProps) {
-//   const { citys, isLoading, isError } = useCitys();   //Consumo de UseCategory
+  const { subdomain } = useParamsClient();
+  const { categories } = useCategories(subdomain as never);
 
   const handleSelectCategory = (value: string) => {
-    setUserCategory({ idCategory: value })
+    setUserCategory({ categories: [{ id: value }] }); 
   };
 
   return (
@@ -39,9 +32,9 @@ export default function SelectCategory({ setUserCategory }: SelectBranchProps) {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {category.map(({ id, name }) => (
+          {categories.map(({ id, description }) => (
             <SelectItem key={id} value={id.toString()}>
-              {name}
+              {description}
             </SelectItem>
           ))}
         </SelectGroup>

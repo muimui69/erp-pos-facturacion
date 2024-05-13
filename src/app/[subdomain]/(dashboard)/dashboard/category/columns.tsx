@@ -38,7 +38,7 @@ export const columns: ColumnDef<AllCategory>[] = [
         accessorKey: "status",
         header: "Estado",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status") === false ? "Activo" : "Inactivo"}</div>
+            <div className="capitalize">{row.getValue("status") === false ? "Inactivo" : "Activo"}</div>
         ),
     },
     {

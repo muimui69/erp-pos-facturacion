@@ -7,6 +7,9 @@ import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogCreate } from "./create-dialog"
 import { postCreateAtm } from "@/lib/queries/employee"
 import { toast } from "@/components/ui/use-toast"
+import { useParamsClient } from "@/hooks/use-params"
+import { useProducts } from "@/hooks/use-product"
+import { CategoriesProduct } from "@/lib/queries/interfaces/product.interface"
 
 interface PostCreateButtonProps extends ButtonProps { }
 
@@ -15,16 +18,26 @@ export function PostCreateButtonProduct({
   variant,
   ...props
 }: PostCreateButtonProps) {
+  const { subdomain } = useParamsClient();
+  const { createProduct } = useProducts(subdomain as never);
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
 
-  const handleSubmit = async ( name: string, description: string, price: string,photo:string,IdCategories:string): Promise<void> => {
+  const handleSubmit = async (name: string, description: string, price: string, photo: File, discount: string, categories?: CategoriesProduct): Promise<void> => {
     try {
       setIsLoading(true);
-      //Consumo Api Crear Producto
-    //   const new_employee = await postCreateAtm(name,description,price,photo,cat);
-    //   console.log('=-=========', new_employee)
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('description', description);
+      formData.append('price', price);
+      formData.append('photo', photo);
+      formData.append('discount', discount);
+      formData.append('categories', JSON.stringify(categories?.categories));
+      await createProduct.mutateAsync({
+        subdomain: subdomain as never,
+        formData,
+      });
       setIsDialogOpen(false)
       setIsLoading(false);
       toast({
@@ -35,7 +48,8 @@ export function PostCreateButtonProduct({
       setIsDialogOpen(false);
       setIsLoading(false);
       toast({
-        description: "No se creo el Producto. Intente de nuevo"
+        description: "No se creo el Producto. Intente de nuevo",
+        variant: "destructive"
       })
     }
   }

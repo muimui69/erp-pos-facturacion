@@ -32,6 +32,9 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useState } from "react"
+import { useTranslation } from "@/hooks/use-translation-columns"
+import { useParamsClient } from "@/hooks/use-params"
+import { useProviders } from "@/hooks/use-provider"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -47,8 +50,12 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
 
+  const { translation } = useTranslation()
+  const { subdomain } = useParamsClient();
+  const { providers } = useProviders(subdomain as never);
+
   const table = useReactTable({
-    data,
+    data:data || providers,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -70,7 +77,7 @@ export function DataTable<TData, TValue>({
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
+          placeholder="Filtrar por correo..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("email")?.setFilterValue(event.target.value)
@@ -80,7 +87,7 @@ export function DataTable<TData, TValue>({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
+              Columnas <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -97,7 +104,7 @@ export function DataTable<TData, TValue>({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {translation[column.id as never]}
                   </DropdownMenuCheckboxItem>
                 )
               })}
@@ -147,7 +154,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  No hay resultados.
                 </TableCell>
               </TableRow>
             )}

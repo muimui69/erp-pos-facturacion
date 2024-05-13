@@ -32,7 +32,7 @@ export const postCreateProduct = async (subdomain: string, formData: FormData) =
         return await api.post('/product', formData, {
             headers: {
                 "subdomain": subdomain,
-                'Content-Type': 'multipart/form-data',
+                "Content-Type": 'multipart/form-data',
             }
         });
     } catch (error) {

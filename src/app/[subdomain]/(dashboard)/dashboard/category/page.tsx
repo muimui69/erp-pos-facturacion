@@ -9,12 +9,11 @@ import { getAllCategories } from "@/lib/queries/category";
 
 export default async function CategoryPage(params: Params) {
   const subdomain = getCurrentSubdomain(params);
-  console.log('>>>>>>>>>>>>>>>>>>>',subdomain)
   const data = await getAllCategories(subdomain)
 
   return (
     <DashboardShell>
-      <DashboardHeader heading="Categorias" text="Cree y gestione las diferentes Categorias en su Punto de Venta.">
+      <DashboardHeader heading="Categorias" text="Cree y gestione las diferentes categorias de su punto de venta.">
         <PostCreateButtonCategory className="mr-6" />
       </DashboardHeader>
       <div className="container overflow-x-auto">

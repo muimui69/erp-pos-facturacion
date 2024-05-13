@@ -7,6 +7,8 @@ import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogCreate } from "./create-dialog"
 import { postCreateAtm } from "@/lib/queries/employee"
 import { toast } from "@/components/ui/use-toast"
+import { useParamsClient } from "@/hooks/use-params"
+import { useProviders } from "@/hooks/use-provider"
 
 interface PostCreateButtonProps extends ButtonProps { }
 
@@ -15,6 +17,8 @@ export function PostCreateButtonProvider({
   variant,
   ...props
 }: PostCreateButtonProps) {
+  const { subdomain } = useParamsClient();
+  const { createProvider } = useProviders(subdomain as never);
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -22,9 +26,14 @@ export function PostCreateButtonProvider({
   const handleSubmit = async ( name: string, email: string, phone: string): Promise<void> => {
     try {
       setIsLoading(true);
-      //Consumo Api Crear Proveedor
-    //   const new_employee = await postCreateAtm(name,description,price,photo,cat);
-    //   console.log('=-=========', new_employee)
+      await createProvider.mutateAsync({
+        subdomain: subdomain as never,
+        provider: {
+          name,
+          email,
+          phone
+        },
+      });
       setIsDialogOpen(false)
       setIsLoading(false);
       toast({
@@ -35,7 +44,8 @@ export function PostCreateButtonProvider({
       setIsDialogOpen(false);
       setIsLoading(false);
       toast({
-        description: "No se creo el Proveedor. Intente de nuevo"
+        description: "No se creo el Proveedor. Intente de nuevo",
+        variant:"destructive"
       })
     }
   }

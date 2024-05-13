@@ -16,8 +16,8 @@ export function PostCreateButtonCategory({
   variant,
   ...props
 }: PostCreateButtonProps) {
-  const { createCategory } = useCategories();
   const { subdomain } = useParamsClient();
+  const { createCategory } = useCategories(subdomain as never);
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -40,7 +40,8 @@ export function PostCreateButtonCategory({
       setIsDialogOpen(false);
       setIsLoading(false);
       toast({
-        description: "No se creo la Categoria. Intente de nuevo"
+        description: "No se creo la Categoria. Intente de nuevo",
+        variant:"destructive"
       })
     }
   }
