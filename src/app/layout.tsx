@@ -14,7 +14,7 @@ const fontSans = FontSans({
 })
 
 const fontHeading = localFont({
-  src: "../assets/fonts/CalSans-SemiBold.woff2",
+  src: "../../assets/fonts/CalSans-SemiBold.woff2",
   variable: "--font-heading",
 })
 
@@ -66,7 +66,6 @@ export const metadata = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <head />
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
