@@ -4,20 +4,22 @@ import { DataTable } from "./data-table"
 import { columns } from "./columns";
 import { getAllBranchs } from "@/lib/queries/branch-office";
 import { PostCreateButtonBranch } from "./post-create-button";
+import Maintenance from "@/src/app/error/maintenance";
 
 export default async function BranchPage() {
-  const data = await getAllBranchs()
- 
+  // const data = await getAllBranchs()
+
 
   return (
-    <DashboardShell>
-      <DashboardHeader heading="Sucursales" text="Cree y gestione sucursales.">
-        <PostCreateButtonBranch className="mr-6" />
-      </DashboardHeader>
-      <div className="container overflow-x-auto">
-        <DataTable columns={columns} data={data.data.branchs} />
-      </div>
-    </DashboardShell>
+    // <DashboardShell>
+    //   <DashboardHeader heading="Sucursales" text="Cree y gestione sucursales.">
+    //     <PostCreateButtonBranch className="mr-6" />
+    //   </DashboardHeader>
+    //   <div className="container overflow-x-auto">
+    //     <DataTable columns={columns} data={data.data.branchs} />
+    //   </div>
+    // </DashboardShell>
+    <Maintenance />
   )
 }
 

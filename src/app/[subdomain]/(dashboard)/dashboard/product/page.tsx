@@ -9,8 +9,8 @@ import { Params } from "@/lib/constants";
 
 
 export default async function ProductPage(params: Params) {
-  const subdomain = getCurrentSubdomain(params);
-  const data = await getAllProducts(subdomain)
+  // const subdomain = getCurrentSubdomain(params);
+  // const data = await getAllProducts(subdomain)
 
   return (
     <DashboardShell>
@@ -18,7 +18,8 @@ export default async function ProductPage(params: Params) {
         <PostCreateButtonProduct className="mr-6" />
       </DashboardHeader>
       <div className="container overflow-x-auto">
-        <DataTable columns={columns} data={data.data.allProducts} />
+        {/* <DataTable columns={columns} data={data.data.allProducts} /> */}
+        <DataTable columns={columns}/>
       </div>
     </DashboardShell>
   )

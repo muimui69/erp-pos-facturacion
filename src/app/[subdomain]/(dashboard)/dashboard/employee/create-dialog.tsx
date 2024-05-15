@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ChangeEvent, useState } from "react"
-import SelectBranch from "@/src/app/(dashboard)/dashboard/employee/select-branch"
+import SelectBranch from "./select-branch"
 
 interface DialogCreateProps {
     HandleSubmit: (email: string, name: string, phone: string, idBranch: string) => Promise<void>,

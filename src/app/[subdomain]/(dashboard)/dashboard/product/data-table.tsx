@@ -38,7 +38,7 @@ import { useProducts } from "@/hooks/use-product"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  data?: TData[]
 }
 
 export function DataTable<TData, TValue>({
@@ -53,10 +53,10 @@ export function DataTable<TData, TValue>({
 
   const { translation } = useTranslation()
   const { subdomain } = useParamsClient();
-  const { products } = useProducts(subdomain as never);
+  const { products, isLoading } = useProducts(subdomain as never);
 
   const table = useReactTable({
-    data: data || products,
+    data: products as TData[],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -155,7 +155,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No hay resultados.
+                  {isLoading ? "Cargando datos ..." : "No hay resultados."}
                 </TableCell>
               </TableRow>
             )}

@@ -12,6 +12,7 @@ export const config = {
     "/((?!api/|_next/|_static/|[\\w-]+\\.\\w+).*)",
   ],
 };
+
 const subdomains = [
   {
     subdomain:"penesito.uagrm",
@@ -21,7 +22,10 @@ const subdomains = [
   },
   {
     subdomain:"penesito.uagrm.qweqwe.qwe.qwe3124"
-  }
+  },
+  {
+    subdomain:"rog.zephyrus.uagrm",
+  },
 ]
 
 export default async function middleware(req: NextRequest) {
@@ -49,18 +53,18 @@ export default async function middleware(req: NextRequest) {
   console.log('========subdomain=========>',subdomain)
 
 
-  // Si estamos en un dominio habilitado y no es un subdominio, permitimos la solicitud.
-  // Si nos quedamos en un dominio permitido y no es un subdominio, permitimos la solicitud.
+  // // Si estamos en un dominio habilitado y no es un subdominio, permitimos la solicitud.
+  // // Si nos quedamos en un dominio permitido y no es un subdominio, permitimos la solicitud.
   if (isAllowedDomain && !subdomains.some(d => d.subdomain === subdomain)) {
     return NextResponse.next();
   }
 
   const subdomainData = subdomains.find(d => d.subdomain === subdomain);
 
-  // // es opcional a modificar
-  // if (subdomain === "www" || subdomain === "") {
-  //   return NextResponse.next();
-  // }
+  // // // es opcional a modificar
+  // // if (subdomain === "www" || subdomain === "") {
+  // //   return NextResponse.next();
+  // // }
 
   if (subdomainData) {
     // Rewrite the URL in the dynamic route based in the subdomain

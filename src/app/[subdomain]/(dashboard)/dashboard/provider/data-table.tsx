@@ -35,10 +35,11 @@ import { useState } from "react"
 import { useTranslation } from "@/hooks/use-translation-columns"
 import { useParamsClient } from "@/hooks/use-params"
 import { useProviders } from "@/hooks/use-provider"
+import { AllProvider } from "@/lib/queries/interfaces/provider.intreface"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  data?: TData[]
 }
 
 export function DataTable<TData, TValue>({
@@ -52,10 +53,10 @@ export function DataTable<TData, TValue>({
 
   const { translation } = useTranslation()
   const { subdomain } = useParamsClient();
-  const { providers } = useProviders(subdomain as never);
+  const { providers, isLoading } = useProviders(subdomain as never);
 
   const table = useReactTable({
-    data:data || providers,
+    data: providers as TData[],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -154,7 +155,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No hay resultados.
+                  {isLoading ? "Cargando datos ... ": "No hay resultados."}
                 </TableCell>
               </TableRow>
             )}

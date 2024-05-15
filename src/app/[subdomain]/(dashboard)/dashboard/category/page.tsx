@@ -8,8 +8,8 @@ import { getCurrentSubdomain } from "@/lib/utils";
 import { getAllCategories } from "@/lib/queries/category";
 
 export default async function CategoryPage(params: Params) {
-  const subdomain = getCurrentSubdomain(params);
-  const data = await getAllCategories(subdomain)
+  // const subdomain = getCurrentSubdomain(params);
+  // const data = await getAllCategories(subdomain)
 
   return (
     <DashboardShell>
@@ -17,7 +17,8 @@ export default async function CategoryPage(params: Params) {
         <PostCreateButtonCategory className="mr-6" />
       </DashboardHeader>
       <div className="container overflow-x-auto">
-        <DataTable columns={columns} data={data.data.data.allCategories} />
+        {/* <DataTable columns={columns} data={data.data.data.allCategories} /> */}
+        <DataTable columns={columns} />
       </div>
     </DashboardShell>
   )

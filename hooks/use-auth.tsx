@@ -1,7 +1,8 @@
 "use client"
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/provider/ReactQueryClient';
-import { postSigninUser, postSingupUser } from '@/lib/queries/auth';
+import { postSigninTenantUser, postSigninUser, postSingupUser } from '@/lib/queries/auth';
+import { PostUserSigninParams } from '@/lib/queries/interfaces/auth.interface';
 
 export function useAuth() {
     const queryKeyName = 'auth';
@@ -13,7 +14,17 @@ export function useAuth() {
         },
     })
 
-    
+
+    const signinTenantUserMutation = useMutation({
+        mutationFn: async ({ user, subdomain }: { subdomain: string, user: PostUserSigninParams }) => {
+            return postSigninTenantUser(user, subdomain);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [queryKeyName] });
+        },
+    })
+
+
     const signupUserMutation = useMutation({
         mutationFn: postSingupUser,
         onSuccess: () => {
@@ -23,6 +34,7 @@ export function useAuth() {
 
     return {
         signinUser: signinUserMutation,
+        signinTenantUser: signinTenantUserMutation,
         signupUser: signupUserMutation
     };
 }

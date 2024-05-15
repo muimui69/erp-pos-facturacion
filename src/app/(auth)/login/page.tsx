@@ -33,7 +33,7 @@ export default function LoginPage() {
             Bienvenido de vuelta
           </h1>
           <p className="text-sm text-muted-foreground">
-            Ingresa tu codigo para continuar
+            Por favor rellena los siguientes campos
           </p>
         </div>
         <UserSigninForm />

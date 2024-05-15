@@ -51,7 +51,7 @@ export function UserPaynamentForm({ className, ...props }: UserPaynamentFormProp
     try {
       setIsLoading(true);
       const userString = Cookie.get('user')!;
-      const { token } = JSON.parse(userString) as Data;
+      const { token, user: { email } } = JSON.parse(userString) as Data;
       const response = await createSuscription.mutateAsync({
         token,
         suscription: {
@@ -59,11 +59,10 @@ export function UserPaynamentForm({ className, ...props }: UserPaynamentFormProp
           suscriptionId: parseInt(searchParamId!)
         }
       });
-      // navigate.push('/dashboard');
       const urlStripe = response.data.data.paymentSuscription.paymentStripe.url;
       const cancelUrlStripe = response.data.data.paymentSuscription.paymentStripe.cancel_url;
       const successUrlStripe = response.data.data.paymentSuscription.paymentStripe.success_url;
-      
+
       const width = 600;
       const height = 800;
 
@@ -77,7 +76,9 @@ export function UserPaynamentForm({ className, ...props }: UserPaynamentFormProp
       //   // Redirigir la ventana emergente a otra URL
       //   popup.location.href = cancelUrlStripe || successUrlStripe;
       // });
-
+      const hostname = window.location.hostname;
+      console.log(hostname)
+      navigate.replace(`http://${paynamentData.hosting}.${hostname}:3001/dashboard?email=${email}&workspace=${paynamentData.hosting}`);
 
       setIsLoading(false);
       return toast({

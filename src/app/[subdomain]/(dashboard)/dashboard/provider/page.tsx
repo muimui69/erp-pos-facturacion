@@ -10,9 +10,8 @@ import { getCurrentSubdomain } from "@/lib/utils";
 
 export default async function ProviderPage(params:Params) {
 
-  const subdomain = getCurrentSubdomain(params);
-  const data = await getAllProviders(subdomain)
-
+  // const subdomain = getCurrentSubdomain(params);
+  // const data = await getAllProviders(subdomain)
 
   return (
     <DashboardShell>
@@ -21,7 +20,8 @@ export default async function ProviderPage(params:Params) {
 
       </DashboardHeader>
       <div className="container overflow-x-auto">
-        <DataTable columns={columns} data={data.data.data.allProviders} />
+        {/* <DataTable columns={columns} data={data.data.data.allProviders} /> */}
+        <DataTable columns={columns} />
       </div>
     </DashboardShell>
   )

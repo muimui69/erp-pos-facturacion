@@ -12,6 +12,7 @@ export function useProviders(subdomain?: string) {
         queryFn: async () => getAllProviders(subdomain as never)
     });
 
+
     const createProviderMutation = useMutation({
         mutationFn: async ({ subdomain, provider }: { subdomain: string, provider: PostProviderParams }) => {
             return postCreateProvider(subdomain, provider);

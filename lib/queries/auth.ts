@@ -13,6 +13,22 @@ export const postSigninUser = async (user: PostUserSigninParams) => {
     }
 }
 
+export const postSigninTenantUser = async (user: PostUserSigninParams, subdomain: string) => {
+    try {
+        const obj: PostUserSigninParams = {
+            email: user.email,
+            password: user.password
+        }
+        return await api.post<GetSigninResponse>('/auth/login/service', converToStringfy(obj),{
+            headers: {
+                "subdomain": subdomain
+            }
+        })
+    } catch (err) {
+        throw err;
+    }
+}
+
 export const postSingupUser = async (user: PostUserSingupParams) => {
     try {
         const obj: PostUserSingupParams = {
