@@ -30,10 +30,7 @@ export function DialogCreate({ HandleSubmit }: { HandleSubmit: ( name: string, b
         
     });
 
-    const [coords, setCoords] = useState<{ lat: number, lng: number }>({
-        lat: 0,
-        lng: 0
-    });
+
 
     const [UserBranch, setUserBranch] = useState({
         idBranch: '',

@@ -21,27 +21,34 @@ import { Dialog } from "@/components/ui/dialog"
 import { useState } from "react"
 import { DialogDemo } from "@/components/dialog"
 import { DialogTrigger } from "@radix-ui/react-dialog"
+import { DialogEdit } from "./edit-dialog"
 
-export type Payment = {
-    id: string
-    amount: number
-    status: "pending" | "processing" | "success" | "failed"
-    email: string
+export type Atm= {
+    id: string;
+    name: string;
+    sucursalName:string,
 }
 
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Atm>[] = [
     {
         accessorKey: "name",
         header: "Nombre",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status")}</div>
+            <div className="capitalize">{row.getValue("name")}</div>
         ),
-    }, {
+    }, 
+    {
+        accessorKey: "branch",
+        header: "Sucursal",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("branch")}</div>
+        ),
+    }, 
+    {
         accessorKey: "status",
         header: "Estado",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status") === true ? "Activo" : "Inactivo"}</div>
+            <div className="capitalize">{row.getValue("status") === false ? "Activo" : "Activo"}</div>
         ),
     },
     
@@ -51,12 +58,12 @@ export const columns: ColumnDef<Payment>[] = [
         enableHiding: false,
         cell: ({ row }) => {
             const payment = row.original
-            return <ActionCell payment={payment} />;
+            return <ActionCell row={row} />;
         },
     },
 ]
 
-const ActionCell = ({ payment }: { payment: Payment }) => {
+const ActionCell = ({ row}: { row: any}) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     return (
@@ -86,7 +93,10 @@ const ActionCell = ({ payment }: { payment: Payment }) => {
             {isDialogOpen && (
                 <Dialog onOpenChange={setIsDialogOpen} open={isDialogOpen}>
                     <DialogTrigger asChild>
-                        <DialogDemo />
+                        <DialogEdit
+                            setIsDialogOpen={setIsDialogOpen}
+                            data={row.original}
+                        />
                     </DialogTrigger>
                 </Dialog>
             )}

@@ -24,7 +24,13 @@ import { DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogEdit } from "./edit-dialog"
 import {  BranchElement } from "@/lib/queries/interfaces/branch.interface"
 import { useBranchs } from "@/hooks/use-branch"
-
+export type Branch= {
+    address: string;
+    name: string;
+    lat: number;
+    lng: number;
+    city: string;
+  }
 export const columns: ColumnDef<BranchElement>[] = [
     {
         accessorKey: "name",
@@ -62,17 +68,17 @@ export const columns: ColumnDef<BranchElement>[] = [
     },
 ]
 
-const ActionCell = ({ row }: { row: Row<BranchElement> }) => {
+const ActionCell = ({ row }: { row: Row<any> }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const { deleteBranch } = useBranchs();
     const branchId = row.original.id;
    
     const deleteBranchById = async (id: number) => {
-        try {
-            deleteBranch.mutateAsync(id);
-        } catch (err) {
-            console.error("Error al eliminar una sucursal: ", err);
-        }
+        // try {
+        //     deleteBranch.mutateAsync(id);
+        // } catch (err) {
+        //     console.error("Error al eliminar una sucursal: ", err);
+        // }
     }
 
     return (

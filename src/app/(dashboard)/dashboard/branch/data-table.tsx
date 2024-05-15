@@ -32,7 +32,6 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useState } from "react"
-import { useBranchs } from "@/hooks/use-branch"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -48,10 +47,8 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
 
-  const { branchs, isLoading, isError } = useBranchs();
-
   const table = useReactTable({
-    data: data || branchs,
+    data,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -69,18 +66,14 @@ export function DataTable<TData, TValue>({
     },
   })
 
-  if (isLoading) {
-    return <><h1>Cargando ... </h1></>
-  }
-
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter Sucursales..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter emails..."
+          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("email")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -139,16 +132,12 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <>
-                      < TableCell key={cell.id} >
-
-                        {
-                          flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                      </TableCell>
-                    </>
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
                   ))}
                 </TableRow>
               ))
@@ -165,7 +154,26 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-
+      {/* <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
+      </div> */}
     </div>
   )
 }
