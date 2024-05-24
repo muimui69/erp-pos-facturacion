@@ -12,7 +12,8 @@ import {
 import { UserAvatar } from "@/components/user-avatar"
 import { User } from "@/lib/queries/interfaces/auth.interface"
 import Cookie from 'js-cookie';
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
+import { useParamsClient } from "@/hooks/use-params"
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, "name" | "email">
@@ -20,12 +21,24 @@ interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
 
+  const { subdomain } = useParamsClient()
+
   const navigate = useRouter();
+
 
   const signOut = async () => {
     Cookie.remove('user');
-    navigate.push(`${window.location.origin}/login`);
-    window.location.reload(); 
+    if (!subdomain) {
+      navigate.push('/tenants');
+    }
+    navigate.push(`http://localhost:3001/tenants`);
+  }
+
+  const pathToSubdomain = () => {
+    if (!subdomain) {
+      return '/tenants'
+    }
+    return `http://localhost:3001/tenants`;
   }
 
   return (
@@ -47,11 +60,13 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
             )}
           </div>
         </div>
-        {/* <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href="/dashboard">Dashboard</Link>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild
+          className="cursor-pointer"
+        >
+          <Link href={pathToSubdomain()}>Mis areas de trabajo</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
+        {/* <DropdownMenuItem asChild>
           <Link href="/dashboard/billing">Billing</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>

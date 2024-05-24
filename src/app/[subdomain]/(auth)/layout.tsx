@@ -1,7 +1,11 @@
+import { Params } from "@/lib/constants";
+
 interface AuthLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
+  params:Params;
 }
 
-export default function AuthLayout({ children }: AuthLayoutProps) {
+export default async function AuthLayout({ children,params }: AuthLayoutProps) {
+  console.log(params)
   return <div className="min-h-screen">{children}</div>
 }

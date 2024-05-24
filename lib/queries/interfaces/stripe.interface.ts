@@ -1,4 +1,4 @@
-export interface Stripe {
+export interface GetStripeResponse {
     statusCode: number;
     message:    string;
     data:       Data;

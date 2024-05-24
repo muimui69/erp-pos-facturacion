@@ -10,4 +10,6 @@ export interface SearchParams {
     }
 }
 
+export const href = process.env.NODE_ENV === 'production' ? process.env.APP_URL : process.env.NEXT_PUBLIC_APP_URL;
+
 

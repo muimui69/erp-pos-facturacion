@@ -5,13 +5,10 @@ import { MainNav } from "@/components/main-nav"
 import { DashboardNav } from "@/components/nav"
 import { UserAccountNav } from "@/components/user-account-nav"
 import { getUserCredentials } from "@/lib/auth"
+import { getAllTenantsUser } from "@/lib/queries/tenant"
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
     const user = await getUserCredentials()
-
-    // if (!user) {
-    //     return notFound()
-    // }
 
     return (
         <div className="flex min-h-screen flex-col space-y-6">
