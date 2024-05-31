@@ -57,5 +57,10 @@ export const dashboardConfig: DashboardConfig = {
       href: "/dashboard/product",
       icon: "shoppingBasket",
     },
+    {
+      title: "Personalizacion",
+      href: "/dashboard/personalization",
+      icon: "palette",
+    },
   ],
 }

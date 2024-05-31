@@ -14,6 +14,7 @@ import { User } from "@/lib/queries/interfaces/auth.interface"
 import Cookie from 'js-cookie';
 import { usePathname, useRouter } from "next/navigation"
 import { useParamsClient } from "@/hooks/use-params"
+import { useState } from "react"
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, "name" | "email">
@@ -24,14 +25,15 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
   const { subdomain } = useParamsClient()
 
   const navigate = useRouter();
-
+  const [isOpen, setIsOpen] = useState(false);
 
   const signOut = async () => {
     Cookie.remove('user');
+    setIsOpen(false); // Cerrar el menú
     if (!subdomain) {
-      navigate.push('/tenants');
+      navigate.push('/');
     }
-    navigate.push(`http://localhost:3001/tenants`);
+    navigate.push(`http://localhost:3001/`);
   }
 
   const pathToSubdomain = () => {
@@ -42,7 +44,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger>
         <UserAvatar
           user={{ name: user.name }}

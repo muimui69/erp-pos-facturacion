@@ -24,7 +24,7 @@ export function MainNav({ items, children }: MainNavProps) {
   }
 
   return (
-    <div className="flex items-center justify-center flex-grow">
+    <div className="flex items-center justify-center flex-grow ">
       <Link href="/" className="hidden items-center space-x-2 md:flex">
         <Icons.store />
         <span className="hidden font-bold sm:inline-block">

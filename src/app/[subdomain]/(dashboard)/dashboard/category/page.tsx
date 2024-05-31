@@ -3,13 +3,9 @@ import { DashboardShell } from "@/components/shell";
 import { DataTable } from "./data-table"
 import { columns, } from "./columns";
 import { PostCreateButtonCategory } from "./post-create-button";
-import { Params } from "@/lib/constants";
-import { getCurrentSubdomain } from "@/lib/utils";
-import { getAllCategories } from "@/lib/queries/category";
+import { DataTableBlocker } from "../../../../../../components/utils/data-table-block";
 
-export default async function CategoryPage(params: Params) {
-  // const subdomain = getCurrentSubdomain(params);
-  // const data = await getAllCategories(subdomain)
+export default async function CategoryPage() {
 
   return (
     <DashboardShell>
@@ -17,8 +13,8 @@ export default async function CategoryPage(params: Params) {
         <PostCreateButtonCategory className="mr-6" />
       </DashboardHeader>
       <div className="container overflow-x-auto">
-        {/* <DataTable columns={columns} data={data.data.data.allCategories} /> */}
         <DataTable columns={columns} />
+        {/* <DataTableBlocker /> */}
       </div>
     </DashboardShell>
   )

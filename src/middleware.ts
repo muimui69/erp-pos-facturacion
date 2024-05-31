@@ -164,7 +164,6 @@ export default async function middleware(req: NextRequest) {
   }
 
   const tokenToUse = user?.token || token;
- 
 
   if (!tokenToUse) {
     return NextResponse.rewrite(new URL('/unauthorized', req.url));

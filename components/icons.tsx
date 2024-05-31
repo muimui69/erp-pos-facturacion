@@ -4,7 +4,7 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
-  
+
   Command,
   CreditCard,
   File,
@@ -35,12 +35,14 @@ import {
   MapPinned,
   Map,
   Handshake,
+  Palette,
+  Brush
 } from "lucide-react"
 
 export type Icon = LucideIcon
 
 export const Icons = {
-  back:ArrowLeftToLine,
+  back: ArrowLeftToLine,
   logo: Command,
   close: X,
   spinner: Loader2,
@@ -69,9 +71,11 @@ export const Icons = {
   truck: Truck,
   handCoins: HandCoins,
   layoutDashboard: LayoutDashboard,
-  mapPinned:MapPinned,
-  map:Map,
-  handshake:Handshake,
+  mapPinned: MapPinned,
+  map: Map,
+  handshake: Handshake,
+  palette: Palette,
+  brush: Brush,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

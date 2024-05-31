@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { siteConfig } from "@/config/site"
 import ProviderUseReactQuery from "@/provider/ReactQueryClient"
 import { Toaster } from "@/components/ui/toaster"
+import { ThemeProviderPos } from "@/context/theme-context"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -75,9 +76,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
       >
         <ProviderUseReactQuery>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
+            <ThemeProviderPos>
+              {children}
+            </ThemeProviderPos>
           </ThemeProvider>
-          <Toaster/>
+          <Toaster />
         </ProviderUseReactQuery>
       </body>
     </html>

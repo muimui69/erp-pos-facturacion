@@ -1,18 +1,17 @@
-import { notFound } from "next/navigation"
-
 import { dashboardConfig } from "@/config/dashboard"
 import { MainNav } from "@/components/main-nav"
 import { DashboardNav } from "@/components/nav"
 import { UserAccountNav } from "@/components/user-account-nav"
-import { getUserCredentials } from "@/lib/auth"
-import { getAllTenantsUser } from "@/lib/queries/tenant"
+import { HeaderTopMenu } from "@/components/header-top-menu"
+// import { getUserCredentials } from "@/lib/auth"
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
-    const user = await getUserCredentials()
+    // const user = await getUserCredentials()
 
     return (
         <div className="flex min-h-screen flex-col space-y-6">
-            <header className="sticky top-0 z-40 border-b bg-background">
+            <HeaderTopMenu/>
+            {/* <header className="sticky top-0 z-40 border-b bg-background">
                 <div className="container flex h-16 items-center justify-between py-4">
                     <MainNav items={dashboardConfig.mainNav} />
                     <UserAccountNav
@@ -22,7 +21,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
                         }}
                     />
                 </div>
-            </header>
+            </header> */}
             <div className="container grid flex-1 gap-12 md:lg:grid-cols-[200px_1fr] grid-cols-[40px_1fr]  mt-10">
                 <aside className="md:lg:w-[200px] w-[40px] flex-col flex">
                     <DashboardNav items={dashboardConfig.sidebarNav} />

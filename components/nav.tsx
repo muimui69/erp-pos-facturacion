@@ -6,13 +6,26 @@ import { usePathname } from "next/navigation"
 import { SidebarNavItem } from "@/types"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
+import { useTheme } from '@/context/theme-context';  // Importa el contexto
+import { useEffect } from "react"
+
 
 interface DashboardNavProps {
   items: SidebarNavItem[]
 }
 
 export function DashboardNav({ items }: DashboardNavProps) {
+  const { menuColor, setMenuColor } = useTheme()
   const path = usePathname()
+  const savedMenuColor = localStorage.getItem('menuColor');
+
+  useEffect(() => {
+    const savedMenuColor = localStorage.getItem('menuColor');
+    if (savedMenuColor) {
+      setMenuColor(savedMenuColor);
+    }
+
+  }, []);
 
   if (!items?.length) {
     return null
@@ -28,9 +41,10 @@ export function DashboardNav({ items }: DashboardNavProps) {
               <span
                 className={cn(
                   "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
-                  path === item.href ? "bg-accent" : "transparent",
+                  path === item.href && !savedMenuColor ? "bg-accent" : "transparent",
                   item.disabled && "cursor-not-allowed opacity-80"
                 )}
+                style={{ backgroundColor: path === item.href ? menuColor : "transparent" }}
               >
                 <Icon className="md:lg:mr-2 h-4 w-4" />
                 <span className="hidden md:lg:block">{item.title} </span>
@@ -39,6 +53,6 @@ export function DashboardNav({ items }: DashboardNavProps) {
           )
         )
       })}
-    </nav>
+    </nav >
   )
 }

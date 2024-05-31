@@ -3,7 +3,8 @@ import { cookies } from 'next/headers';
 import { Data } from "./queries/interfaces/auth.interface";
 
 export const getUserCredentials = async () => {
-  let token = cookies().get('user')?.value;
+  let token = cookies().get('user')?.value ;
+  // let token = cookies().get('user')?.value || cookies().get('user-tenant')?.value ;
   if (!token) return null;
   const credentials = JSON.parse(token) as Data;
   return credentials;
