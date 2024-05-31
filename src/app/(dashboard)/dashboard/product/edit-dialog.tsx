@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { putUpdateCity } from "@/lib/queries/city";
 import { Product } from "./columns";
+import { Category } from '../category/columns';
 
 export const DialogEditProducto = ({data, setIsDialogOpen }: { setIsDialogOpen: Dispatch<SetStateAction<boolean>>, data: Product }) => {
 
@@ -14,7 +15,8 @@ export const DialogEditProducto = ({data, setIsDialogOpen }: { setIsDialogOpen: 
         name: data.name,
         description:data.description,
         price:data.price,
-        photo:data.photo
+        photo:data.photo,
+        Category:data.categories
     });
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -83,6 +85,15 @@ export const DialogEditProducto = ({data, setIsDialogOpen }: { setIsDialogOpen: 
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="name" className="text-right">
                         Imagen
+                    </Label>
+                    
+                    <div className="col-span-3">
+                    <Input id="picture" type="file" className="w-full" />
+                    </div>
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="name" className="text-right">
+                        Categoria
                     </Label>
                     
                     <div className="col-span-3">

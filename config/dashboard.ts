@@ -53,5 +53,16 @@ export const dashboardConfig: DashboardConfig = {
       href: "/dashboard/box ",
       icon: "handCoins",
     },
+    {
+      title:"Roles",
+      href:"/dashboard/roles",
+      icon:"rol"
+    },   
+    {
+      title:"Invitaciones",
+      href:"/dashboard/invitations",
+      icon:"mail"
+
+    }
   ],
 }

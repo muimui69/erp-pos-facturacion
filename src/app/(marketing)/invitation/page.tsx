@@ -3,7 +3,7 @@ import { InvitationPage } from "./InvitationPage";
 
 export default function page(){
     return (
-        <InvitationPage username="Moiso Gei"/>
+        <InvitationPage username="Moiso " hosting="Trabajo.dino.uagrm"/>
     )
 }
 

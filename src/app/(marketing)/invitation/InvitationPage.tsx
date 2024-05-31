@@ -4,10 +4,10 @@ import React from 'react';
 
 interface InvitationProps {
     username: string;
-   
+    hosting:string
   }
 
-export const InvitationPage: React.FC<InvitationProps> = ({ username }) => {
+export const InvitationPage: React.FC<InvitationProps> = ({ username,hosting}) => {
     const containerStyles: React.CSSProperties = {
         maxWidth: 800,
         margin: '30px auto',
@@ -67,7 +67,7 @@ export const InvitationPage: React.FC<InvitationProps> = ({ username }) => {
       <h1 style={headerStyles}>¡Ya casi estás listo/a!</h1>
       <p className='pt-1'>Hola,{username}</p>
       <p className='pt-2'>
-      Te damos la bienvenida a PointSync, el sistema integral de gestión empresarial  diseñado para facilitar la administración de tu empresa.
+      Te damos la bienvenida  <strong>{hosting}</strong>, el sistema integral de gestión empresarial  diseñado para facilitar la administración de tu empresa.
         Con PointSync, podrás gestionar tus operaciones diarias, llevar un control eficiente del inventario, administrar la facturación y realizar ventas con nuestro sistema de punto de venta .
         Estamos emocionados de tenerte a bordo y esperamos que disfrutes de todas las ventajas que ofrece PointSync para optimizar tus procesos empresariales.
       </p>

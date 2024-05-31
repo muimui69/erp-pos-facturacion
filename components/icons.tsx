@@ -34,11 +34,15 @@ import {
   LayoutDashboard,
   MapPinned,
   Map,
+  Notebook,
+  Mail
 } from "lucide-react"
 
 export type Icon = LucideIcon
 
 export const Icons = {
+  mail:Mail,
+  rol:Notebook,
   back:ArrowLeftToLine,
   logo: Command,
   close: X,
