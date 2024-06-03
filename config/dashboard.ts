@@ -58,6 +58,11 @@ export const dashboardConfig: DashboardConfig = {
       icon: "shoppingBasket",
     },
     {
+      title: "Roles",
+      href: "/dashboard/role",
+      icon: "rol"
+    },
+    {
       title: "Personalizacion",
       href: "/dashboard/personalization",
       icon: "palette",

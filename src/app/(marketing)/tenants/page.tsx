@@ -2,7 +2,6 @@ import Link from "next/link"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-import { Icons } from "@/components/icons"
 import { getUserCredentials } from "@/lib/auth"
 import { getAllTenantsUser } from "@/lib/queries/tenant"
 import { notFound } from "next/navigation"
@@ -20,6 +19,7 @@ export default async function TenantsPage() {
 
   const tenants = await getAllTenantsUser(user?.token!)
   const tenantsData = tenants.data.allTenants;
+  console.log(tenantsData)
 
   const pathToSubdomain = (hosting:string) => {
     return `http://${hosting}.localhost:3001?email=${user?.user.email}&workspace=${hosting}&oauth=${user?.token}`;
@@ -36,7 +36,7 @@ export default async function TenantsPage() {
         </p>
       </div>
       {
-        user && tenantsData.map(({ tenant: { hosting } }, index) => (
+        user && tenantsData.map(({ tenants: { hosting } }, index) => (
           <>
             <div className="flex justify-center">
               <div key={index} className="grid w-1/2 items-start gap-10 rounded-lg border p-5 md:grid-cols-[1fr_200px]">
@@ -56,7 +56,7 @@ export default async function TenantsPage() {
       }
 
       {
-        tenantsData.length === 0 || !user &&
+        tenantsData.length === 0 &&
         <div className="mx-auto flex w-full max-w-[58rem] flex-col gap-4">
           <p className="max-w-[85%] leading-normal text-muted-foreground sm:leading-7">
             No tiene areas de trabajo.{" "}

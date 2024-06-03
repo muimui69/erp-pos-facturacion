@@ -70,27 +70,29 @@ export function UserPaynamentForm({ className, ...props }: UserPaynamentFormProp
       const top = (window.innerHeight - height) / 2;
 
       const popup = window.open(urlStripe, '_blank', `width=${width},height=${height},left=${left},top=${top}`);
-      popup?.addEventListener('load', () => {
-        // Redirigir la ventana emergente a otra URL
-        popup.location.href = cancelUrlStripe || successUrlStripe;
-      });
-  
-      // Manejar la redirección después del pago exitoso
-      popup?.addEventListener('load', () => {
-        if (popup.location.href === successUrlStripe) {
-          setIsLoading(false);
-          // Mostrar el mensaje de agradecimiento
-          return toast({
-            title: `¡Gracias por su compra! ${String.fromCodePoint(129309)}`,
-          });
-        }
-      });
-      
+      navigate.push('/tenants')
+    
+      // popup?.addEventListener('load', () => {
+        //   // Redirigir la ventana emergente a otra URL
+        //   popup.location.href = cancelUrlStripe || successUrlStripe;
+        // });
+    
+        // // Manejar la redirección después del pago exitoso
+        // popup?.addEventListener('load', () => {
+        //   if (popup.location.href === successUrlStripe) {
+        //     setIsLoading(false);
+        //     // Mostrar el mensaje de agradecimiento
+        //     return toast({
+        //       title: `¡Gracias por su compra! ${String.fromCodePoint(129309)}`,
+        //     });
+        //   }
+        // });
+        
 
-      const hostname = window.location.hostname;
-      console.log(hostname)
-      navigate.replace(`http://${paynamentData.hosting}.${hostname}:3001?email=${email}&workspace=${paynamentData.hosting}&oauth=${token}`);
-
+      // const hostname = window.location.hostname;
+      // console.log(hostname)
+      // navigate.push('/tenants')
+      // navigate.replace(`http://${paynamentData.hosting}.${hostname}:3001?email=${email}&workspace=${paynamentData.hosting}&oauth=${token}`);
       // setIsLoading(false);
       // return toast({
       //   title: `Gracias por su compra  ${String.fromCodePoint(129309)}!`,

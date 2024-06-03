@@ -8,6 +8,8 @@ import { DialogCreate } from "./create-dialog"
 import { toast } from "@/components/ui/use-toast"
 import { useCategories } from "@/hooks/use-category"
 import { useParamsClient } from "@/hooks/use-params"
+import { Data } from "@/lib/queries/interfaces/auth.interface"
+import Cookie from 'js-cookie';
 
 interface PostCreateButtonProps extends ButtonProps { }
 
@@ -21,11 +23,16 @@ export function PostCreateButtonCategory({
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+
   const handleSubmit = async (description: string): Promise<void> => {
     try {
+      const userString = Cookie.get('user');
+      const userData = JSON.parse(userString!) as Data;
+
       setIsLoading(true);
       await createCategory.mutateAsync({
         subdomain: subdomain as never,
+        serviceToken: userData.token,
         category: {
           description
         },
@@ -41,7 +48,7 @@ export function PostCreateButtonCategory({
       setIsLoading(false);
       toast({
         description: "No se creo la Categoria. Intente de nuevo",
-        variant:"destructive"
+        variant: "destructive"
       })
     }
   }

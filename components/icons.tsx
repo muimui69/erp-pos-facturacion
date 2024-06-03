@@ -36,7 +36,8 @@ import {
   Map,
   Handshake,
   Palette,
-  Brush
+  Brush,
+  Notebook
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -76,6 +77,7 @@ export const Icons = {
   handshake: Handshake,
   palette: Palette,
   brush: Brush,
+  rol:Notebook,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

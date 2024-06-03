@@ -28,14 +28,15 @@ export const getCategoryById = async (subdomain: string, id: number) => {
 }
 
 
-export const postCreateCategory = async (subdomain: string, category: PostCategoryParams) => {
+export const postCreateCategory = async (subdomain: string, serviceToken: string, category: PostCategoryParams) => {
     try {
         const obj: PostCategoryParams = {
             description: category.description
         }
         return await api.post('/category', converToStringfy(obj), {
             headers: {
-                subdomain
+                subdomain,
+                "service-token": serviceToken
             }
         });
     } catch (error) {

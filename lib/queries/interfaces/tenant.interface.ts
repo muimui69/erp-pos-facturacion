@@ -10,8 +10,8 @@ export interface Data {
 }
 
 export interface AllTenant {
-    rol:    Rol;
-    tenant: Tenant;
+    roles:    Role[];
+    tenants: Tenants;
 }
 
 export interface Rol {
@@ -19,8 +19,23 @@ export interface Rol {
     desc: string;
 }
 
-export interface Tenant {
+export interface Role {
+    rol: Rol;
+}
+
+export interface Tenants {
     id:        number;
     hosting:   string;
     createdAt: string;
+    updatedAt: string;
+    status:    boolean;
 }
+
+
+
+
+
+
+
+
+
