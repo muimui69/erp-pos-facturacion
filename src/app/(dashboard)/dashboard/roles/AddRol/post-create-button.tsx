@@ -7,7 +7,7 @@ import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
 // import { DialogCreate } from "./create-dialog"
 import { postCreateAtm } from "@/lib/queries/employee"
 import { toast } from "@/components/ui/use-toast"
-import { DialogCreate } from "./create-dialog"
+
 import Link from 'next/link';
 interface PostCreateButtonProps extends ButtonProps { }
 
@@ -31,28 +31,45 @@ interface PostCreateButtonProps extends ButtonProps { }
 // }, []);
 
 
-  
-
-  
 
 export function PostCreateButtonRoles({
   className,
   variant,
   ...props
 }: PostCreateButtonProps) {
+
+    const handleSubmit = async ( name: string, email: string, phone: string): Promise<void> => {
+        try {
+         
+          //Consumo Api Crear Proveedor
+        //   const new_employee = await postCreateAtm(name,description,price,photo,cat);
+        //   console.log('=-=========', new_employee)
+       
+          toast({
+            description: " creado correctamente"
+          })
+        } catch (err) {
+          console.error("Error creando el Proveedor", err);
+       
+          toast({
+            description: "No se creo el Proveedor. Intente de nuevo"
+          })
+        }
+      }
   return (
     <>
       <Link href="/dashboard/roles/AddRol">
-        <button
+        <button 
           type="button"
           className={cn(
             buttonVariants({ variant }),
             className
           )}
           {...props}
+          
         >
           <Icons.add className="mr-2 h-4 w-4" />
-          Nuevo Rol
+          Guardar Rol
         </button>
       </Link>
     </>

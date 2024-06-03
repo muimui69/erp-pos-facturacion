@@ -65,12 +65,12 @@ const ActionCell = ({ row}: { row: Row<Rol>}) => {
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Acciones</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem >
+                    {/* <DropdownMenuItem >
                         Ver detalles
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
+                    </DropdownMenuItem> */}
+                    {/* <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
                         Editar
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                     <DropdownMenuItem>
                         Eliminar
                     </DropdownMenuItem>

@@ -68,21 +68,22 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter roles..."
+          value={(table.getColumn("desc")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("desc")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm "
         />
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
+            
+                <Input type="email" placeholder="Introduzca el nombre del Rol" className=" ml-auto  max-w-sm"/>
+          
+          
+             
+
           <DropdownMenuContent align="end">
             {table
               .getAllColumns()
@@ -132,7 +133,8 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+             
+                    <TableCell key={cell.id}> 
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -154,7 +156,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {/* <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2 py-4">
         <div className="space-x-2">
           <Button
             variant="outline"
@@ -173,7 +175,7 @@ export function DataTable<TData, TValue>({
             Next
           </Button>
         </div>
-      </div> */}
+      </div>
     </div>
   )
 }

@@ -23,37 +23,45 @@ import { useState } from "react"
 import { DialogDemo } from "@/components/dialog"
 import { DialogTrigger } from "@radix-ui/react-dialog"
 // import { DialogEditProvider } from "./edit-dialog"
-
-export type Provider = {
+import { Checkbox } from "@/components/ui/checkbox"
+export type Rol = {
     id: string
-    name: string
-    email: string
-    phone:string
+    desc: string
+   
 }
 
 
-export const columns: ColumnDef<Provider>[] = [
+export const columns: ColumnDef<Rol>[] = [
     {
-        accessorKey: "name",
-        header: "Usuario",
+        id: "select",
+        header: ({ table }) => (
+          <Checkbox
+            checked={
+              table.getIsAllPageRowsSelected() ||
+              (table.getIsSomePageRowsSelected() && "indeterminate")
+            }
+            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+            aria-label="Select all"
+          />
+        ),
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("name")}</div>
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+          />
+        ),
+        enableSorting: false,
+        enableHiding: false,
+      },
+    {
+        accessorKey: "desc",
+        header: "Descripcion",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("desc")}</div>
         ),
     },
-    {
-        accessorKey: "name",
-        header: "Expiracion",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("name")}</div>
-        ),
-    },
-    {
-        accessorKey: "status",
-        header: "Estado",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status") === true ? "Activo" : "Inactivo"}</div>
-        ),
-    },
+   
     {
         id: "actions",
         enableHiding: false,
@@ -64,7 +72,7 @@ export const columns: ColumnDef<Provider>[] = [
     },
 ]
 
-const ActionCell = ({ row}: { row: Row<Provider>}) => {
+const ActionCell = ({ row}: { row: Row<Rol>}) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     return (

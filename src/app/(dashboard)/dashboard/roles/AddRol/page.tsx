@@ -2,10 +2,16 @@ import { DashboardShell } from "@/components/shell";
 
 
 import { DashboardHeader } from "@/components/header";
-import { Rol, columns } from "./columns";
-import { PostCreateButtonRoles } from "./post-create-button";
+
+
 import { DataTable } from "./data-table";
-async function getData(): Promise<Rol[]> {
+import { columns } from "./columns";
+import { PostCreateButtonRoles } from "./post-create-button";
+
+
+
+
+async function getData(): Promise<any[]> {
     return [
       {
         id: "m5gr84i9",
@@ -14,83 +20,62 @@ async function getData(): Promise<Rol[]> {
       },
       {
         id: "3u1reuv4",
-        desc: "Abe Smith",
+        desc: "Editar Producto",
         
       },
       {
         id: "derv1ws0",
-        desc: "Monserrat Garcia",
+        desc: "Eliminar Producto",
        
       },
       {
         id: "5kma53ae",
-        desc: "Silas Brown",
+        desc: "Ver informes",
         
       },
       {
         id: "bhqecj4p",
-        desc: "Carmella Rodriguez",
+        desc: "Crear Reportes",
       
-      },{
+      }, {
         id: "m5gr84i9",
-        desc: "Ken Johnson",
+        desc: "Crear Producto ",
         
       },
       {
         id: "3u1reuv4",
-        desc: "Abe Smith",
+        desc: "Editar Producto",
         
       },
       {
         id: "derv1ws0",
-        desc: "Monserrat Garcia",
+        desc: "Eliminar Producto",
        
       },
       {
         id: "5kma53ae",
-        desc: "Silas Brown",
+        desc: "Ver informes",
         
-      },
-      {
-        id: "bhqecj4p",
-        desc: "Carmella Rodriguez",
-      
       },{
-        id: "m5gr84i9",
-        desc: "Ken Johnson",
-        
-      },
-      {
-        id: "3u1reuv4",
-        desc: "Abe Smith",
-        
-      },
-      {
-        id: "derv1ws0",
-        desc: "Monserrat Garcia",
-       
-      },
-      {
         id: "5kma53ae",
-        desc: "Silas Brown",
+        desc: "Ver informes",
         
-      },
-      {
-        id: "bhqecj4p",
-        desc: "Moyra Rodriguez",
-      
+      },{
+        id: "5kma53ae",
+        desc: "Ver informes",
+        
       },
     ];
   }
   
-export default  async function Roles(){
+export default  async function addroles(){
    
   const data =  await getData();
     return(
         <>
       <DashboardShell>
       <DashboardHeader heading="Roles" text="Cree y gestione los diferentes Roles de su punto de venta.">
-        <PostCreateButtonRoles/>
+        <PostCreateButtonRoles className="mr-6"/>
 
       </DashboardHeader>
       <div className="container overflow-x-auto">
