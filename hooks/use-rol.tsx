@@ -1,20 +1,26 @@
 "use client"
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/provider/ReactQueryClient';
-import { deleteCategoryById, getAllCategories, patchCategoryById, postCreateCategory } from '@/lib/queries/category';
-import { PatchCategoryParams, PostCategoryParams } from '@/lib/queries/interfaces/category.interface';
+import { deleteRoleById, getAllPermissions, getAllRoles, postCreateRole } from '@/lib/queries/rol';
+import { PostRoleParams } from '@/lib/queries/interfaces/rol.interface';
 
-export function useCategories(subdomain?: string) {
-    const queryKeyName = 'categories';
+export function useCategories(subdomain?: string, serviceToken?: string, search?: string) {
+    const queryKeyName = 'rols';
 
-    const { data: categories, isLoading, isError } = useQuery({
-        queryKey: [queryKeyName, subdomain],
-        queryFn: () => getAllCategories(subdomain as never)
+    const { data: rols, isLoading: isLoadingRols, isError: isErrorRols } = useQuery({
+        queryKey: [queryKeyName, subdomain, serviceToken],
+        queryFn: () => getAllRoles(serviceToken as never, subdomain as never)
     });
 
-    const createCategoryMutation = useMutation({
-        mutationFn: async ({ subdomain, category, serviceToken }: { subdomain: string, serviceToken: string, category: PostCategoryParams }) => {
-            return postCreateCategory(subdomain, serviceToken, category);
+
+    const { data: permissions, isLoading: isLoadingPermissions, isError: isErrorPermissions } = useQuery({
+        queryKey: [queryKeyName, subdomain, serviceToken, search],
+        queryFn: () => getAllPermissions(serviceToken as never, subdomain as never, search as never)
+    });
+
+    const createRolMutation = useMutation({
+        mutationFn: async ({ subdomain, serviceToken, role }: { serviceToken: string, subdomain: string, role: PostRoleParams }) => {
+            return postCreateRole(serviceToken, subdomain, role);
         },
 
         onSuccess: () => {
@@ -22,9 +28,9 @@ export function useCategories(subdomain?: string) {
         },
     })
 
-    const deleteCategoryMutation = useMutation({
-        mutationFn: async ({ subdomain, id }: { subdomain: string, id: string }) => {
-            return deleteCategoryById(subdomain, id);
+    const deleteRoleMutation = useMutation({
+        mutationFn: async ({ serviceToken, subdomain, id }: { serviceToken: string, subdomain: string, id: string }) => {
+            return deleteRoleById(serviceToken, subdomain, id);
         },
 
         onSuccess: () => {
@@ -32,22 +38,16 @@ export function useCategories(subdomain?: string) {
         },
     })
 
-    const patchCategoryMutation = useMutation({
-        mutationFn: async ({ subdomain, id, category }: { subdomain: string, id: string, category: PatchCategoryParams }) => {
-            return patchCategoryById(subdomain, id, category);
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [queryKeyName] });
-        },
-    })
 
 
     return {
-        categories: categories?.data?.data.allCategories || [],
-        isLoading,
-        isError,
-        createCategory: createCategoryMutation,
-        deleteCategory: deleteCategoryMutation,
-        patchCategory: patchCategoryMutation
+        permissions: permissions?.data?.data.allPermission || [],
+        rols: rols?.data?.data || [],
+        isLoadingPermissions,
+        isLoadingRols,
+        isErrorPermissions,
+        isErrorRols,
+        createRol: createRolMutation,
+        deleteRol: deleteRoleMutation,
     };
 }
