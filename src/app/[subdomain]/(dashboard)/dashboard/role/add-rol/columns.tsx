@@ -6,6 +6,7 @@ import {
 
 import {
     ColumnDef,
+    Row,
 } from "@tanstack/react-table"
 
 import { Button } from "@/components/ui/button"
@@ -19,38 +20,64 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Dialog } from "@/components/ui/dialog"
 import { useState } from "react"
-import { DialogDemo } from "@/components/dialog"
 import { DialogTrigger } from "@radix-ui/react-dialog"
-
-export type Payment = {
-    id: string
-    amount: number
-    status: "pending" | "processing" | "success" | "failed"
-    email: string
-}
+import { Checkbox } from "@/components/ui/checkbox"
+import { AllPermission } from "@/lib/queries/interfaces/rol.interface"
 
 
-export const columns: ColumnDef<Payment>[] = [
+const UsePermissions = () => {
+    const [selectedPermissions, setSelectedPermissions] = useState<AllPermission[]>([]);
+
+    const togglePermission = (permission: AllPermission, isSelected: boolean) => {
+        setSelectedPermissions(prev =>
+            isSelected ? [...prev, permission] : prev.filter(p => p.id !== permission.id)
+        );
+    };
+
+    return { selectedPermissions, togglePermission };
+};
+
+export const columns: ColumnDef<AllPermission>[] = [
     {
-        accessorKey: "name",
-        header: "Status",
+        id: "select",
+        header: ({ table }) => (
+            <Checkbox
+                checked={
+                    table.getIsAllPageRowsSelected() ||
+                    (table.getIsSomePageRowsSelected() && "indeterminate")
+                }
+                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                aria-label="Select all"
+            />
+        ),
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("name")}</div>
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+                aria-label="Select row"
+            />
+        ),
+        enableSorting: false,
+        enableHiding: false,
+    },
+    {
+        accessorKey: "desc",
+        header: "Descripcion",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("desc")}</div>
         ),
     },
-    
-  
+
     {
         id: "actions",
         enableHiding: false,
         cell: ({ row }) => {
-            const payment = row.original
-            return <ActionCell payment={payment} />;
+            return <ActionCell row={row} />;
         },
     },
 ]
 
-const ActionCell = ({ payment }: { payment: Payment }) => {
+const ActionCell = ({ row }: { row: Row<AllPermission> }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     return (
@@ -77,10 +104,14 @@ const ActionCell = ({ payment }: { payment: Payment }) => {
                 </DropdownMenuContent>
             </DropdownMenu>
 
+
             {isDialogOpen && (
-                <Dialog onOpenChange={setIsDialogOpen} open={isDialogOpen}>
+                <Dialog onOpenChange={() => setIsDialogOpen(false)} open={isDialogOpen}>
                     <DialogTrigger asChild>
-                        <DialogDemo />
+                        {/* <DialogEditProvider
+                            setIsDialogOpen={setIsDialogOpen}
+                            data={row.original}
+                        /> */}
                     </DialogTrigger>
                 </Dialog>
             )}

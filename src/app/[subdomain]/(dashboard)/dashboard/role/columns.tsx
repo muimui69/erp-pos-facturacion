@@ -22,16 +22,11 @@ import { Dialog } from "@/components/ui/dialog"
 import { useState } from "react"
 import { DialogDemo } from "@/components/dialog"
 import { DialogTrigger } from "@radix-ui/react-dialog"
-// import { DialogEditProvider } from "./edit-dialog"
+import { AllRole } from "@/lib/queries/interfaces/rol.interface"
+import { useParamsClient } from "@/hooks/use-params"
+import { useRols } from "@/hooks/use-rol"
 
-export type Rol = {
-    id: string
-    desc: string
-
-}
-
-
-export const columns: ColumnDef<Rol>[] = [
+export const columns: ColumnDef<AllRole>[] = [
     {
         accessorKey: "desc",
         header: "Descripcion",
@@ -39,20 +34,40 @@ export const columns: ColumnDef<Rol>[] = [
             <div className="capitalize">{row.getValue("desc")}</div>
         ),
     },
-
+    {
+        accessorKey: "status",
+        header: "Estado",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("status") === true ? "Activo" : "Inactivo"}</div>
+        ),
+    },
     {
         id: "actions",
         enableHiding: false,
         cell: ({ row }) => {
-            const payment = row.original
             return <ActionCell row={row} />;
         },
     },
 ]
 
-const ActionCell = ({ row }: { row: Row<Rol> }) => {
+const ActionCell = ({ row }: { row: Row<AllRole> }) => {
+    const { subdomain, user } = useParamsClient();
+    const { deleteRol } = useRols(subdomain as never);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const roleId = row.original.id;
 
+    const deleteRoleById = async (id: number) => {
+        try {
+            await deleteRol.mutateAsync({
+                subdomain: subdomain as never,
+                id: id.toString(),
+                serviceToken: user?.token!
+            });
+        } catch (error) {
+            console.error("Error al eliminar una categoria: ", error);
+        }
+    }
+    
     return (
         <>
             <DropdownMenu>
@@ -65,13 +80,13 @@ const ActionCell = ({ row }: { row: Row<Rol> }) => {
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Acciones</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem >
+                    {/* <DropdownMenuItem >
                         Ver detalles
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
+                    </DropdownMenuItem> */}
+                    {/* <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
                         Editar
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    </DropdownMenuItem> */}
+                    <DropdownMenuItem onClick={() => deleteRoleById(roleId)}>
                         Eliminar
                     </DropdownMenuItem>
                 </DropdownMenuContent>

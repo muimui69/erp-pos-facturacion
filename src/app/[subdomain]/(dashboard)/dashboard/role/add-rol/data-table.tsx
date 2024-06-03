@@ -32,11 +32,21 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useState } from "react"
+import { useTranslation } from "@/hooks/use-translation-columns"
+import { useParamsClient } from "@/hooks/use-params"
+import { useRols } from "@/hooks/use-rol"
+import { toast } from "@/components/ui/use-toast"
+import { useRouter } from "next/navigation"
+import { PostCreateButtonRolesPermission } from "./post-create-button"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  data?: TData[]
 }
+interface User {
+  desc: string;
+}
+
 
 export function DataTable<TData, TValue>({
   columns,
@@ -46,9 +56,27 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+
+  const { subdomain, user } = useParamsClient();
+  const { permissions, isLoadingPermissions, createRol } = useRols(subdomain as never, user?.token);
+  const navigate = useRouter();
+
+  const [userData, setUserData] = useState<User>({
+    desc: '',
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setUserData(prevData => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const table = useReactTable({
-    data,
+    data: permissions as TData[],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -66,23 +94,58 @@ export function DataTable<TData, TValue>({
     },
   })
 
+  const handleSubmit = async (): Promise<void> => {
+    try {
+      setIsLoading(true);
+
+      const permissionSelect = table.getSelectedRowModel().flatRows.map(({ original }) => original.id)
+      //   const new_employee = await postCreateAtm(name,description,price,photo,cat);
+      await createRol.mutateAsync({
+        subdomain: subdomain as never,
+        serviceToken: user?.token!,
+        role: {
+          desc: userData.desc,
+          permissions: permissionSelect
+        }
+      });
+      navigate.push('/dashboard/role');
+      setIsLoading(false);
+      toast({
+        description: "Rol creado correctamente"
+      })
+    } catch (err) {
+      console.error("Error creando el rol", err);
+      setIsLoading(false);
+      toast({
+        description: "No se crear el Rol. Intente de nuevo"
+      })
+    }
+  }
+
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filtrar permisos..."
+          value={(table.getColumn("desc")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("desc")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm "
         />
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
+
+          <Input
+            type="text"
+            name="desc"
+            placeholder="Introduzca el nombre del Rol"
+            className=" ml-auto  max-w-sm"
+            onChange={handleChange}
+            value={userData.desc}
+          />
+
+          <PostCreateButtonRolesPermission className="ml-6" handleSubmit={handleSubmit} />
+
           <DropdownMenuContent align="end">
             {table
               .getAllColumns()
@@ -132,6 +195,7 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
+
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -147,7 +211,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {isLoadingPermissions ? "Cargando datos ..." : "No hay resultados."}
                 </TableCell>
               </TableRow>
             )}

@@ -4,7 +4,7 @@ import { queryClient } from '@/provider/ReactQueryClient';
 import { deleteInvitationById, getAllInvitations, getUserInvitation, patchAcceptInvitationById, patchResendInvitationById, postCreateInvitation } from '@/lib/queries/invitation';
 import { PostInvitationParams } from '@/lib/queries/interfaces/invitation.interface';
 
-export function useCategories(subdomain?: string, serviceToken?: string, search?: string) {
+export function useInvitations(subdomain?: string, serviceToken?: string, search?: string) {
     const queryKeyName = 'invitations';
 
     const { data: invitations, isLoading: isLoadingInvitations, isError: isErrorInvitations } = useQuery({

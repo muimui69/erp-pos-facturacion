@@ -1,7 +1,7 @@
 import api, { converToStringfy } from "../api";
 import { GelRolesResponse, GetPermissionsResponse, PostRoleParams } from "./interfaces/rol.interface";
 
-export const getAllPermissions = async (serviceToken: string, subdomain: string, search: string) => {
+export const getAllPermissions = async (serviceToken: string, subdomain: string, search?: string) => {
     try {
         return await api.get<GetPermissionsResponse>('/role/permission', {
             headers: {

@@ -10,6 +10,7 @@ const translationMap = {
     price: "Precio",
     discount: "descuento",
     categories: "Categorias",
+    desc:"Descripcion"
 };
 
 export function useTranslation() {

@@ -13,20 +13,17 @@ import { Label } from "@/components/ui/label"
 import { ChangeEvent, useState } from "react"
 
 
+
 interface DialogCreateProps {
     HandleSubmit: (name: string, email: string, phone: string) => Promise<void>,
     availablePermissions: string[] | undefined;
 }
-
 export function DialogCreate({ HandleSubmit, availablePermissions }: DialogCreateProps) {
-
     const [userData, setUserData] = useState({
         name: '',
-
-
     });
     const [selectedPermissions, setSelectedPermissions] = useState<string[]>([]);
-
+    const [searchTerm, setSearchTerm] = useState<string>('');
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -35,6 +32,7 @@ export function DialogCreate({ HandleSubmit, availablePermissions }: DialogCreat
             [name]: value,
         }));
     };
+
     const handlePermissionChange = (permission: string) => {
         if (selectedPermissions.includes(permission)) {
             setSelectedPermissions(selectedPermissions.filter(p => p !== permission));
@@ -42,6 +40,11 @@ export function DialogCreate({ HandleSubmit, availablePermissions }: DialogCreat
             setSelectedPermissions([...selectedPermissions, permission]);
         }
     };
+
+    const filteredPermissions = availablePermissions?.filter(permission =>
+        permission.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     const handleCreateEmployee = async () => {
         // HandleSubmit(userData.email, userData.name, userData.phone, userBranch.idBranch);
     };
@@ -70,7 +73,14 @@ export function DialogCreate({ HandleSubmit, availablePermissions }: DialogCreat
                 </div>
                 <div className="ml-3">
                     <h3 className="mb-3 font-bold">Lista de Permisos</h3>
-                    {availablePermissions?.map(permission => (
+                    <Input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Buscar permisos..."
+                        className="mb-2"
+                    />
+                    {filteredPermissions?.map(permission => (
                         <div key={permission} className="flex items-center">
                             <input
                                 type="checkbox"
