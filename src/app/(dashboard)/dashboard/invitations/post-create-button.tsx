@@ -7,10 +7,11 @@ import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
 // import { DialogCreate } from "./create-dialog"
 import { postCreateAtm } from "@/lib/queries/employee"
 import { toast } from "@/components/ui/use-toast"
+import { DialogCreate } from "./dialog-create"
 
 interface PostCreateButtonProps extends ButtonProps { }
 
-export function PostCreateButtonEmployee({
+export function PostCreateButtonInvitation({
   className,
   variant,
   ...props
@@ -27,14 +28,14 @@ export function PostCreateButtonEmployee({
       setIsDialogOpen(false)
       setIsLoading(false);
       toast({
-        description: "Usuario creado correctamente"
+        description: "Invitacion enviada Correctamente"
       })
     } catch (err) {
       console.error("Error creando el usuario", err);
       setIsDialogOpen(false);
       setIsLoading(false);
       toast({
-        description: "No se creo el empleado. Intente de nuevo"
+        description: "No se creo la Invitacion. Intente de nuevo"
       })
     }
   }
@@ -60,13 +61,13 @@ export function PostCreateButtonEmployee({
         ) : (
           <Icons.add className="mr-2 h-4 w-4" />
         )}
-        Nuevo empleado
+        Nueva Invitacion
       </button>
 
       {isDialogOpen && (
         <Dialog onOpenChange={setIsDialogOpen} open={isDialogOpen}>
           <DialogTrigger asChild>
-            {/* <DialogCreate HandleSubmit={handleSubmit} /> */}
+            <DialogCreate HandleSubmit={handleSubmit} />
           </DialogTrigger>
         </Dialog>
       )}

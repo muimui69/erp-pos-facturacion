@@ -35,12 +35,16 @@ import {
   MapPinned,
   Map,
   Notebook,
-  Mail
+  Mail,
+  CircleX,
+  RotateCcw
 } from "lucide-react"
 
 export type Icon = LucideIcon
 
 export const Icons = {
+  reset:RotateCcw,
+  cancel:CircleX,
   mail:Mail,
   rol:Notebook,
   back:ArrowLeftToLine,

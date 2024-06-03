@@ -5,6 +5,8 @@ import { columns,  Provider } from "./columns";
 import { getAllProviders } from "@/lib/queries/provider";
 import { Params } from "@/lib/constants";
 import { headers } from "next/headers"
+import { PostCreateButtonInvitation } from "./post-create-button";
+
 
 async function getData(): Promise<Provider[]> {
   return [
@@ -52,7 +54,7 @@ export default async function ProviderPage() {
   return (
     <DashboardShell>
       <DashboardHeader heading="Invitaciones" text="Cree y gestione los diferentes Invitaciones de su punto de venta.">
-      {/* <PostCreateButtonProvider className="mr-6" /> */}
+       <PostCreateButtonInvitation className="mr-6" /> 
 
       </DashboardHeader>
       <div className="container overflow-x-auto">
