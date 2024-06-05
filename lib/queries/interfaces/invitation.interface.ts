@@ -1,6 +1,6 @@
 export interface PostInvitationParams {
     rolId: number;
-    userId: string;
+    users: string[];
 }
 
 
@@ -22,29 +22,6 @@ export interface AllUser {
     name:      string;
     phone:     string;
     photo:     null;
-    status:    boolean;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-
-export interface GetInvitationsResponse {
-    statusCode: number;
-    message:    string;
-    data:       DataInvitationsResponse;
-}
-
-export interface DataInvitationsResponse {
-    allInvitations: AllInvitation[];
-    total:          number;
-}
-
-export interface AllInvitation {
-    id:        number;
-    tenantId:  number;
-    userId:    string;
-    state:     string;
-    rolId:     number;
     status:    boolean;
     createdAt: Date;
     updatedAt: Date;
@@ -108,4 +85,47 @@ export interface MemeberTenant {
     passwordTenant: string;
     userId:         string;
     tenantId:       number;
+}
+
+
+
+export interface GetInvitationsResponse {
+    statusCode: number;
+    message:    string;
+    data:       Data;
+}
+
+export interface Data {
+    allInvitations: AllInvitation[];
+    total:          number;
+}
+
+export interface AllInvitation {
+    id:        number;
+    rol:       Rol;
+    state:     string;
+    user:      User;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface Rol {
+    id:        number;
+    desc:      string;
+    status:    boolean;
+    tenantId:  number;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface User {
+    id:        string;
+    email:     string;
+    password:  string;
+    name:      string;
+    phone:     string;
+    photo:     null;
+    status:    boolean;
+    createdAt: Date;
+    updatedAt: Date;
 }

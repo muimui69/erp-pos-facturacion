@@ -7,10 +7,14 @@ import { Button } from './ui/button';
 import { dashboardConfig } from '@/config/dashboard';
 import { MainNav } from './main-nav';
 import { UserAvatar } from './user-avatar';
-import { useTheme } from '@/context/theme-context';  // Importa el contexto
+import { useThemeLocal } from '@/context/theme-context';  // Importa el contexto
+import { useTheme } from 'next-themes';
+import { MoonIcon, SunIcon } from '@radix-ui/react-icons';
+import { PcCaseIcon } from 'lucide-react';
 
 export const PersonalizationBody = () => {
-    const { menuColor, setMenuColor, topMenuColor, setTopMenuColor } = useTheme();
+    const { setTheme } = useTheme()
+    const { menuColor, setMenuColor, topMenuColor, setTopMenuColor } = useThemeLocal();
     const [tempMenuColor, setTempMenuColor] = useState(menuColor);
     const [tempTopMenuColor, setTempTopMenuColor] = useState(topMenuColor);
 
@@ -95,6 +99,31 @@ export const PersonalizationBody = () => {
                 >
                     Aplicar cambios
                 </Button>
+            </div>
+
+            <p className="px-2 mt-5 scroll-m-20  pb-1 text-3xl font-semibold tracking-tight first:mt-0">
+                Seleccionar tema global
+            </p>
+            <div className="grid sm:grid-cols-2 gap-4 mb-10">
+                <button className="group relative flex justify-between items-center rounded-lg border p-6 shadow-md transition-shadow hover:shadow-lg text-xl font-semibold tracking-tight"
+                    onClick={() => setTheme("light")}
+                >
+                    Modo claro
+                    <SunIcon className="h-[2rem] w-[2rem]  " />
+                </button>
+                <button className="group relative flex justify-between items-center rounded-lg border p-6 shadow-md transition-shadow hover:shadow-lg text-xl font-semibold tracking-tight"
+                    onClick={() => setTheme("dark")}
+                >
+                    Modo oscuro
+                    <MoonIcon className="h-[2rem] w-[2rem]" />
+                </button>
+
+                <button className="group relative flex justify-between items-center rounded-lg border p-6 shadow-md transition-shadow hover:shadow-lg text-xl font-semibold tracking-tight"
+                    onClick={() => setTheme("system")}
+                >
+                    Tema del sistema
+                    <PcCaseIcon className="h-[2rem] w-[2rem]" />
+                </button>
             </div>
         </>
     );

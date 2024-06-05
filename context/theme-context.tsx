@@ -22,7 +22,7 @@ export const ThemeProviderPos = ({ children }: { children: ReactNode }) => {
     );
 };
 
-export const useTheme = () => {
+export const useThemeLocal = () => {
     const context = useContext(ThemeContext);
     if (!context) {
         throw new Error('useTheme must be used within a ThemeProvider');

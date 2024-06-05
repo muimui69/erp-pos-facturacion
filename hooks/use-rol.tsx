@@ -10,15 +10,15 @@ export function useRols(subdomain?: string, serviceToken?: string, search?: stri
 
     const { data: rols, isLoading: isLoadingRols, isError: isErrorRols } = useQuery({
         queryKey: [queryKeyName, subdomain, serviceToken],
-        queryFn: () => getAllRoles(serviceToken as never, subdomain as never),
-        enabled: !!serviceToken
+        queryFn: () => getAllRoles(serviceToken as never, subdomain as never,search as never),
+        enabled: !!serviceToken && search !=''
     });
 
 
     const { data: permissions, isLoading: isLoadingPermissions, isError: isErrorPermissions } = useQuery({
         queryKey: [queryKeyNameP, subdomain, serviceToken, search],
         queryFn: () => getAllPermissions(serviceToken as never, subdomain as never, search as never),
-        enabled: !!serviceToken
+        enabled: !!serviceToken && search !=''
     });
 
     const createRolMutation = useMutation({

@@ -9,13 +9,15 @@ export function useInvitations(subdomain?: string, serviceToken?: string, search
 
     const { data: invitations, isLoading: isLoadingInvitations, isError: isErrorInvitations } = useQuery({
         queryKey: [queryKeyName, subdomain, serviceToken],
-        queryFn: () => getAllInvitations(serviceToken as never, subdomain as never)
+        queryFn: () => getAllInvitations(serviceToken as never, subdomain as never),
+        enabled: !!serviceToken
     });
 
 
     const { data: userInvitations, isLoading: isLoadingUserInvitation, isError: isErrorUserInvitation } = useQuery({
         queryKey: [queryKeyName, subdomain, serviceToken, search],
-        queryFn: () => getUserInvitation(serviceToken as never, subdomain as never, search as never)
+        queryFn: () => getUserInvitation(serviceToken as never, subdomain as never, search as never),
+        enabled: !!serviceToken && search != ''
     });
 
     const createInvitationMutation = useMutation({
@@ -67,6 +69,8 @@ export function useInvitations(subdomain?: string, serviceToken?: string, search
         createInvitation: createInvitationMutation,
         deleteInvitation: deleteInvitationMutation,
         patchAcceptInvitation: patchAcceptInvitationMutation,
-        patchResendInvitation: patchResendInvitationMutation
+        patchResendInvitation: patchResendInvitationMutation,
+        // search:setSearch,
+        // searchValue:search
     };
 }

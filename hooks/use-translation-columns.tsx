@@ -10,7 +10,9 @@ const translationMap = {
     price: "Precio",
     discount: "descuento",
     categories: "Categorias",
-    desc:"Descripcion"
+    desc:"Descripcion",
+    rol:"Rol",
+    state: "Estado",
 };
 
 export function useTranslation() {

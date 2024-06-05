@@ -11,7 +11,6 @@ export default async function Roles() {
             <DashboardShell>
                 <DashboardHeader heading="Roles" text="Cree y gestione los diferentes Roles de su punto de venta.">
                     <PostCreateButtonRoles />
-
                 </DashboardHeader>
                 <div className="container overflow-x-auto">
                     <DataTable columns={columns} />

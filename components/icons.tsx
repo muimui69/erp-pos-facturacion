@@ -39,7 +39,9 @@ import {
   Brush,
   Notebook,
   CircleX,
-  RotateCcw
+  RotateCcw,
+  Mail,
+  CircleCheck,
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -82,6 +84,8 @@ export const Icons = {
   rol:Notebook,
   reset:RotateCcw,
   cancel:CircleX,
+  mail:Mail,
+  confirmation:CircleCheck,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

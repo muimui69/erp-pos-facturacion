@@ -18,69 +18,84 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Dialog } from "@/components/ui/dialog"
-import { useState } from "react"
-import { DialogDemo } from "@/components/dialog"
-import { DialogTrigger } from "@radix-ui/react-dialog"
 import { Icons } from "@/components/icons"
-// import { DialogEditProvider } from "./edit-dialog"
+import { AllInvitation } from "@/lib/queries/interfaces/invitation.interface"
+import { useInvitations } from "@/hooks/user-invitation"
+import { useParamsClient } from "@/hooks/use-params"
 
-export type Provider = {
-    id: string
-    name: string
-    email: string
-    phone:string
-}
-
-
-export const columns: ColumnDef<Provider>[] = [
+export const columns: ColumnDef<AllInvitation>[] = [
     {
-        accessorKey: "name",
-        header: "Usuario",
+        accessorKey: "rol",
+        header: "Rol",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("name")}</div>
+            <div className="capitalize">{row.original.rol.desc}</div>
         ),
     },
     {
-        accessorKey: "name",
-        header: "Expiracion",
+        accessorKey: "email",
+        header: "Correo",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("name")}</div>
+            <div >{row.original.user.email}</div>
+
         ),
     },
     {
-        accessorKey: "status",
+        accessorKey: "phone",
+        header: "Telefono",
+        cell: ({ row }) => (
+            <div >{row.original.user.phone}</div>
+
+        ),
+    },
+    {
+        accessorKey: "state",
         header: "Estado",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status") === true ? "Activo" : "Inactivo"}</div>
+            <div className="lowercase">{row.getValue("state") === "ESPERA" ? "ESPERA" : "ACEPTADO"}</div>
+
         ),
     },
     {
         id: "actions",
         enableHiding: false,
         cell: ({ row }) => {
-            const payment = row.original
             return <ActionCell row={row} />;
         },
     },
 ]
 
-const handleCancel = async ( ): Promise<void> => {
-   
-     
-      //Consumo Api Cancelar invitacion
-   
-   
-      
-    
-  }
 
-  const handleReset=async():Promise<void>=>{
-//Consumo Api Reenviar Invitacion
+const ActionCell = ({ row }: { row: Row<AllInvitation> }) => {
 
-  }
-const ActionCell = ({ row}: { row: Row<Provider>}) => {
+    const { subdomain, user } = useParamsClient();
+    const { deleteInvitation, patchResendInvitation } = useInvitations(subdomain as never, user?.token);
+    const invitationId = row.original.id;
 
+    console.log(subdomain)
+
+    const deleteInvitationById = async (id: number) => {
+        try {
+            await deleteInvitation.mutateAsync({
+                subdomain: subdomain as never,
+                id: id.toString(),
+                serviceToken: user?.token!
+            });
+        } catch (error) {
+            console.error("Error al eliminar invitacion: ", error);
+        }
+    }
+
+    const patchResendInvitationById = async (id: number) => {
+        try {
+            await patchResendInvitation.mutateAsync({
+                subdomain: subdomain as never,
+                id: id.toString(),
+                serviceToken: user?.token!
+            });
+        } catch (error) {
+            console.error("Error al reenviar invitacion: ", error);
+        }
+    }
 
     return (
         <>
@@ -94,17 +109,15 @@ const ActionCell = ({ row}: { row: Row<Provider>}) => {
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Acciones</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleReset}>
-                          <Icons.reset className="mr-2 h-4 w-4" /> Reenviar Invitacion
+                    <DropdownMenuItem onClick={() => patchResendInvitationById(invitationId)}>
+                        <Icons.reset className="mr-2 h-4 w-4" /> Reenviar Invitacion
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleCancel}>
-                    <Icons.cancel className="mr-2 h-4 w-4" /> Cancelar Invitacion
+                    <DropdownMenuItem onClick={() => deleteInvitationById(invitationId)}>
+                        <Icons.cancel className="mr-2 h-4 w-4" /> Cancelar Invitacion
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
 
-            
-            
         </>
     );
 }

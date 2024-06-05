@@ -9,7 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "@files-ui/react": "^1.2.4",
+    "@mui/icons-material": "^5.15.19",
+    "@mui/joy": "5.0.0-beta.36",
+    "@mui/material": "^5.15.19",
+    "@mui/material-nextjs": "^5.15.11",
     "@next/env": "^14.2.3",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",
@@ -47,7 +54,8 @@
     "react-mapbox-autocomplete": "^0.2.3",
     "react-resizable-panels": "^2.0.19",
     "tailwind-merge": "^2.2.2",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",

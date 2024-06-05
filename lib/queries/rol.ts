@@ -17,13 +17,16 @@ export const getAllPermissions = async (serviceToken: string, subdomain: string,
     }
 }
 
-export const getAllRoles = async (serviceToken: string, subdomain: string) => {
+export const getAllRoles = async (serviceToken: string, subdomain: string, search: string) => {
     try {
         return await api.get<GelRolesResponse>('/role', {
             headers: {
                 subdomain,
                 "service-token": serviceToken
             },
+            params: {
+                search
+            }
         });
     } catch (error) {
         throw error;

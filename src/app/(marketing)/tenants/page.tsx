@@ -36,7 +36,7 @@ export default async function TenantsPage() {
         </p>
       </div>
       {
-        user && tenantsData.map(({ tenants: { hosting } }, index) => (
+        user && tenantsData.map(({ tenant: { hosting } }, index) => (
           <>
             <div className="flex justify-center">
               <div key={index} className="grid w-1/2 items-start gap-10 rounded-lg border p-5 md:grid-cols-[1fr_200px]">

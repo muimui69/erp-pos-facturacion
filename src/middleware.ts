@@ -191,11 +191,11 @@ export default async function middleware(req: NextRequest) {
 
   // Si estamos en un dominio habilitado y no es un subdominio, permitimos la solicitud.
   // Si nos quedamos en un dominio permitido y no es un subdominio, permitimos la solicitud.
-  if (isAllowedDomain && !tenants.data.allTenants.some(d => d.tenants.hosting === subdomain)) {
+  if (isAllowedDomain && !tenants.data.allTenants.some(d => d.tenant.hosting === subdomain)) {
     return NextResponse.next();
   }
 
-  const subdomainData = tenants.data.allTenants.find(d => d.tenants.hosting === subdomain);
+  const subdomainData = tenants.data.allTenants.find(d => d.tenant.hosting === subdomain);
 
   // es opcional a modificar
   if (subdomain === "") {

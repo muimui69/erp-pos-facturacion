@@ -37,7 +37,7 @@ export const postCreateInvitation = async (serviceToken: string, subdomain: stri
     try {
         const obj: PostInvitationParams = {
             rolId: invitation.rolId,
-            userId: invitation.userId
+            users: invitation.users
         }
         return await api.post('/invitation', converToStringfy(obj), {
             headers: {
@@ -66,11 +66,12 @@ export const deleteInvitationById = async (serviceToken: string, subdomain: stri
 }
 
 
+// ! ojo
 export const patchAcceptInvitationById = async (token: string, subdomain: string, id: string, invitation: PostInvitationParams) => {
     try {
         const obj: PostInvitationParams = {
             rolId: invitation.rolId,
-            userId: invitation.userId
+            users: invitation.users
         }
         const { data } = await api.patch(`/invitation/accept/${id}`, converToStringfy(obj), {
             headers: {

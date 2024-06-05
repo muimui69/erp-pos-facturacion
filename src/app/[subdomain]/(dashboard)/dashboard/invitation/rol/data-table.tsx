@@ -31,32 +31,60 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useTranslation } from "@/hooks/use-translation-columns"
 import { useParamsClient } from "@/hooks/use-params"
 import { useRols } from "@/hooks/use-rol"
-import { useTranslation } from "@/hooks/use-translation-columns"
-import { WithIP } from "@/components/utils/ip"
+import { toast } from "@/components/ui/use-toast"
+import { useRouter } from "next/navigation"
+import { AllRole } from "@/lib/queries/interfaces/rol.interface"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data?: TData[]
+  onRolSelect: (rolId: number) => void
+}
+interface User {
+  desc: string;
 }
 
-export function DataTable<TData, TValue>({
+
+export function DataTableRole<TData, TValue>({
   columns,
   data,
+  onRolSelect
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const { translation } = useTranslation()
+
   const { subdomain, user } = useParamsClient();
-  const { rols, isLoadingRols } = useRols(subdomain as never, user?.token);
-  const { ip } = WithIP();
+
+  const [search, setSearch] = useState("");
+  const [searchResults, setSearchResults] = useState<AllRole[]>([]);
+  const [isLoadingSearch, setIsLoadingSearch] = useState(false);
+  const { rols } = useRols(subdomain as never, user?.token, search!);
+
+  const handleSearchChange = (event: any) => {
+    setSearch(event.target.value);
+    const selectedRows = table.getSelectedRowModel().flatRows;
+    const firstSelectedRow = selectedRows.length > 0 ? selectedRows[0] : null;
+    const selectedRolId = firstSelectedRow ? firstSelectedRow.original.id : null;
+    // onRolSelect(selectedRolId)
+  };
+
+  const handleSearch = async () => {
+    setIsLoadingSearch(true);
+    setSearchResults(rols);
+    setIsLoadingSearch(false);
+  };
+
+
   const table = useReactTable({
-    data: rols as TData[],
+    data: searchResults as TData[],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -74,23 +102,48 @@ export function DataTable<TData, TValue>({
     },
   })
 
+  const selectedRows = table.getSelectedRowModel().flatRows;
+  const firstSelectedRow = selectedRows.length > 0 ? selectedRows[0] : null;
+  const selectedRolId = firstSelectedRow ? firstSelectedRow.original.id : null;
+
+  console.log(selectedRolId)
+
+  useEffect(() => {
+    const selectedRows = table.getSelectedRowModel().flatRows;
+    const firstSelectedRow = selectedRows.length > 0 ? selectedRows[0] : null;
+    const selectedRolId = firstSelectedRow ? firstSelectedRow.original.id : null;
+    onRolSelect(selectedRolId);
+  }, [table.getSelectedRowModel()])
+
+
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
-        <Input
+      <div className="flex items-center mb-8">
+        {/* <Input
           placeholder="Filtrar roles..."
           value={(table.getColumn("desc")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("desc")?.setFilterValue(event.target.value)
           }
+          className="max-w-sm "
+        /> */}
+
+
+        <Input
+          placeholder="Buscar por nombre..."
+          value={search}
+          onChange={handleSearchChange}
           className="max-w-sm"
         />
+
+        <Button onClick={handleSearch} disabled={isLoadingSearch} className="ml-2">
+          {isLoadingSearch ? "Buscando..." : "Buscar"}
+        </Button>
+
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columnas <ChevronDownIcon className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
+
+          {/* <PostCreateButtonRolesPermission className="ml-6" handleSubmit={handleSubmit} /> */}
+
           <DropdownMenuContent align="end">
             {table
               .getAllColumns()
@@ -105,14 +158,14 @@ export function DataTable<TData, TValue>({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {translation[column.id as never]}
+                    {column.id}
                   </DropdownMenuCheckboxItem>
                 )
               })}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border" style={{ maxHeight: "400px", overflowY: "auto" }}>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -140,6 +193,7 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
+
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -155,7 +209,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  {isLoadingRols ? "Cargando datos ..." : "No hay resultados."}
+                  {isLoadingSearch ? "Cargando datos ..." : "No hay resultados."}
                 </TableCell>
               </TableRow>
             )}

@@ -63,6 +63,11 @@ export const dashboardConfig: DashboardConfig = {
       icon: "rol"
     },
     {
+      title:"Invitaciones",
+      href:"/dashboard/invitation",
+      icon:"mail"
+    },
+    {
       title: "Personalizacion",
       href: "/dashboard/personalization",
       icon: "palette",

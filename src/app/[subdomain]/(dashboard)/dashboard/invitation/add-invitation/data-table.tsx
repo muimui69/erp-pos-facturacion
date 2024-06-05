@@ -31,20 +31,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { useState } from "react"
-import { useParamsClient } from "@/hooks/use-params"
-import { useRols } from "@/hooks/use-rol"
+import { useEffect, useState } from "react"
 import { useTranslation } from "@/hooks/use-translation-columns"
-import { WithIP } from "@/components/utils/ip"
+import { useParamsClient } from "@/hooks/use-params"
+import { useInvitations } from "@/hooks/user-invitation"
+import { AllUser } from "@/lib/queries/interfaces/invitation.interface"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data?: TData[]
+  onUserSelect: (userIds: string[]) => void
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  onUserSelect
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -53,10 +55,26 @@ export function DataTable<TData, TValue>({
 
   const { translation } = useTranslation()
   const { subdomain, user } = useParamsClient();
-  const { rols, isLoadingRols } = useRols(subdomain as never, user?.token);
-  const { ip } = WithIP();
+
+  const [search, setSearch] = useState("");
+  const [searchResults, setSearchResults] = useState<AllUser[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const { userInvitations } = useInvitations(subdomain as never, user?.token, search!);
+
+  const handleSearchChange = (event: any) => {
+    setSearch(event.target.value);
+    // const usersSelect = table.getSelectedRowModel().flatRows.map(({ original }) => original.id)
+    // onUserSelect(usersSelect)
+  };
+
+  const handleSearch = async () => {
+    setIsLoading(true);
+    setSearchResults(userInvitations);
+    setIsLoading(false);
+  };
+
   const table = useReactTable({
-    data: rols as TData[],
+    data: searchResults as TData[],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -74,23 +92,41 @@ export function DataTable<TData, TValue>({
     },
   })
 
+  const usersSelect = table.getSelectedRowModel().flatRows.map(({ original }) => original.id)
+  console.log(usersSelect)
+
+  useEffect(() => {
+    const usersSelect = table.getSelectedRowModel().flatRows.map(({ original }) => original.id)
+    onUserSelect(usersSelect)
+  }, [table.getSelectedRowModel()])
+
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filtrar roles..."
-          value={(table.getColumn("desc")?.getFilterValue() as string) ?? ""}
+      <div className="flex items-center">
+        {/* <Input
+          placeholder="Buscar por nombre o correo..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("desc")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
+          className="max-w-sm "
+        /> */}
+
+        <Input
+          placeholder="Buscar por nombre o correo..."
+          value={search}
+          onChange={handleSearchChange}
           className="max-w-sm"
         />
+        <Button onClick={handleSearch} disabled={isLoading} className="ml-2">
+          {isLoading ? "Buscando..." : "Buscar"}
+        </Button>
+
+
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columnas <ChevronDownIcon className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
+
+          {/* <Input type="email" placeholder="Enviar Correo..." className=" ml-auto  max-w-sm"/> */}
+
           <DropdownMenuContent align="end">
             {table
               .getAllColumns()
@@ -105,14 +141,14 @@ export function DataTable<TData, TValue>({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {translation[column.id as never]}
+                    {column.id}
                   </DropdownMenuCheckboxItem>
                 )
               })}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border mt-8">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -140,6 +176,7 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
+
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -155,33 +192,13 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  {isLoadingRols ? "Cargando datos ..." : "No hay resultados."}
+                  {isLoading ? "Cargando datos ..." : "No hay resultados."}
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      {/* <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
-      </div> */}
     </div>
   )
 }

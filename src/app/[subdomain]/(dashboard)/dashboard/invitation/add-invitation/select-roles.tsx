@@ -9,6 +9,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useBranchs } from '@/hooks/use-branch';
+import { useParamsClient } from "@/hooks/use-params";
+import { useRols } from "@/hooks/use-rol";
 import { Dispatch, SetStateAction } from "react";
 
 interface SelectBranchProps {
@@ -16,32 +18,25 @@ interface SelectBranchProps {
 }
 
 export default function SelectRoles({ setRol }: SelectBranchProps) {
-  const { branchs, isLoading, isError } = useBranchs(); //pero para roles
+
+  const { subdomain, user } = useParamsClient();
+  const { rols, isLoadingRols } = useRols(subdomain as never, user?.token);
 
   const handleSelectBranch = (value: string) => {
     setRol({ idRol: value })
   };
 
-
-  const roles = [
-    { id: 1, name: "Administrador" },
-    { id: 2, name: "Usuario Regular" },
-    { id: 3, name: "Invitado" },
-    
-    // Agrega más roles según sea necesario
-];
-
   return (
     <Select onValueChange={handleSelectBranch}>
-    
+
       <SelectTrigger className="col-span-3">
-        <SelectValue placeholder="Selecciona una sucursal" />
+        <SelectValue placeholder="Selecciona un rol" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {roles.map(({ id, name }) => (
-            <SelectItem key={id} value={id.toString()}>
-              {name}
+          {rols?.map(({ id, desc }) => (
+            <SelectItem className="capitalize" key={id} value={id.toString()}>
+              {desc}
             </SelectItem>
           ))}
         </SelectGroup>

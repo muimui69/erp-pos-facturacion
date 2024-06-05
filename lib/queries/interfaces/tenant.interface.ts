@@ -10,8 +10,8 @@ export interface Data {
 }
 
 export interface AllTenant {
-    roles:    Role[];
-    tenants: Tenants;
+    rol:    Role[];
+    tenant: Tenants;
 }
 
 export interface Rol {

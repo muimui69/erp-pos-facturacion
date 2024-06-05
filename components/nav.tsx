@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 import { SidebarNavItem } from "@/types"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
-import { useTheme } from '@/context/theme-context';  // Importa el contexto
+import { useThemeLocal } from '@/context/theme-context';  // Importa el contexto
 import { useEffect } from "react"
 
 
@@ -15,7 +15,7 @@ interface DashboardNavProps {
 }
 
 export function DashboardNav({ items }: DashboardNavProps) {
-  const { menuColor, setMenuColor } = useTheme()
+  const { menuColor, setMenuColor } = useThemeLocal()
   const path = usePathname()
   const savedMenuColor = localStorage.getItem('menuColor');
 

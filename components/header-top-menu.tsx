@@ -6,13 +6,13 @@ import { UserAccountNav } from "./user-account-nav"
 import { Data } from "@/lib/queries/interfaces/auth.interface";
 import Cookie from 'js-cookie';
 import { dashboardConfig } from "@/config/dashboard";
-import { useTheme } from "@/context/theme-context";
+import { useThemeLocal } from "@/context/theme-context";
 import { cn } from "@/lib/utils";
 
 
 export const HeaderTopMenu = () => {
     const [user, setUser] = useState<Data>();
-    const { topMenuColor, setTopMenuColor } = useTheme()
+    const { topMenuColor, setTopMenuColor } = useThemeLocal()
     const savedTopMenuColor = localStorage.getItem('topMenuColor');
 
     useEffect(() => {

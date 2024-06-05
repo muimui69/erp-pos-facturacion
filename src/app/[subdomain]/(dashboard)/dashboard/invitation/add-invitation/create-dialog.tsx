@@ -11,8 +11,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ChangeEvent, useState } from "react"
-// import SelectUser from "./select-Users"
-import SelectRoles from "./add-invitation/select-roles"
+import SelectRol from "./select-roles"
 
 interface DialogCreateProps {
     HandleSubmit: (email: string, name: string, phone: string, idBranch: string) => Promise<void>,
@@ -21,15 +20,12 @@ interface DialogCreateProps {
 export function DialogCreate({ HandleSubmit }: DialogCreateProps) {
 
     const [userData, setUserData] = useState({
-        correo: '',
-
+        name: '',
+       
     });
 
     const [Rol, setRol] = useState({
         idRol: '',
-    });
-    const [User, setUser] = useState({
-        idUser: '',
     });
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -40,64 +36,49 @@ export function DialogCreate({ HandleSubmit }: DialogCreateProps) {
         }));
     };
 
-    // const handleCreateEmployee = async () => { 
-    //     HandleSubmit(userData.email, userData.name, userData.phone, userBranch.idBranch);
-    // };
+    const handleCreateEmployee = async () => {
+        // HandleSubmit(userData.email, userData.name, userData.phone, userBranch.idBranch);
+    };
 
     return (
-
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
                 <DialogTitle>Crear empleado</DialogTitle>
                 <DialogDescription>
-                    Cree un nueva Invitacion aquí. Haga clic en crear Invitacion cuando haya terminado.
+                    Termine de enviar su invitacion aquí. Haga clic en enviar invitacion cuando haya terminado.
                 </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="name" className="text-right">
-                        Correo:
+                        Nombre
                     </Label>
                     <Input
-                        id="correo"
-                        name="correo"
-                        value={userData.correo}
+                        id="name"
+                        name="name"
+                        value={userData.name}
                         onChange={handleChange}
-                        placeholder="Joaquin356@gmail.com"
+                        placeholder="Joaquin chumacero"
                         className="col-span-3"
                     />
                 </div>
-                {/* <div className="items-center gap-4">
-                    <Label className="text-center">
-                        o Seleccione los Empleados
-                    </Label>
-
-                </div>
-
+               
+                
                 <div className="grid grid-cols-4 items-center gap-4">
-                    <Label className="text-right">
-                        Empleados
+                    <Label htmlFor="phone" className="text-right">
+                        Rol
                     </Label>
-                    <SelectUser setUser={setUser} />
-                </div> */}
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label className="text-right">
-                        Asignar:
-                    </Label>
-                    <SelectRoles setRol={setRol} />
+                    <SelectRol setRol={setRol} />
                 </div>
             </div>
             <DialogFooter>
                 <Button
-                    // onClick={handleCreateEmployee}
+                    onClick={handleCreateEmployee}
                     type="button"
                 >
-                    Crear Invitacion
+                    Enviar Invitacion
                 </Button>
             </DialogFooter>
         </DialogContent>
-
-
-
     )
 }

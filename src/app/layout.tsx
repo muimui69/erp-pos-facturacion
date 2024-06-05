@@ -8,6 +8,8 @@ import { siteConfig } from "@/config/site"
 import ProviderUseReactQuery from "@/provider/ReactQueryClient"
 import { Toaster } from "@/components/ui/toaster"
 import { ThemeProviderPos } from "@/context/theme-context"
+// import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -36,32 +38,15 @@ export const metadata = {
     "Server Components",
     "Radix UI",
   ],
-  authors: [
-    {
-      name: "shadcn",
-      url: "https://shadcn.com",
-    },
-  ],
-  creator: "shadcn",
 
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "en_ES",
     title: siteConfig.name,
     description: siteConfig.description,
     siteName: siteConfig.name,
   },
-  twitter: {
-    card: "summary_large_image",
-    title: siteConfig.name,
-    description: siteConfig.description,
-    creator: "@shadcn",
-  },
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
-  },
+
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
@@ -77,7 +62,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <ProviderUseReactQuery>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <ThemeProviderPos>
-              {children}
+              <AppRouterCacheProvider options={{ enableCssLayer: true }}>
+                {children}
+              </AppRouterCacheProvider>
             </ThemeProviderPos>
           </ThemeProvider>
           <Toaster />
