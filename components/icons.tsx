@@ -37,12 +37,14 @@ import {
   Notebook,
   Mail,
   CircleX,
-  RotateCcw
+  RotateCcw,
+  CircleCheck
 } from "lucide-react"
 
 export type Icon = LucideIcon
 
 export const Icons = {
+  confirmation:CircleCheck,
   reset:RotateCcw,
   cancel:CircleX,
   mail:Mail,

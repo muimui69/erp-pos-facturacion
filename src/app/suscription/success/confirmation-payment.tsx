@@ -1,6 +1,6 @@
 import * as React from 'react';
 import AspectRatio from '@mui/joy/AspectRatio';
-
+import Button from '@mui/joy/Button';
 import Card from '@mui/joy/Card';
 import CardActions from '@mui/joy/CardActions';
 import CardContent from '@mui/joy/CardContent';
@@ -9,14 +9,11 @@ import Typography from '@mui/joy/Typography';
 
 
 import { Icons } from '../../../../components/icons';
-import { Button } from '@/components/ui/button';
 
 
 export default function CongratCard() {
   return (
-    <div className="flex justify-center items-center h-screen">
- 
-      <Card
+    <Card
       data-resizable
       sx={{
         textAlign: 'center',
@@ -28,10 +25,10 @@ export default function CongratCard() {
         '--icon-size': '100px',
       }}
     >
-      <CardOverflow variant="solid"  sx={{ bgcolor: 'black' }}>
+      <CardOverflow variant="solid" color="warning" sx={{ bgcolor: 'black' }}>
         <AspectRatio
           variant="outlined"
-          
+          color="warning"
           ratio="1"
           sx={{
             m: 'auto',
@@ -50,12 +47,11 @@ export default function CongratCard() {
         </AspectRatio>
       </CardOverflow>
       <Typography level="title-lg" sx={{ mt: 'calc(var(--icon-size) / 2)' }}>
-        🎊 Bienvenido a PoinSync 🎊
+        🎊 Congrats Julia 🎊
       </Typography>
       <CardContent sx={{ maxWidth: '40ch' }}>
-        ¡Gracias por unirte a Poinsync! Estamos emocionados de tenerte como parte de nuestra comunidad. Con tu membresía,
-          tendrás acceso a una variedad de características y beneficios exclusivos diseñados para ayudarte a gestionar tu empresa
-          de manera eficiente y efectiva.
+        You just gain one Cookhat for Salad cooking. Share your achievement with your
+        friends.
       </CardContent>
       <CardActions
         orientation="vertical"
@@ -65,10 +61,13 @@ export default function CongratCard() {
           width: 'clamp(min(100%, 160px), 50%, min(100%, 200px))',
         }}
       >
-        <Button variant="outline">Siguiente</Button>
+        <Button variant="solid" color="warning">
+          Share
+        </Button>
+        <Button variant="plain" color="neutral">
+          Skip
+        </Button>
       </CardActions>
     </Card>
- 
-    </div>
   );
 }
