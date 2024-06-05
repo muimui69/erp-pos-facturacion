@@ -28,8 +28,8 @@ import { Icons } from "@/components/icons"
 export type Provider = {
     id: string
     name: string
-    email: string
-    phone:string
+    expiracion: string
+    
 }
 
 
@@ -42,10 +42,10 @@ export const columns: ColumnDef<Provider>[] = [
         ),
     },
     {
-        accessorKey: "name",
+        accessorKey: "expiracion",
         header: "Expiracion",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("name")}</div>
+            <div className="capitalize">{row.getValue("expiracion")}</div>
         ),
     },
     {

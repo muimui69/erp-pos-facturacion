@@ -13,32 +13,27 @@ async function getData(): Promise<Provider[]> {
     {
       id: "m5gr84i9",
       name: "Ken Johnson",
-      email: "ken99@yahoo.com",
-      phone: "123-456-7890",
+      expiracion: "2022-12-31",
     },
     {
       id: "3u1reuv4",
       name: "Abe Smith",
-      email: "Abe45@gmail.com",
-      phone: "987-654-3210",
+      expiracion: "2023-06-30",
     },
     {
       id: "derv1ws0",
       name: "Monserrat Garcia",
-      email: "Monserrat44@gmail.com",
-      phone: "555-123-4567",
+      expiracion: "2023-09-15",
     },
     {
       id: "5kma53ae",
       name: "Silas Brown",
-      email: "Silas22@gmail.com",
-      phone: "888-777-9999",
+      expiracion: "2022-11-15",
     },
     {
       id: "bhqecj4p",
       name: "Carmella Rodriguez",
-      email: "carmella@hotmail.com",
-      phone: "777-888-5555",
+      expiracion: "2023-04-30",
     },
   ];
 }

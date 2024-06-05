@@ -4,18 +4,21 @@ import { ButtonProps, buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
 import { useState } from "react"
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
-// import { DialogCreate } from "./create-dialog"
+
 import { postCreateAtm } from "@/lib/queries/employee"
 import { toast } from "@/components/ui/use-toast"
-import { DialogCreate } from "./dialog-create"
-import Link from "next/link"
+import { DialogCreate } from "./create-dialog"
+import { columns } from './column';
 
 interface PostCreateButtonProps extends ButtonProps { }
 
-export function PostCreateButtonInvitation({
+export function PostAddButtonRol({
   className,
   variant,
+ 
   ...props
+  
+
 }: PostCreateButtonProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -23,20 +26,20 @@ export function PostCreateButtonInvitation({
 
   const handleSubmit = async (email: string, name: string, phone: string, idBranch: string): Promise<void> => {
     try {
-      setIsLoading(true);
-      const new_employee = await postCreateAtm(email, name, phone, idBranch);
-      console.log('=-=========', new_employee)
-      setIsDialogOpen(false)
-      setIsLoading(false);
+      // setIsLoading(true);
+      // const new_employee = await postCreateAtm(email, name, phone, idBranch);
+      // console.log('=-=========', new_employee)
+      // setIsDialogOpen(false)
+      // setIsLoading(false);
       toast({
-        description: "Invitacion enviada Correctamente"
+        description: "Usuario creado correctamente"
       })
     } catch (err) {
-      console.error("Error creando el usuario", err);
-      setIsDialogOpen(false);
-      setIsLoading(false);
+      // console.error("Error creando el usuario", err);
+      // setIsDialogOpen(false);
+      // setIsLoading(false);
       toast({
-        description: "No se creo la Invitacion. Intente de nuevo"
+        description: "No se creo el empleado. Intente de nuevo"
       })
     }
   }
@@ -44,7 +47,6 @@ export function PostCreateButtonInvitation({
 
   return (
     <>
-      <Link href="/dashboard/invitations/AddInvitation">
       <button
         type="button"
         onClick={() => setIsDialogOpen(true)}
@@ -63,12 +65,16 @@ export function PostCreateButtonInvitation({
         ) : (
           <Icons.add className="mr-2 h-4 w-4" />
         )}
-        Nueva Invitacion
+        Añade Rol
       </button>
-      </Link>
-     
 
-      
+      {isDialogOpen && (
+        <Dialog onOpenChange={setIsDialogOpen} open={isDialogOpen}>
+          <DialogTrigger asChild>
+            <DialogCreate HandleSubmit={handleSubmit}  />
+          </DialogTrigger>
+        </Dialog>
+      )}
     </>
   )
 }

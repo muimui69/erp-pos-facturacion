@@ -68,21 +68,23 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Seleccione un Empleado de su negocio..."
+          value={(table.getColumn("desc")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("desc")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm "
         />
+        
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
+                
+                <Input type="email" placeholder="Enviar Correo..." className=" ml-auto  max-w-sm"/>
+          
+          
+             
+
           <DropdownMenuContent align="end">
             {table
               .getAllColumns()
@@ -132,7 +134,8 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+             
+                    <TableCell key={cell.id}> 
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
