@@ -10,15 +10,15 @@ export default async function EmployeePage() {
   //  const employee = await getEmployees()
 
   return (
-    // <DashboardShell>
-    //   <DashboardHeader heading="Empleados" text="Cree y gestione los empleados de su punto de venta.">
-    //     <PostCreateButtonEmployee className="mr-6" />
-    //   </DashboardHeader>
-    //   <div className="container overflow-x-auto">
-    //     <DataTable columns={columns} data={employee.data.employees} />
-    //   </div>
-    // </DashboardShell>
-    <Maintenance/>
+    <DashboardShell>
+      <DashboardHeader heading="Empleados" text="Cree y gestione los empleados de su punto de venta.">
+        <PostCreateButtonEmployee className="mr-6" />
+      </DashboardHeader>
+      <div className="container overflow-x-auto">
+        
+      </div>
+    </DashboardShell>
+    // <Maintenance/>
   )
 }
 
