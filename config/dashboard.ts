@@ -72,5 +72,10 @@ export const dashboardConfig: DashboardConfig = {
       href: "/dashboard/personalization",
       icon: "palette",
     },
+    {
+      title: "",
+      href: "",
+      icon: "colapse",
+    },
   ],
 }

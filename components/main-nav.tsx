@@ -17,14 +17,9 @@ interface MainNavProps {
 
 export function MainNav({ items, children }: MainNavProps) {
   const segment = useSelectedLayoutSegment()
-  const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false)
-
-  const setCloseMenu = () => {
-    setShowMobileMenu(false);
-  }
 
   return (
-    <div className="flex items-center justify-center flex-grow ">
+    <div className="flex items-center md:lg:justify-center flex-grow ">
       <Link href="/" className="hidden items-center space-x-2 md:flex">
         <Icons.store />
         <span className="hidden font-bold sm:inline-block">
@@ -51,15 +46,11 @@ export function MainNav({ items, children }: MainNavProps) {
         </nav>
       ) : null}
       <button
-        className="flex items-center space-x-2 md:hidden"
-        onClick={() => setShowMobileMenu(!showMobileMenu)}
+        className="flex items-stretch space-x-2 md:hidden"
       >
-        {showMobileMenu ? <Icons.close /> : <Icons.store />}
-        <span className="font-bold">Menu</span>
+        <Icons.store />
+        <span className="font-bold"> {siteConfig.name}</span>
       </button>
-      {showMobileMenu && items && (
-        <MobileNav items={items} setCloseMenu={setCloseMenu}>{children}</MobileNav>
-      )}
     </div>
   )
 }
