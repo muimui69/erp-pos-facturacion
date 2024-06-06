@@ -1,51 +1,76 @@
 import api, { converToStringfy } from "../api";
-import { City } from "./interfaces/city.interface";
+import { GetCitiesResponse, GetCityByID } from "./interfaces/city.interface";
 
-export const getAllCity = async () => {
+export const getAllCities = async (serviceToken: string, subdomain: string) => {
     try {
-        const { data } = await api.get<City>('/city')
-        return data
+        return await api.get<GetCitiesResponse>('/city', {
+            headers: {
+                subdomain,
+                "service-token": serviceToken
+            },
+        });
     } catch (error) {
-        throw error
+        throw error;
     }
 }
 
-export const getCityById = async (id: number) => {
+
+export const getCityById = async (serviceToken: string, subdomain: string, id: string) => {
     try {
-        const { data } = await api.get(`/city/${id}`)
-        return data
+        return await api.get<GetCityByID>(`/city/${id}`, {
+            headers: {
+                subdomain,
+                "service-token": serviceToken
+            },
+        });
     } catch (error) {
-        throw error
+        throw error;
     }
 }
 
-export const postCreateCity = async (Nombre: string) => {
+export const postCreateCity = async (serviceToken: string, subdomain: string, nombre: string) => {
     try {
         const obj = {
-            name: Nombre
+            name: nombre
         }
-        return await api.post('/city', converToStringfy(obj))
+        return await api.post('/city', converToStringfy(obj), {
+            headers: {
+                subdomain,
+                "service-token": serviceToken
+            },
+        })
     } catch (error) {
         throw error
     }
-
 }
-export const deleteCityId = async (id: number) => {
+
+export const deleteCityById = async (serviceToken: string, subdomain: string, id: string) => {
     try {
-        const { data } = await api.delete(`/city/${id}`);
+        const { data } = await api.delete(`/city/${id}`, {
+            headers: {
+                subdomain,
+                "service-token": serviceToken
+            },
+        });
         return data;
     } catch (err) {
         throw err;
     }
-
 }
-export const putUpdateCity = async (nombre: string, id: string) => {
+
+
+export const patchCityById = async (serviceToken: string, subdomain: string, nombre: string, id: string) => {
     try {
         const obj = {
             name: nombre,
             status: true
         }
-        return await api.patch(`/city/${id}`, converToStringfy(obj));
+        return await api.patch(`/city/${id}`, converToStringfy(obj), {
+            headers: {
+                subdomain,
+                "service-token": serviceToken
+            },
+        });
     } catch (err) {
         throw err;
     }

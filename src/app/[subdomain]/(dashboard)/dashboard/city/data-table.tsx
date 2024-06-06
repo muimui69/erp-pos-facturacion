@@ -32,11 +32,13 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useState } from "react"
-import { useCitys } from "@/hooks/use-city"
+import { useTranslation } from "@/hooks/use-translation-columns"
+import { useParamsClient } from "@/hooks/use-params"
+import { useCities } from "@/hooks/use-city"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  data?: TData[]
 }
 
 export function DataTable<TData, TValue>({
@@ -48,10 +50,14 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
 
-  const { citys, isLoading, isError } = useCitys();
+
+  const { translation } = useTranslation()
+  const { subdomain, user } = useParamsClient();
+  const { cities, isLoadingCities } = useCities(subdomain as never, user?.token);
+
 
   const table = useReactTable({
-    data: data || citys,
+    data: cities as TData[],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -69,18 +75,15 @@ export function DataTable<TData, TValue>({
     },
   })
 
-  if (isLoading) {
-    return <><h1>Cargando ... </h1></>
-  }
 
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filtrar por nombre..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -104,7 +107,7 @@ export function DataTable<TData, TValue>({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {translation[column.id as never]}
                   </DropdownMenuCheckboxItem>
                 )
               })}
@@ -158,33 +161,13 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {isLoadingCities ? "Cargando datos ..." : "No hay resultados."}
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      {/* <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
-      </div> */}
     </div >
   )
 }

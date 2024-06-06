@@ -18,28 +18,42 @@ import { Dialog } from "@/components/ui/dialog"
 import { useState } from "react"
 import { DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogEdit } from "./edit-dialog"
-import { EmployeeElement } from "@/lib/queries/interfaces/employee.interface"
+import { AllUser } from "@/lib/queries/interfaces/employee.interface"
 
-export const columns: ColumnDef<EmployeeElement>[] = [
+export const columns: ColumnDef<AllUser>[] = [
+    {
+        accessorKey: "name",
+        header: "Nombre",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.original.user.name}</div>
+        ),
+    },
     {
         accessorKey: "email",
         header: "Correo",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("email")}</div>
+            <div >{row.original.user.email}</div>
         ),
     },
     {
         accessorKey: "phone",
         header: "Telefono",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("phone")}</div>
+            <div className="capitalize">{row.original.user.phone}</div>
+        ),
+    },
+    {
+        accessorKey: "status",
+        header: "Estado",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.original.user.status == true ? "Activo" : "Inactivo"}</div>
         ),
     },
     {
         accessorKey: "rol",
         header: "Rol",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("rol")}</div>
+            <div className="capitalize">{row.original.rol.desc}</div>
         ),
     },
     {

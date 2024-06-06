@@ -1,2 +1,0 @@
-// https://github.com/codedthemes/berry-free-react-admin-template/blob/main/vite/src/views/dashboard/index.jsx
-// https://github.com/codedthemes/berry-free-react-admin-template/blob/main/vite/src/ui-component/cards/MainCard.jsx

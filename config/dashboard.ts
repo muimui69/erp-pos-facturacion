@@ -28,11 +28,6 @@ export const dashboardConfig: DashboardConfig = {
       icon: "user",
     },
     {
-      title: "Cajas",
-      href: "/dashboard/box ",
-      icon: "handCoins",
-    },
-    {
       title: "Ciudades",
       href: "/dashboard/city",
       icon: "map",
@@ -41,6 +36,11 @@ export const dashboardConfig: DashboardConfig = {
       title: "Sucursales",
       href: "/dashboard/branch",
       icon: "mapPinned",
+    },
+    {
+      title: "Cajas",
+      href: "/dashboard/box ",
+      icon: "handCoins",
     },
     {
       title: "Categorias",

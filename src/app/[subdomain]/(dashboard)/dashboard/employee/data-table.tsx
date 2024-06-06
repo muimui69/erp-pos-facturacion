@@ -32,11 +32,13 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useState } from "react"
-import { useMutation } from "@tanstack/react-query"
+import { useTranslation } from "@/hooks/use-translation-columns"
+import { useParamsClient } from "@/hooks/use-params"
+import { useEmployees } from "@/hooks/use-employee"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  data?: TData[]
 }
 
 export function DataTable<TData, TValue>({
@@ -48,8 +50,12 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
 
+  const { translation } = useTranslation()
+  const { subdomain, user } = useParamsClient();
+  const { employee, isLoadingEmpleyoee } = useEmployees(subdomain as never, user?.token);
+
   const table = useReactTable({
-    data,
+    data: employee as TData[],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -71,10 +77,10 @@ export function DataTable<TData, TValue>({
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filtar correos..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filtrar por nombre..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -99,7 +105,7 @@ export function DataTable<TData, TValue>({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {translation[column.id as never]}
                   </DropdownMenuCheckboxItem>
                 )
               })}
@@ -150,7 +156,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No hay resultados.
+                  {isLoadingEmpleyoee ? "Cargando datos ..." : "No hay resultados."}
                 </TableCell>
               </TableRow>
             )}

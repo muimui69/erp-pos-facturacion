@@ -10,8 +10,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     return (
         <div className="flex min-h-screen flex-col space-y-6">
             <HeaderTopMenu />
-            <div className={`container grid flex-1 ${isMenuExpanded ? "md:lg:grid-cols-[200px_1fr] grid-cols-[200px_1fr]" : "md:lg:grid-cols-[200px_1fr] grid-cols-[50px_1fr]"} mt-10`}>
-                <aside className={`${isMenuExpanded ? "md:lg:w-[200px] w-[200px]" : "md:lg:w-[200px] w-[40px]"} flex-col flex`}>
+            <div className={`container grid flex-1 ${isMenuExpanded ? "grid-cols-[200px_1fr]" : "md:lg:grid-cols-[230px_1fr] grid-cols-[50px_1fr]"} mt-10`}>
+                <aside className={`${isMenuExpanded ? "w-[200px]" : "md:lg:w-[200px] w-[40px]"} flex-col flex`}>
                     <DashboardNav items={dashboardConfig.sidebarNav} />
                 </aside>
                 <main className="flex w-full flex-1 flex-col overflow-hidden">

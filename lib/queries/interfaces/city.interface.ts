@@ -1,4 +1,4 @@
-export interface City {
+export interface GetCitiesResponse {
     statusCode: number;
     message:    string;
     data:       Data;
@@ -6,17 +6,26 @@ export interface City {
 
 export interface Data {
     total: number;
-    citys: CityElement[];
+    citys: City[];
 }
 
-export interface CityElement {
+export interface City {
     id:        number;
     name:      string;
     status:    boolean;
     createdAt: Date;
     updatedAt: Date;
+    tenantId:  number;
 }
 
 
+export interface GetCityByID {
+    statusCode: number;
+    message:    string;
+    data:       DataCityByID;
+}
 
+export interface DataCityByID {
+    city: City;
+}
 

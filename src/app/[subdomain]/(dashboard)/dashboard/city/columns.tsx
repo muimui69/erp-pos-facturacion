@@ -21,13 +21,13 @@ import { Dialog } from "@/components/ui/dialog"
 import { useState } from "react"
 import { DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogEditCity } from "./edit-dialog"
-import { CityElement } from "@/lib/queries/interfaces/city.interface"
-import { useCitys } from "@/hooks/use-city"
+import { City } from "@/lib/queries/interfaces/city.interface"
+import { useCities } from "@/hooks/use-city"
 
-export const columns: ColumnDef<CityElement>[] = [
+export const columns: ColumnDef<City>[] = [
     {
         accessorKey: "name",
-        header: "City",
+        header: "Nombre",
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("name")}</div>
         ),
@@ -48,17 +48,17 @@ export const columns: ColumnDef<CityElement>[] = [
     },
 ]
 
-const ActionCell = ({ row }: { row: Row<CityElement> }) => {
+const ActionCell = ({ row }: { row: Row<City> }) => {
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-    
+
     const cityName = row.original.name;
     const cityId = row.original.id;
 
-    const { deleteCity } = useCitys();
+    const { deleteCity } = useCities();
 
     const deleteCityById = async (id: number) => {
         try {
-            await deleteCity.mutateAsync(id);
+            // await deleteCity.mutateAsync(id);
         } catch (err) {
             console.error("Error al eliminar una ciudad: ", err);
         }
