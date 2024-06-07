@@ -51,8 +51,8 @@ export const columns: ColumnDef<AllCategory>[] = [
 ]
 
 const ActionCell = ({ row }: { row: Row<AllCategory> }) => {
-    const { subdomain } = useParamsClient();
-    const { deleteCategory } = useCategories(subdomain as never);
+    const { subdomain, user } = useParamsClient();
+    const { deleteCategory } = useCategories(subdomain as never, user?.token);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const categoryId = row.original.id;
 
@@ -60,6 +60,7 @@ const ActionCell = ({ row }: { row: Row<AllCategory> }) => {
         try {
             await deleteCategory.mutateAsync({
                 subdomain: subdomain as never,
+                serviceToken: user?.token!,
                 id: id.toString()
             });
         } catch (error) {

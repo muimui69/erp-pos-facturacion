@@ -4,10 +4,14 @@ import { DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFoot
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { putUpdateCity } from "@/lib/queries/city";
+import { useParamsClient } from "@/hooks/use-params";
+import { useCities } from "@/hooks/use-city";
 
 export const DialogEditCity = ({ cityId, cityName, setIsDialogOpen }: { cityId: number, cityName: string, setIsDialogOpen: Dispatch<SetStateAction<boolean>>; }) => {
 
+    const { subdomain, user } = useParamsClient();
+    const { patchCity } = useCities(subdomain as never, user?.token);
+    const [isLoading, setIsloading] = useState<boolean>(false);
     const [cityData, setCityData] = useState({
         id: cityId,
         name: cityName,
@@ -23,13 +27,21 @@ export const DialogEditCity = ({ cityId, cityName, setIsDialogOpen }: { cityId: 
 
     const handleEditCity = async () => {
         try {
-            await putUpdateCity(cityData.name, cityData.id.toString());
+            setIsloading(true);
+            await patchCity.mutateAsync({
+                subdomain: subdomain as never,
+                id: cityData.id.toString(),
+                nombre: cityData.name,
+                token: user?.token!
+            });
+            setIsloading(false);
             setIsDialogOpen(false)
         } catch (e) {
+            setIsloading(false);
+            setIsDialogOpen(false);
             console.error(e)
         }
     }
-
     return (
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>

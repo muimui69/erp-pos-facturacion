@@ -1,18 +1,17 @@
 "use client"
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { putUpdateCity } from "@/lib/queries/city";
 import { AllProvider } from "@/lib/queries/interfaces/provider.intreface";
-import { useParams } from "next/navigation";
 import { useProviders } from "@/hooks/use-provider";
+import { useParamsClient } from "@/hooks/use-params";
 
 
 export const DialogEditProvider = ({ data, setIsDialogOpen }: { setIsDialogOpen: Dispatch<SetStateAction<boolean>>, data: AllProvider }) => {
 
-    const { subdomain } = useParams();
+    const { subdomain } = useParamsClient();
     const { patchProvider } = useProviders(subdomain as never);
     const [isLoading, setIsloading] = useState<boolean>(false);
     const [providerData, setProviderData] = useState({

@@ -4,11 +4,10 @@ import { DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFoot
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { putUpdateCity } from "@/lib/queries/city";
 import { AllCategory } from "@/lib/queries/interfaces/category.interface";
 import { Icons } from "@/components/icons";
 import { useCategories } from "@/hooks/use-category";
-import { useParams } from "next/navigation";
+import { useParamsClient } from "@/hooks/use-params";
 
 interface CategoryData {
     id: string;
@@ -17,7 +16,7 @@ interface CategoryData {
 
 export const DialogEditCategory = ({ data, setIsDialogOpen }: { setIsDialogOpen: Dispatch<SetStateAction<boolean>>, data: AllCategory }) => {
 
-    const { subdomain } = useParams();
+    const { subdomain } = useParamsClient();
     const { patchCategory } = useCategories(subdomain as never);
     const [isLoading, setIsloading] = useState<boolean>(false);
     const [categoryData, setCategoryData] = useState<CategoryData>({

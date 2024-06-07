@@ -9,25 +9,56 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useState } from "react";
+import { useEmployees } from "@/hooks/use-employee";
+import { useParamsClient } from "@/hooks/use-params";
+import { Dispatch, SetStateAction, useState } from "react";
+import SelectRoles from "./select-roles";
+import { AllUser } from "@/lib/queries/interfaces/employee.interface";
 
-export function DialogEdit() {
-    const [userData, setUserData] = useState({
-        name: '',
-        phone: '',
+
+interface DialogEditProps {
+    data: AllUser;
+    setIsDialogOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+interface RolData {
+    id: string;
+    desc: string;
+}
+
+
+export function DialogEdit({ data, setIsDialogOpen }: DialogEditProps) {
+
+    const { subdomain, user } = useParamsClient();
+    const { patchEmployee } = useEmployees(subdomain as never, user?.token);
+    const [isLoading, setIsloading] = useState<boolean>(false);
+    const [rolData, setRolData] = useState<RolData>({
+        id: data.id.toString(),
+        desc: data.rol.desc
     });
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setUserData(prevData => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
+    const [rol, setRol] = useState({
+        idRol: '',
+    });
 
     const handleEditEmployee = async () => {
-        
-    };
+        try {
+            setIsloading(true);
+            await patchEmployee.mutateAsync({
+                serviceToken: user?.token!,
+                subdomain: subdomain as never,
+                id: data.id.toString(),
+                rolId: rol.idRol
+            });
+            setIsloading(false);
+            setIsDialogOpen(false)
+        } catch (e) {
+            setIsloading(false);
+            setIsDialogOpen(false);
+            console.error(e)
+        }
+    }
+
 
     return (
         <DialogContent className="sm:max-w-[425px]">
@@ -39,34 +70,20 @@ export function DialogEdit() {
             </DialogHeader>
             <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="name" className="text-right">
-                        Nombre
+                    <Label className="text-right">
+                        Asignar:
                     </Label>
-                    <Input
-                        id="name"
-                        name="name"
-                        placeholder="Joaquin chumacero"
-                        onChange={handleChange}
-                        value={userData.name}
-                        className="col-span-3"
-                    />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="phone" className="text-right">
-                        Telefono
-                    </Label>
-                    <Input
-                        id="phone"
-                        name="phone"
-                        placeholder="0000000"
-                        onChange={handleChange}
-                        value={userData.phone}
-                        className="col-span-3"
-                    />
+                    <SelectRoles setRol={setRol} initialRol={rolData.id}/>
                 </div>
             </div>
             <DialogFooter>
-                <Button type="submit" >Guardar cambios</Button>
+                <Button
+                    onClick={handleEditEmployee}
+                    disabled={isLoading}
+                    type="submit"
+                >
+                    Guardar cambios
+                </Button>
             </DialogFooter>
         </DialogContent>
     )

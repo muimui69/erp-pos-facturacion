@@ -1,11 +1,12 @@
 import api, { converToStringfy } from "../api";
 import { GetCategoryIdResponse, GetCategoriesResponse, PatchCategoryParams, PostCategoryParams } from "./interfaces/category.interface";
 
-export const getAllCategories = async (subdomain: string) => {
+export const getAllCategories = async(serviceToken: string, subdomain: string) => {
     try {
         return await api.get<GetCategoriesResponse>('/category', {
             headers: {
-                subdomain
+                subdomain,
+                "service-token": serviceToken
             }
         });
     } catch (error) {
@@ -45,11 +46,12 @@ export const postCreateCategory = async (subdomain: string, serviceToken: string
 }
 
 
-export const deleteCategoryById = async (subdomain: string, id: string) => {
+export const deleteCategoryById = async (subdomain: string, serviceToken: string, id: string) => {
     try {
         const { data } = await api.delete(`/category/${id}`, {
             headers: {
-                subdomain
+                subdomain,
+                "service-token": serviceToken
             }
         })
         return data;

@@ -13,8 +13,11 @@ export default async function BranchPage() {
   return (
     // <DashboardShell>
     //   <DashboardHeader heading="Sucursales" text="Cree y gestione sucursales.">
-    //     <PostCreateButtonBranch className="mr-6" />
     //   </DashboardHeader>
+    
+  //   <div className="flex justify-center md:lg:justify-end w-full md:w-auto p-5">
+  //   <PostCreateButtonBranch className="md:mr-0 w-full md:lg:w-auto" />
+  // </div>
     //   <div className="container overflow-x-auto">
     //     <DataTable columns={columns} data={data.data.branchs} />
     //   </div>

@@ -4,6 +4,7 @@ import {
 } from "@radix-ui/react-icons"
 import {
     ColumnDef,
+    Row,
 } from "@tanstack/react-table"
 import { Button } from "@/components/ui/button"
 import {
@@ -58,16 +59,16 @@ export const columns: ColumnDef<AllUser>[] = [
     },
     {
         id: "actions",
-        header: "Accion",
         enableHiding: false,
-        cell: () => {
-            return <ActionCell />;
+        cell: ({ row }) => {
+            return <ActionCell row={row} />;
         },
     },
 ]
 
-const ActionCell = () => {
+const ActionCell = ({ row }: { row: Row<AllUser> }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const employeeId = row.original.id;
 
     return (
         <>
@@ -79,6 +80,8 @@ const ActionCell = () => {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem >
                         Ver detalles
                     </DropdownMenuItem>
@@ -94,7 +97,10 @@ const ActionCell = () => {
             {isDialogOpen && (
                 <Dialog onOpenChange={setIsDialogOpen} open={isDialogOpen}>
                     <DialogTrigger asChild>
-                        <DialogEdit />
+                        <DialogEdit
+                            setIsDialogOpen={setIsDialogOpen}
+                            data={row.original}
+                        />
                     </DialogTrigger>
                 </Dialog>
             )}

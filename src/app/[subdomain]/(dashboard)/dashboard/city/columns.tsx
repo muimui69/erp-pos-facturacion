@@ -23,6 +23,7 @@ import { DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogEditCity } from "./edit-dialog"
 import { City } from "@/lib/queries/interfaces/city.interface"
 import { useCities } from "@/hooks/use-city"
+import { useParamsClient } from "@/hooks/use-params"
 
 export const columns: ColumnDef<City>[] = [
     {
@@ -50,15 +51,20 @@ export const columns: ColumnDef<City>[] = [
 
 const ActionCell = ({ row }: { row: Row<City> }) => {
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+    const { subdomain, user } = useParamsClient();
+    const { deleteCity } = useCities(subdomain as never, user?.token);
 
     const cityName = row.original.name;
     const cityId = row.original.id;
 
-    const { deleteCity } = useCities();
 
     const deleteCityById = async (id: number) => {
         try {
-            // await deleteCity.mutateAsync(id);
+            await deleteCity.mutateAsync({
+                id: id.toString(),
+                serviceToken: user?.token!,
+                subdomain: subdomain as never
+            });
         } catch (err) {
             console.error("Error al eliminar una ciudad: ", err);
         }

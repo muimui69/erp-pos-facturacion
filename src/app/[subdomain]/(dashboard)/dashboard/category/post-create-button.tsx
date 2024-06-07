@@ -18,21 +18,18 @@ export function PostCreateButtonCategory({
   variant,
   ...props
 }: PostCreateButtonProps) {
-  const { subdomain } = useParamsClient();
-  const { createCategory } = useCategories(subdomain as never);
+  const { subdomain, user } = useParamsClient();
+  const { createCategory } = useCategories(subdomain as never, user?.token);
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
 
   const handleSubmit = async (description: string): Promise<void> => {
     try {
-      const userString = Cookie.get('user');
-      const userData = JSON.parse(userString!) as Data;
-
       setIsLoading(true);
       await createCategory.mutateAsync({
         subdomain: subdomain as never,
-        serviceToken: userData.token,
+        serviceToken: user?.token!,
         category: {
           description
         },

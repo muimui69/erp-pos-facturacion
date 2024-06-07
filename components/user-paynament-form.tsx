@@ -1,7 +1,7 @@
 "use client"
 
 import Cookie from 'js-cookie';
-import { usePathname, useRouter, useSearchParams, useParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -28,8 +28,6 @@ export function UserPaynamentForm({ className, ...props }: UserPaynamentFormProp
 
   const searchParamId = searchParams.get('id')
   const searchParamName = searchParams.get('name')
-
-  console.log('-------------------', searchParamId, searchParamName)
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [paynamentData, setPaynamentData] = useState<PaynamentData>({
@@ -71,23 +69,23 @@ export function UserPaynamentForm({ className, ...props }: UserPaynamentFormProp
 
       const popup = window.open(urlStripe, '_blank', `width=${width},height=${height},left=${left},top=${top}`);
       navigate.push('/tenants')
-    
+
       // popup?.addEventListener('load', () => {
-        //   // Redirigir la ventana emergente a otra URL
-        //   popup.location.href = cancelUrlStripe || successUrlStripe;
-        // });
-    
-        // // Manejar la redirección después del pago exitoso
-        // popup?.addEventListener('load', () => {
-        //   if (popup.location.href === successUrlStripe) {
-        //     setIsLoading(false);
-        //     // Mostrar el mensaje de agradecimiento
-        //     return toast({
-        //       title: `¡Gracias por su compra! ${String.fromCodePoint(129309)}`,
-        //     });
-        //   }
-        // });
-        
+      //   // Redirigir la ventana emergente a otra URL
+      //   popup.location.href = cancelUrlStripe || successUrlStripe;
+      // });
+
+      // // Manejar la redirección después del pago exitoso
+      // popup?.addEventListener('load', () => {
+      //   if (popup.location.href === successUrlStripe) {
+      //     setIsLoading(false);
+      //     // Mostrar el mensaje de agradecimiento
+      //     return toast({
+      //       title: `¡Gracias por su compra! ${String.fromCodePoint(129309)}`,
+      //     });
+      //   }
+      // });
+
 
       // const hostname = window.location.hostname;
       // console.log(hostname)

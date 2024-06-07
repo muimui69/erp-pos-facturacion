@@ -62,19 +62,20 @@ export const getEmployeeById = async (serviceToken: string, subdomain: string, i
 // }
 
 
-// export const patchCategoryById = async (subdomain: string, id: string, category: PatchCategoryParams) => {
-//     try {
-//         const obj: PatchCategoryParams = {
-//             description: category.description
-//         }
-//         const { data } = await api.patch(`/category/${id}`, converToStringfy(obj), {
-//             headers: {
-//                 subdomain
-//             }
-//         })
-//         return data;
-//     } catch (error) {
-//         throw error;
-//     }
-// }
+export const patchEmployeeById = async  (serviceToken: string, subdomain: string, id: string,rolId:string) => {
+    try {
+        const obj: any = {
+            rolId: rolId
+        }
+        const { data } = await api.patch(`/user-role/${id}`, converToStringfy(obj), {
+            headers: {
+                subdomain,
+                "service-token": serviceToken
+            },
+        })
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
 
