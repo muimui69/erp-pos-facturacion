@@ -1,27 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Cookie from 'js-cookie';
 import { UserAccountNav } from "@/components/user-account-nav";
-import { Data } from "@/lib/queries/interfaces/auth.interface";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import Cookie from 'js-cookie';
 import Link from "next/link";
+import { Skeleton } from "./ui/skeleton";
+import { useAuthStore } from "@/context/auth-store";
+import { useEffect } from "react";
 
 export const UserAccountNavClient = () => {
-    const [user, setUser] = useState<Data>();
+
+    const { user, setUser, loading, setLoading } = useAuthStore((state) => ({
+        user: state.user,
+        loading: state.loading,
+        setLoading: state.setLoading,
+        setUser: state.setUser,
+    }));
 
     useEffect(() => {
         const fetchUser = () => {
-            const userString = Cookie.get('user');
-            if (!userString) return;
-            const userData = JSON.parse(userString) as Data;
+            const userString = Cookie.get('user'); 
+            if (!userString) {
+                setUser(null);
+                setLoading(false);
+                return;
+            }
+            const userData = JSON.parse(userString); 
             setUser(userData);
+            setLoading(false);
         };
-        fetchUser()
-    }, []);
 
-    if (!user) {
+        fetchUser();
+    }, [setUser, setLoading]);
+
+
+    if (!user && !loading) {
         return (
             <nav>
                 <Link
@@ -34,16 +48,23 @@ export const UserAccountNavClient = () => {
                     Iniciar sesión
                 </Link>
             </nav>
+        );
+    }
+
+    if (loading) {
+        return (
+            <div className="flex items-center space-x-4">
+                <Skeleton className="h-9 w-9 rounded-full" />
+            </div>
         )
     }
 
     return (
         <UserAccountNav
             user={{
-                name: user.user.name,
-                email: user.user.email,
+                name: user?.user.name!,
+                email: user?.user.email!,
             }}
         />
     );
-
-}
+};

@@ -9,11 +9,10 @@ import { Icons } from "@/components/icons"
 interface MobileNavProps {
   items: MainNavItem[]
   children?: React.ReactNode
-  setCloseMenu: () => void
 }
 
-export function MobileNav({ items, children, setCloseMenu }: MobileNavProps) {
-  useLockBody()
+export function MobileNav({ items, children }: MobileNavProps) {
+  // useLockBody()
 
   return (
     <div
@@ -31,7 +30,6 @@ export function MobileNav({ items, children, setCloseMenu }: MobileNavProps) {
             <Link
               key={index}
               href={item.disabled ? "#" : item.href}
-              onClick={() => setCloseMenu()}
               className={cn(
                 "flex w-full items-center rounded-md p-2 text-sm font-medium hover:underline",
                 item.disabled && "cursor-not-allowed opacity-60"
