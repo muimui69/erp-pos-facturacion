@@ -2,7 +2,7 @@ import { Icons } from "@/components/icons"
 import { UserSigninSubdomainForm } from "@/components/user-signin-subdomain-form"
 import { Params } from "@/lib/constants"
 import Image from "next/image"
-import img_saas from "@/assets/img/saas.jpg"
+import img_service from "@/assets/img/saas.jpg"
 
 export const metadata = {
   title: "Iniciar sesion",
@@ -30,7 +30,7 @@ export default function SiginSubdomainPage() {
       <div className="hidden h-full lg:block" style={{ display: 'grid', placeItems: 'center' }}>
         <Image
           alt="saas"
-          src={img_saas}
+          src={img_service}
           className="w-[450px] lg:block sm:md:hidden"
           priority={true}
         />
