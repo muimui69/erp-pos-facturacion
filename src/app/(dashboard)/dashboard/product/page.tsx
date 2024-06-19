@@ -1,7 +1,7 @@
 import { DashboardHeader } from "@/components/header";
 import { DashboardShell } from "@/components/shell";
-import { DataTable } from "./data-table"
-import { columns} from "./columns";
+
+import CardList from "./columns";
 import { PostCreateButtonProduct } from "./post-create-button";
 
 interface Product {
@@ -33,7 +33,7 @@ async function getData(): Promise<Product[]> {
       description: "Mesa elegante de madera para la sala de estar",
       price: 149.99,
       categories: "muebles" ,
-      photo: "https://ibb.co/Gk2tkzX",
+      photo: "https://pilandina.com.bo/wp-content/uploads/2019/06/xYogurt-Frutado-con-frutilla-en-trozos-750g-600x600.jpg.pagespeed.ic.9f0ExTe7dB.jpg",
     },
     {
       name: "Bolso de cuero",
@@ -48,6 +48,26 @@ async function getData(): Promise<Product[]> {
       price: 59.99,
       categories: "iluminación",
       photo: "https://ibb.co/Gk2tkzX",
+    }, {
+      name: "Mesa de centro",
+      description: "Mesa elegante de madera para la sala de estar",
+      price: 149.99,
+      categories: "muebles" ,
+      photo: "https://pilandina.com.bo/wp-content/uploads/2019/06/xYogurt-Frutado-con-frutilla-en-trozos-750g-600x600.jpg.pagespeed.ic.9f0ExTe7dB.jpg",
+    },
+    {
+      name: "Bolso de cuero",
+      description: "Bolso de mano de cuero genuino",
+      price: 129.50,
+      categories: "accesorios",
+      photo: "https://ibb.co/Gk2tkzX",
+    },
+    {
+      name: "Lámpara colgante",
+      description: "Lámpara moderna para iluminación ambiental",
+      price: 59.99,
+      categories: "iluminación",
+      photo: "https://pilandina.com.bo/wp-content/uploads/2019/06/xYogurt-Frutado-con-frutilla-en-trozos-750g-600x600.jpg.pagespeed.ic.9f0ExTe7dB.jpg",
     },
     
   ];
@@ -62,7 +82,7 @@ export default async function ProviderPage() {
 
       </DashboardHeader>
       <div className="container overflow-x-auto">
-        <DataTable columns={columns} data={data} />
+      <CardList data={data} />
       </div>
     </DashboardShell>
   )

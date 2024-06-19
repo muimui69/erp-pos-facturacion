@@ -18,13 +18,27 @@ export const DialogEditProducto = ({data, setIsDialogOpen }: { setIsDialogOpen: 
         photo:data.photo,
         Category:data.categories
     });
-
+    const [previewImage, setPreviewImage] = useState<string>(data.photo);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setProductData(prevData => ({
-            ...prevData,
-            [name]: value,
-        }));
+        const { name, value, files } = event.target;
+
+        if (name === "photo" && files && files[0]) {
+            const file = files[0];
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+                setPreviewImage(reader.result as string);
+            };
+
+            reader.readAsDataURL(file);
+            setSelectedFile(file);
+        } else {
+            setProductData(prevData => ({
+                ...prevData,
+                [name]: value,
+            }));
+        }
     };
 
     const handleEditProduct = async () => {
@@ -49,6 +63,7 @@ export const DialogEditProducto = ({data, setIsDialogOpen }: { setIsDialogOpen: 
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="name" className="text-right">
                         Nombre
+                  
                     </Label>
                     <Input
                         id="name"
@@ -83,12 +98,18 @@ export const DialogEditProducto = ({data, setIsDialogOpen }: { setIsDialogOpen: 
                     />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="name" className="text-right">
+                <Label htmlFor="photo" className="text-right">
                         Imagen
                     </Label>
-                    
                     <div className="col-span-3">
-                    <Input id="picture" type="file" className="w-full" />
+                        {previewImage && <img src={previewImage} alt="Preview" className="mb-2 w-full h-48 object-cover" />}
+                        <Input
+                            name="photo"
+                            id="photo"
+                            type="file"
+                            onChange={handleChange}
+                            className="w-full"
+                        />
                     </div>
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
@@ -97,7 +118,14 @@ export const DialogEditProducto = ({data, setIsDialogOpen }: { setIsDialogOpen: 
                     </Label>
                     
                     <div className="col-span-3">
-                    <Input id="picture" type="file" className="w-full" />
+                    <Input 
+                           name="Category"
+                           value={ProductData.Category}
+                           id="Category" 
+                           onChange={handleChange}
+                            className="w-full" 
+                    />
+        
                     </div>
                 </div>
             </div>
