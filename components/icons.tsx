@@ -43,6 +43,7 @@ import {
   CircleCheck,
   SquareArrowRight,
   SquareArrowLeft,
+  SunMoon,
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -90,4 +91,5 @@ export const Icons = {
   show: SquareArrowRight,
   colapse: SquareArrowLeft,
   check: Check,
+  sunMoon:SunMoon,
 }

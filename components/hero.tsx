@@ -1,12 +1,12 @@
 import { buttonVariants } from "./ui/button";
-import { HeroCards } from "./hero-cards";
+import HeroCards from "./hero-cards";
 import "./css/hero.css"
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const { POS_NAME } = process.env;
 
-export const Hero = () => {
+export default function Hero() {
     return (
         <section className="container grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10">
             <div className="text-center lg:text-start space-y-6">
@@ -29,11 +29,11 @@ export const Hero = () => {
                     Configúralo en minutos, empieza a vender en segundos y ¡mantén satisfechos a tus empleados y clientes!
                 </p>
 
-                {/* <div className="space-y-4 md:space-y-0 md:space-x-4">
+                <div className="space-y-2 md:space-y-0 md:space-x-2">
                     <Link href="/login" className={cn(buttonVariants({ size: "lg" }))}>
                         Comenzar
                     </Link>
-                </div> */}
+                </div>
 
             </div>
 
