@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 import { MobileNav } from "@/components/mobile-nav"
 import { useState } from "react"
+import { Notificacionesnav } from "./notificaciones-nav"
 
 interface MainNavProps {
   items?: MainNavItem[]
@@ -28,7 +29,7 @@ export function MainNav({ items, children }: MainNavProps) {
       <Link href="/" className="hidden items-center space-x-2 md:flex">
         <Icons.store />
         <span className="hidden font-bold sm:inline-block">
-          {siteConfig.name}
+          {siteConfig.name} 
         </span>
       </Link>
       {items?.length ? (
@@ -60,6 +61,7 @@ export function MainNav({ items, children }: MainNavProps) {
       {showMobileMenu && items && (
         <MobileNav items={items} setCloseMenu={setCloseMenu}>{children}</MobileNav>
       )}
+         <Notificacionesnav/>
     </div>
   )
 }

@@ -4,7 +4,7 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
-  
+  Bell ,
   Command,
   CreditCard,
   File,
@@ -44,6 +44,7 @@ import {
 export type Icon = LucideIcon
 
 export const Icons = {
+  notification:Bell,
   confirmation:CircleCheck,
   reset:RotateCcw,
   cancel:CircleX,

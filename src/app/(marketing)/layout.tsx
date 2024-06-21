@@ -8,6 +8,7 @@ import { getUserCredentials } from "@/lib/auth"
 import { Icons } from "@/components/icons"
 
 
+
 interface MarketingLayoutProps {
   children: React.ReactNode
 }
@@ -24,7 +25,7 @@ export default async function MarketingLayout({ children }: MarketingLayoutProps
         <header className="container z-40 bg-background">
           <div className="flex h-20 items-center justify-between py-6">
             <MainNav items={marketingConfig.mainNav} />
-
+         
             {
               user ? (
                 <UserAccountNav
@@ -47,7 +48,8 @@ export default async function MarketingLayout({ children }: MarketingLayoutProps
                 </nav>
               )
             }
-
+          
+            
           </div>
         </header >
         <main className="flex-1">{children}</main>

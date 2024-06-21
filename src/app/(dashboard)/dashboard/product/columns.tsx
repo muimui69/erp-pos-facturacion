@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react";
+import Link from "next/link";
 import { ChevronDownIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,11 +12,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar } from "@files-ui/react";
-import { Dialog } from "@/components/ui/dialog";
-import { DialogTrigger } from "@radix-ui/react-dialog";
-import { DialogEditProducto } from "./edit-dialog";
 
 export interface Product {
+  id: number;
   name: string;
   description: string;
   price: number;
@@ -28,47 +27,29 @@ interface CardListProps {
 }
 
 const ActionCell = ({ product }: { product: Product }) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
   return (
-    <>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">Open menu</span>
-            <DotsHorizontalIcon className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Ver detalles</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
-            Editar
-          </DropdownMenuItem>
-          <DropdownMenuItem>Eliminar</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-
-      {isDialogOpen && (
-        <Dialog
-          onOpenChange={() => setIsDialogOpen(false)}
-          open={isDialogOpen}
-        >
-          <DialogTrigger asChild>
-            <DialogEditProducto
-              setIsDialogOpen={setIsDialogOpen}
-              data={product}
-            />
-          </DialogTrigger>
-        </Dialog>
-      )}
-    </>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="h-8 w-8 p-0">
+          <span className="sr-only">Open menu</span>
+          <DotsHorizontalIcon className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>Ver detalles</DropdownMenuItem>
+        <Link href={`dashboard/product/edit/${product.id}`} passHref>
+          <DropdownMenuItem as="a">Editar</DropdownMenuItem>
+        </Link>
+        <DropdownMenuItem>Eliminar</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
 const CardList = ({ data }: CardListProps) => {
-  const itemsPerPage = 6; 
+  const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(0);
 
   const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -90,14 +71,14 @@ const CardList = ({ data }: CardListProps) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
         {paginatedData.map((product, index) => (
           <div
-            key={index}
+            key={product.id}
             style={{ width: "250px", height: "450px" }}
             className="bg-white shadow-md rounded-lg overflow-hidden transition-transform transform hover:scale-105"
           >
             <Avatar
               src={product.photo}
               readOnly
-              style={{  width: "100%", height: "200px", objectFit: "cover"  }}
+              style={{ width: "100%", height: "200px", objectFit: "cover" }}
             />
             <div className="p-4">
               <h2 className="text-xl font-semibold mb-2">{product.name}</h2>

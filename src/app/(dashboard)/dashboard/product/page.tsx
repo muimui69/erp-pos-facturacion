@@ -5,6 +5,7 @@ import CardList from "./columns";
 import { PostCreateButtonProduct } from "./post-create-button";
 
 interface Product {
+  id:number;
   name: string;
   description: string;
   price: number;
@@ -15,6 +16,7 @@ interface Product {
 async function getData(): Promise<Product[]> {
   return [
     {
+      id: 1,
       name: "Camiseta de algodón",
       description: "Camiseta cómoda de algodón para uso diario",
       price: 25.99,
@@ -22,6 +24,7 @@ async function getData(): Promise<Product[]> {
       photo: "https://www.lavanguardia.com/files/og_thumbnail/uploads/2018/11/05/5e996514f272d.jpeg",
     },
     {
+      id: 2,
       name: "Zapatos deportivos",
       description: "Zapatos ideales para correr o hacer deporte",
       price: 79.99,
@@ -29,13 +32,15 @@ async function getData(): Promise<Product[]> {
       photo: "https://pilandina.com.bo/wp-content/uploads/2019/06/xYogurt-Frutado-con-frutilla-en-trozos-750g-600x600.jpg.pagespeed.ic.9f0ExTe7dB.jpg",
     },
     {
+      id: 3,
       name: "Mesa de centro",
       description: "Mesa elegante de madera para la sala de estar",
       price: 149.99,
-      categories: "muebles" ,
+      categories: "muebles",
       photo: "https://pilandina.com.bo/wp-content/uploads/2019/06/xYogurt-Frutado-con-frutilla-en-trozos-750g-600x600.jpg.pagespeed.ic.9f0ExTe7dB.jpg",
     },
     {
+      id: 4,
       name: "Bolso de cuero",
       description: "Bolso de mano de cuero genuino",
       price: 129.50,
@@ -43,19 +48,23 @@ async function getData(): Promise<Product[]> {
       photo: "https://ibb.co/Gk2tkzX",
     },
     {
+      id: 5,
       name: "Lámpara colgante",
       description: "Lámpara moderna para iluminación ambiental",
       price: 59.99,
       categories: "iluminación",
       photo: "https://ibb.co/Gk2tkzX",
-    }, {
+    },
+    {
+      id: 6,
       name: "Mesa de centro",
       description: "Mesa elegante de madera para la sala de estar",
       price: 149.99,
-      categories: "muebles" ,
+      categories: "muebles",
       photo: "https://pilandina.com.bo/wp-content/uploads/2019/06/xYogurt-Frutado-con-frutilla-en-trozos-750g-600x600.jpg.pagespeed.ic.9f0ExTe7dB.jpg",
     },
     {
+      id: 7,
       name: "Bolso de cuero",
       description: "Bolso de mano de cuero genuino",
       price: 129.50,
@@ -63,13 +72,13 @@ async function getData(): Promise<Product[]> {
       photo: "https://ibb.co/Gk2tkzX",
     },
     {
+      id: 8,
       name: "Lámpara colgante",
       description: "Lámpara moderna para iluminación ambiental",
       price: 59.99,
       categories: "iluminación",
       photo: "https://pilandina.com.bo/wp-content/uploads/2019/06/xYogurt-Frutado-con-frutilla-en-trozos-750g-600x600.jpg.pagespeed.ic.9f0ExTe7dB.jpg",
     },
-    
   ];
 }
 export default async function ProviderPage() {
