@@ -8,7 +8,8 @@ import { Icons } from "@/components/icons"
 import { useState } from "react"
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogCreate } from "./create-dialog"
-import { useCitys } from "@/hooks/use-city"
+import { useCities } from "@/hooks/use-city"
+import { useParamsClient } from "@/hooks/use-params"
 
 interface PostCreateButtonProps extends ButtonProps { }
 
@@ -20,14 +21,21 @@ export function PostCreateButtonCity({
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { createCity } = useCitys();
+
+  const { subdomain, user } = useParamsClient();
+  const { createCity } = useCities();
+
 
   const handleSubmit = async (name: string) => {
     setIsLoading(true);
 
     try {
       setIsLoading(true);
-      await createCity.mutateAsync(name);
+      await createCity.mutateAsync({
+        nombre: name,
+        serviceToken: user?.token as never,
+        subdomain: subdomain as never
+      });
       setIsDialogOpen(false)
       setIsLoading(false);
       toast({

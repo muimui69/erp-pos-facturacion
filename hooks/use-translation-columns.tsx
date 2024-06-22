@@ -13,6 +13,8 @@ const translationMap = {
     desc:"Descripcion",
     rol:"Rol",
     state: "Estado",
+    address:"Direccion",
+    city:"Ciudad",
 };
 
 export function useTranslation() {

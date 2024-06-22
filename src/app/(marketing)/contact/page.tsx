@@ -1,72 +1,66 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-export default function Contact(){
-    return (
-        <>
-
-        <Card>
-  <CardHeader>
-    <CardTitle>Report an issue</CardTitle>
-    <CardDescription>
-      What area are you having problems with?
-    </CardDescription>
-  </CardHeader>
-  <CardContent className="grid gap-6">
-    <div className="grid grid-cols-2 gap-4">
-      <div className="grid gap-2">
-        <Label htmlFor="area">Area</Label>
-        <Select defaultValue="billing">
-          <SelectTrigger id="area">
-            <SelectValue placeholder="Select" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="team">Team</SelectItem>
-            <SelectItem value="billing">Billing</SelectItem>
-            <SelectItem value="account">Account</SelectItem>
-            <SelectItem value="deployments">Deployments</SelectItem>
-            <SelectItem value="support">Support</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="security-level">Security Level</Label>
-        <Select defaultValue="2">
-          <SelectTrigger id="security-level">
-            <SelectValue placeholder="Select level" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="1">Severity 1 (Highest)</SelectItem>
-            <SelectItem value="2">Severity 2</SelectItem>
-            <SelectItem value="3">Severity 3</SelectItem>
-            <SelectItem value="4">Severity 4 (Lowest)</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-    </div>
-    <div className="grid gap-2">
-      <Label htmlFor="subject">Subject</Label>
-      <Input id="subject" placeholder="I need help with..." />
-    </div>
-    <div className="grid gap-2">
-      <Label htmlFor="description">Description</Label>
-      <textarea
-        id="description"
-        placeholder="Please include all information relevant to your issue."
-      />
-    </div>
-  </CardContent>
-  <CardFooter className="justify-between space-x-2">
-    <Button variant="ghost">Cancel</Button>
-    <Button>Submit</Button>
-  </CardFooter>
-</Card>
-        </>
-
-
-    )
-
+export default function Contact() {
+  return (
+    <>
+      <section className="w-full py-12 md:py-16 lg:py-20">
+        <div className="container px-4 md:px-6">
+          <div className="mx-auto max-w-xl space-y-6 text-center">
+            <div className="space-y-2">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Contactenos</h2>
+              <p className="text-muted-foreground md:text-xl">Pongase en contacto con nosotros para obtener su prueba gratuita, con el siguiente formulario.</p>
+            </div>
+            <form className="space-y-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <label
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Nombre
+                  </label>
+                  <input
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    id="name"
+                    placeholder="Escriba su nombre"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Correo
+                  </label>
+                  <input
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    id="email"
+                    placeholder="Escriba su correo"
+                    type="email"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Mensaje
+                </label>
+                <textarea
+                  className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 min-h-[120px]"
+                  id="message"
+                  placeholder="Escriba su mensaje"
+                ></textarea>
+              </div>
+              <Button
+                className={cn(buttonVariants({ size: "lg" }),"w-full")}
+                type="submit"
+              >
+                Enviar
+              </Button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </>
+  )
 }

@@ -66,6 +66,7 @@ export const DialogEditCity = ({ cityId, cityName, setIsDialogOpen }: { cityId: 
             </div>
             <DialogFooter>
                 <Button
+                    disabled={isLoading}
                     onClick={handleEditCity}
                     type="button"
                 >

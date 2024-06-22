@@ -9,6 +9,8 @@ import { useState } from "react"
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogCreate } from "./create-dialog"
 import { useBranchs } from "@/hooks/use-branch"
+import { PostBranchParams } from "@/lib/queries/interfaces/branch.interface"
+import { useParamsClient } from "@/hooks/use-params"
 
 interface PostCreateButtonProps extends ButtonProps { }
 
@@ -20,13 +22,20 @@ export function PostCreateButtonBranch({
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const { subdomain, user } = useParamsClient();
   const { createBranch } = useBranchs();
 
 
-  const handleSubmit = async (address: string, name: string, lat: number, lng: number, cityId: string) => {
+
+  const handleSubmit = async (branch: PostBranchParams): Promise<void>  => {
     try {
       setIsLoading(true);
-      await createBranch.mutateAsync({ address, name, lat, lng, cityId });
+      await createBranch.mutateAsync({
+        subdomain: subdomain as never,
+        serviceToken: user?.token as never,
+        branch,
+      });
       setIsDialogOpen(false)
       setIsLoading(false);
       toast({

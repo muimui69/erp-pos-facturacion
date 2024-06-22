@@ -1,46 +1,62 @@
 import api, { converToStringfy } from "../api";
-import { Branch, BranchUpdateData } from "./interfaces/branch.interface";
+import { GetBranchIdResponse, GetBranchsResponse, PatchBranchParams, PostBranchParams } from "./interfaces/branch.interface";
 
 
-export const getAllBranchs = async () => {
+export const getAllBranchs = async (serviceToken: string, subdomain: string) => {
     try {
-        const { data } = await api.get<Branch>('/branch')
-        return data;
+        return await api.get<GetBranchsResponse>('/branch', {
+            headers: {
+                subdomain,
+                "service-token": serviceToken
+            }
+        })
     } catch (error) {
         throw error
     }
 }
 
-export const getBranchsId = async (id: number) => {
+export const getBranchById = async (id: number, serviceToken: string, subdomain: string) => {
     try {
-        const { data } = await api.get(`/branch/${id}`)
-        return data
+        return await api.get<GetBranchIdResponse>(`/branch/${id}`, {
+            headers: {
+                subdomain,
+                "service-token": serviceToken
+            }
+        })
     } catch (error) {
         throw error
-
     }
 }
 
-export const postCreateBranch = async ({ address, name, lat, lng, cityId }: { address: string, name: string, lat: number, lng: number, cityId: string }) => {
+export const postCreateBranch = async (subdomain: string, serviceToken: string, branch: PostBranchParams) => {
     try {
         const obj = {
-            address,
-            name,
-            lng,
-            lat,
-            cityId: parseInt(cityId)
+            address: branch.address,
+            name: branch.name,
+            lng: branch.lng,
+            lat: branch.lat,
+            cityId: branch.cityId
         }
-        return await api.post('/branch', converToStringfy(obj))
-
+        return await api.post('/branch', converToStringfy(obj), {
+            headers: {
+                subdomain,
+                "service-token": serviceToken
+            }
+        })
     } catch (error) {
         throw error
     }
 
 }
 
-export const deleteBranchId = async (id: number) => {
+export const deleteBranchId = async (subdomain: string, serviceToken: string, id: string) => {
     try {
-        const { data } = await api.delete(`/branch/${id}`);
+        const { data } = await api.delete(`/branch/${id}`, {
+            headers: {
+                subdomain,
+                "service-token": serviceToken
+            }
+        });
         return data;
     } catch (err) {
         throw err;
@@ -48,9 +64,21 @@ export const deleteBranchId = async (id: number) => {
 
 }
 
-export const patchBranchOffice = async (id: string, updatedData: BranchUpdateData) => {
+export const patchBranchById = async (subdomain: string, serviceToken: string, id: string, branch: PatchBranchParams) => {
     try {
-        return await api.patch(`/branch/${parseInt(id)}`, updatedData);
+        const obj = {
+            address: branch.address,
+            name: branch.name,
+            lng: branch.lng,
+            lat: branch.lat,
+            cityId: branch.cityId
+        }
+        return await api.patch(`/branch/${id}`, converToStringfy(obj), {
+            headers: {
+                subdomain,
+                "service-token": serviceToken
+            }
+        });
     } catch (error) {
         throw error
     }

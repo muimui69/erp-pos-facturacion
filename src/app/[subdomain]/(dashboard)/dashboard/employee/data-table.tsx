@@ -75,23 +75,22 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex flex-col sm:md:flex-row items-center py-4 m-2">
         <Input
           placeholder="Filtrar por nombre..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="w-full md:max-w-sm md:mr-5"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline" className="w-full md:w-auto mt-2 md:mt-0 sm:md:ml-auto">
               Columnas <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
@@ -112,7 +111,7 @@ export function DataTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border m-2">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

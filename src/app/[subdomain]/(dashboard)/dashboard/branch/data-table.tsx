@@ -33,10 +33,12 @@ import {
 } from "@/components/ui/table"
 import { useState } from "react"
 import { useBranchs } from "@/hooks/use-branch"
+import { useTranslation } from "@/hooks/use-translation-columns"
+import { useParamsClient } from "@/hooks/use-params"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  data?: TData[]
 }
 
 export function DataTable<TData, TValue>({
@@ -48,10 +50,12 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
 
-  const { branchs, isLoading, isError } = useBranchs();
+  const { translation } = useTranslation()
+  const { subdomain, user } = useParamsClient();
+  const { branchs, isLoading } = useBranchs(subdomain as never, user?.token);
 
   const table = useReactTable({
-    data: data || branchs,
+    data: branchs as TData[],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -69,24 +73,20 @@ export function DataTable<TData, TValue>({
     },
   })
 
-  if (isLoading) {
-    return <><h1>Cargando ... </h1></>
-  }
-
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex flex-col sm:md:flex-row items-center py-4 m-2">
         <Input
-          placeholder="Filter Sucursales..."
+          placeholder="Filtrar por nombre..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="w-full md:max-w-sm md:mr-5"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline" className="w-full md:w-auto mt-2 md:mt-0 sm:md:ml-auto">
               Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -104,14 +104,14 @@ export function DataTable<TData, TValue>({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {translation[column.id as never]}
                   </DropdownMenuCheckboxItem>
                 )
               })}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border m-2">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -158,7 +158,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {isLoading ? "Cargando datos ..." : "No hay resultados."}
                 </TableCell>
               </TableRow>
             )}

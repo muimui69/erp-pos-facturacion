@@ -10,13 +10,17 @@ export default async function CategoryPage() {
   return (
     <DashboardShell>
       <DashboardHeader heading="Categorias" text="Cree y gestione las diferentes categorias de su punto de venta.">
+        <div className="hidden md:lg:block">
+          <PostCreateButtonCategory />
+        </div>
       </DashboardHeader>
-      <div className="flex justify-center md:lg:justify-end w-full md:w-auto p-5">
-        <PostCreateButtonCategory className="md:mr-0 w-full md:lg:w-auto" />
+
+      <div className="block md:lg:hidden">
+        <PostCreateButtonCategory className="w-full m-2" />
       </div>
-      <div className="container overflow-x-auto">
-        {/* <DataTable columns={columns} /> */}
-        {/* <DataTableBlocker /> */}
+
+      <div className="overflow-x-auto">
+        <DataTable columns={columns} />
       </div>
     </DashboardShell>
   )

@@ -22,10 +22,11 @@ import { useState } from "react"
 import { DialogDemo } from "@/components/dialog"
 import { DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogEdit } from "./edit-dialog"
-import {  BranchElement } from "@/lib/queries/interfaces/branch.interface"
 import { useBranchs } from "@/hooks/use-branch"
+import { useParamsClient } from "@/hooks/use-params"
+import { Branch } from "@/lib/queries/interfaces/branch.interface"
 
-export const columns: ColumnDef<BranchElement>[] = [
+export const columns: ColumnDef<Branch>[] = [
     {
         accessorKey: "name",
         header: "Nombre",
@@ -42,8 +43,7 @@ export const columns: ColumnDef<BranchElement>[] = [
         accessorKey: "city",
         header: "Ciudad",
         cell: ({ row }) => (
-            // row.getValue("city")?.name
-            <div className="capitalize">{row.getValue("city")}</div>
+            <div className="capitalize">{row.original.city.name}</div>
         ),
     },
     {
@@ -55,23 +55,28 @@ export const columns: ColumnDef<BranchElement>[] = [
     },
     {
         id: "actions",
-        header: "Acciones",
+        enableHiding: false,
         cell: ({ row }) => {
             return <ActionCell row={row} />;
         },
     },
 ]
 
-const ActionCell = ({ row }: { row: Row<BranchElement> }) => {
+const ActionCell = ({ row }: { row: Row<Branch> }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const { deleteBranch } = useBranchs();
+    const { subdomain, user } = useParamsClient();
+    const { deleteBranch } = useBranchs(subdomain as never, user?.token);
     const branchId = row.original.id;
    
     const deleteBranchById = async (id: number) => {
         try {
-            deleteBranch.mutateAsync(id);
-        } catch (err) {
-            console.error("Error al eliminar una sucursal: ", err);
+            await deleteBranch.mutateAsync({
+                subdomain: subdomain as never,
+                serviceToken: user?.token!,
+                id: id.toString()
+            });
+        } catch (error) {
+            console.error("Error al eliminar una sucursal: ", error);
         }
     }
 

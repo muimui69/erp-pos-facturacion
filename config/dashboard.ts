@@ -37,11 +37,11 @@ export const dashboardConfig: DashboardConfig = {
       href: "/dashboard/branch",
       icon: "mapPinned",
     },
-    {
-      title: "Cajas",
-      href: "/dashboard/box ",
-      icon: "handCoins",
-    },
+    // {
+    //   title: "Cajas",
+    //   href: "/dashboard/box ",
+    //   icon: "handCoins",
+    // },
     {
       title: "Categorias",
       href: "/dashboard/category",
@@ -72,10 +72,10 @@ export const dashboardConfig: DashboardConfig = {
       href: "/dashboard/personalization",
       icon: "palette",
     },
-    {
-      title: "",
-      href: "",
-      icon: "colapse",
-    },
+    // {
+    //   title: "",
+    //   href: "",
+    //   icon: "colapse",
+    // },
   ],
 }

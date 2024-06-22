@@ -13,23 +13,20 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import SelectCity from "./select-city"
+import { PostBranchParams } from "@/lib/queries/interfaces/branch.interface"
 
 interface DialogCreateProps {
-    // HandleSubmit: (email: string, name: string, phone: string) => Promise<void>;
+    HandleSubmit: (branch: PostBranchParams) => Promise<void>;
 }
 
-export function DialogCreate({ HandleSubmit }: { HandleSubmit: (address: string, name: string, lat: number, lng: number, cityId: string) => Promise<void> }) {
+export function DialogCreate({ HandleSubmit }: DialogCreateProps) {
 
     const [userData, setUserData] = useState<{
         address: string;
         name: string;
-        lat: number;
-        lng: number;
     }>({
         address: '',
         name: '',
-        lat: 0,
-        lng: 0,
     });
 
     const [coords, setCoords] = useState<{ lat: number, lng: number }>({
@@ -50,7 +47,13 @@ export function DialogCreate({ HandleSubmit }: { HandleSubmit: (address: string,
     };
 
     const handleCreateEmployee = async () => {
-        HandleSubmit(userData.address, userData.name, coords.lat, coords.lng, userCity.idCity);
+        HandleSubmit({
+            address: userData.address,
+            lat: coords.lat.toString(),
+            lng: coords.lng.toString(),
+            name: userData.name,
+            cityId: +userCity.idCity
+        });
     };
 
     return (

@@ -9,15 +9,18 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { patchBranchOffice } from "@/lib/queries/branch-office";
-import { BranchElement } from "@/lib/queries/interfaces/branch.interface";
+import { useBranchs } from "@/hooks/use-branch";
+import { useParamsClient } from "@/hooks/use-params";
+import { PatchBranchParams } from "@/lib/queries/interfaces/branch.interface";
 import { Dispatch, SetStateAction, useState } from "react";
 
-export function DialogEdit({ setIsDialogOpen, data }: { setIsDialogOpen: Dispatch<SetStateAction<boolean>>, data: BranchElement }) {
+export function DialogEdit({ setIsDialogOpen, data }: { setIsDialogOpen: Dispatch<SetStateAction<boolean>>, data: PatchBranchParams }) {
+    const { subdomain, user } = useParamsClient();
+    const { patchBranch } = useBranchs(subdomain as never, user?.token);
+    const [isLoading, setIsloading] = useState<boolean>(false);
     const [userData, setUserData] = useState({
         name: data.name,
         address: data.address,
-        city_name: data.city.name
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,9 +33,24 @@ export function DialogEdit({ setIsDialogOpen, data }: { setIsDialogOpen: Dispatc
 
     const handleEditBranch = async () => {
         try {
-            await patchBranchOffice(data.id.toString(), { name: userData.name, cityId: data.city.id.toString(), status: true });
+            setIsloading(true);
+            await patchBranch.mutateAsync({
+                subdomain: subdomain as never,
+                id: data?.id!.toString(),
+                serviceToken: user?.token! as never,
+                branch: {
+                    address: userData.address,
+                    name:userData.name,
+                    cityId: data.cityId,
+                    // lat:,
+                    // lng:,
+                }
+            });
+            setIsloading(false);
             setIsDialogOpen(false)
         } catch (e) {
+            setIsloading(false);
+            setIsDialogOpen(false);
             console.error(e)
         }
     }
@@ -72,23 +90,13 @@ export function DialogEdit({ setIsDialogOpen, data }: { setIsDialogOpen: Dispatc
                         className="col-span-3"
                     />
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="phone" className="text-right">
-                        Ciudad
-                    </Label>
-                    <Input
-                        id="Address"
-                        name="Address"
-                        placeholder="C/ Guatemala..."
-                        onChange={handleChange}
-                        value={userData.city_name}
-                        className="col-span-3"
-                    />
-                </div>
+               
 
             </div>
             <DialogFooter>
-                <Button type="submit" onClick={handleEditBranch}>Guardar cambios</Button>
+                <Button
+                    disabled={isLoading}
+                    type="submit" onClick={handleEditBranch}>Guardar cambios</Button>
             </DialogFooter>
         </DialogContent>
     )

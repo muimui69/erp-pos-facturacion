@@ -9,7 +9,8 @@ export function useCategories(subdomain?: string, serviceToken?: string) {
 
     const { data: categories, isLoading, isError } = useQuery({
         queryKey: [queryKeyName, subdomain, serviceToken],
-        queryFn: () => getAllCategories(serviceToken as never, subdomain as never)
+        queryFn: () => getAllCategories(serviceToken as never, subdomain as never),
+        enabled:!!serviceToken
     });
 
     const createCategoryMutation = useMutation({

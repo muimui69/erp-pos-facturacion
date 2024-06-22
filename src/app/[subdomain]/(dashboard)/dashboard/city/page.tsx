@@ -9,11 +9,16 @@ export default async function CityPage() {
   return (
     <DashboardShell>
       <DashboardHeader heading="Ciudades" text="Cree y gestione las ciudades">
+        <div className="hidden md:lg:block">
+          <PostCreateButtonCity />
+        </div>
       </DashboardHeader>
-      {/* <div className="flex justify-center md:lg:justify-end w-full md:w-auto p-5">
-        <PostCreateButtonCity className="md:mr-0 w-full md:lg:w-auto" />
-      </div> */}
-      <div className="container overflow-x-auto">
+
+      <div className="block md:lg:hidden">
+        <PostCreateButtonCity className="w-full m-2"/>
+      </div>
+
+      <div className="overflow-x-auto">
         <DataTable columns={columns} />
       </div>
     </DashboardShell>

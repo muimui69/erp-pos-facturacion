@@ -8,7 +8,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useCitys } from "@/hooks/use-city";
+import { useCities } from "@/hooks/use-city";
+import { useParamsClient } from "@/hooks/use-params";
 import { Dispatch, SetStateAction } from "react";
 
 interface SelectBranchProps {
@@ -16,7 +17,8 @@ interface SelectBranchProps {
 }
 
 export default function SelectCity({ setUserCity }: SelectBranchProps) {
-  const { citys, isLoading, isError } = useCitys();
+  const { subdomain, user } = useParamsClient();
+  const { cities, isLoadingCities } = useCities(subdomain as never, user?.token);
 
   const handleSelectBranch = (value: string) => {
     setUserCity({ idCity: value })
@@ -25,11 +27,11 @@ export default function SelectCity({ setUserCity }: SelectBranchProps) {
   return (
     <Select onValueChange={handleSelectBranch}>
       <SelectTrigger className="col-span-3">
-        <SelectValue placeholder="Selecciona una sucursal" />
+        <SelectValue placeholder="Selecciona una ciudad" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {citys.map(({ id, name }) => (
+          {cities.map(({ id, name }) => (
             <SelectItem key={id} value={id.toString()}>
               {name}
             </SelectItem>

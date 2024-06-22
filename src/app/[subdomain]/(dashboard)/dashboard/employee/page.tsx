@@ -8,11 +8,16 @@ export default async function EmployeePage() {
   return (
     <DashboardShell>
       <DashboardHeader heading="Empleados" text="Cree y gestione los empleados de su punto de venta.">
+        {/* <div className="hidden md:lg:block">
+          <PostCreateButtonEmployee />
+        </div> */}
       </DashboardHeader>
-      {/* <div className="flex justify-center md:lg:justify-end w-full md:w-auto p-5">
-        <PostCreateButtonEmployee className="md:mr-0 w-full md:lg:w-auto" />
+
+      {/* <div className="block md:lg:hidden">
+        <PostCreateButtonEmployee className="w-full m-2"/>
       </div> */}
-      <div className="container overflow-x-auto">
+      
+      <div className="overflow-x-auto">
         <DataTable columns={columns} />
       </div>
     </DashboardShell>

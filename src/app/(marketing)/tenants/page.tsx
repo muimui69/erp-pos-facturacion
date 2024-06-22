@@ -28,7 +28,7 @@ export default async function TenantsPage() {
 
   return (
 
-    <WorkAreaTenants tenants={tenants}/>
+    <WorkAreaTenants tenants={tenants} pathToSubdomain={pathToSubdomain} />
     // <section className="container flex flex-col  gap-6 py-8 md:max-w-[64rem] md:py-12 lg:py-24">
     //   <div className="mx-auto flex w-full flex-col gap-4 md:max-w-[58rem]">
     //     <h2 className="font-heading text-2xl leading-[1.1] sm:text-2xl md:text-5xl">
