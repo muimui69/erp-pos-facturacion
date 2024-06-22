@@ -48,7 +48,7 @@ interface User {
 }
 
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends { id?: number | string }, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -76,7 +76,7 @@ export function DataTable<TData, TValue>({
   };
 
   const table = useReactTable({
-    data: permissions as TData[],
+    data: permissions as unknown as TData[],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -99,13 +99,12 @@ export function DataTable<TData, TValue>({
       setIsLoading(true);
 
       const permissionSelect = table.getSelectedRowModel().flatRows.map(({ original }) => original.id)
-      //   const new_employee = await postCreateAtm(name,description,price,photo,cat);
       await createRol.mutateAsync({
         subdomain: subdomain as never,
         serviceToken: user?.token!,
         role: {
           desc: userData.desc,
-          permissions: permissionSelect
+          permissions: permissionSelect as never
         }
       });
       navigate.push('/dashboard/role');
@@ -124,14 +123,14 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex flex-col sm:md:flex-row items-center py-4 m-2">
         <Input
-          placeholder="Filtrar permisos..."
+          placeholder="Filtrar permisos ..."
           value={(table.getColumn("desc")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("desc")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm "
+          className="w-full md:max-w-sm md:mr-5"
         />
         <DropdownMenu>
 
@@ -139,12 +138,18 @@ export function DataTable<TData, TValue>({
             type="text"
             name="desc"
             placeholder="Introduzca el nombre del Rol"
-            className=" ml-auto  max-w-sm"
+            className="w-full md:max-w-sm md:mr-5 sm:mt-2 md:mt-0"
             onChange={handleChange}
             value={userData.desc}
           />
 
-          <PostCreateButtonRolesPermission className="ml-6" handleSubmit={handleSubmit} />
+          <div className="hidden md:lg:block">
+            <PostCreateButtonRolesPermission className="m-2 ml-0" handleSubmit={handleSubmit} />
+          </div>
+
+          <div className="block md:lg:hidden w-full">
+            <PostCreateButtonRolesPermission className="w-full m-2 ml-0" handleSubmit={handleSubmit} />
+          </div>
 
           <DropdownMenuContent align="end">
             {table
@@ -167,7 +172,7 @@ export function DataTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border m-2">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
