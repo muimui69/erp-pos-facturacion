@@ -99,7 +99,7 @@
 // }
 
 
-import { Data } from "@/lib/queries/interfaces/auth.interface";
+import { Data, DataTenant } from "@/lib/queries/interfaces/auth.interface";
 import { GetTenantsResponse } from "@/lib/queries/interfaces/tenant.interface";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -145,7 +145,7 @@ export default async function middleware(req: NextRequest) {
 
   console.log('>>>>>>>>>>>>>>>>>>>>',subdomainTest,cookie)
 
-  if (!cookie === !token && subdomainTest ) {
+  if (!cookie && !token && subdomainTest ) {
     return NextResponse.rewrite(new URL('/unauthorized', req.url));
   }
 

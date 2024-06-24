@@ -52,8 +52,8 @@ export function DataTable<TData, TValue>({
   const [rowSelection, setRowSelection] = useState({})
 
   const { translation } = useTranslation()
-  const { subdomain } = useParamsClient();
-  const { providers, isLoading } = useProviders(subdomain as never);
+  const { subdomain, user } = useParamsClient();
+  const { providers, isLoading } = useProviders(subdomain as never, user?.token);
 
   const table = useReactTable({
     data: providers as TData[],
@@ -155,7 +155,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  {isLoading ? "Cargando datos ... ": "No hay resultados."}
+                  {isLoading ? "Cargando datos ... " : "No hay resultados."}
                 </TableCell>
               </TableRow>
             )}

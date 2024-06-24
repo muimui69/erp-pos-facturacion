@@ -1,10 +1,10 @@
 import { DashboardHeader } from "@/components/header";
 import { DashboardShell } from "@/components/shell";
-import { DataTable } from "./data-table"
-import { columns } from "./columns";
 import { PostCreateButtonProduct } from "./post-create-button";
+import ProductList from "@/components/product-list";
 
 export default async function ProductPage() {
+
   return (
     <DashboardShell>
       <DashboardHeader heading="Productos" text="Cree y gestione los diferentes productos en su Punto de Venta.">
@@ -17,11 +17,9 @@ export default async function ProductPage() {
         <PostCreateButtonProduct className="w-full m-2" />
       </div>
 
-      <div className="overflow-x-auto">
-        {/* <DataTable columns={columns} /> */}
+      <div className="flex-grow overflow-y-auto md:pb-48 pb-64 max-h-screen scroll-smooth scroll-pt-px">
+        <ProductList />
       </div>
-
     </DashboardShell>
   )
 }
-

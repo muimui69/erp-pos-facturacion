@@ -1,10 +1,10 @@
 "use client"
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/provider/ReactQueryClient';
-import { deleteInvitationById, getAllInvitations, getUserInvitation, patchAcceptInvitationById, patchResendInvitationById, postCreateInvitation } from '@/lib/queries/invitation';
-import { PostInvitationParams } from '@/lib/queries/interfaces/invitation.interface';
+import { deleteInvitationById, getAllInvitations, getInvitationById, getUserInvitation, patchAcceptInvitationById, patchResendInvitationById, postCreateInvitation } from '@/lib/queries/invitation';
+import { PatchInvitationParams, PostInvitationParams } from '@/lib/queries/interfaces/invitation.interface';
 
-export function useInvitations(subdomain?: string, serviceToken?: string, search?: string) {
+export function useInvitations(subdomain?: string, serviceToken?: string, search?: string, id?: string, token?: string) {
     const queryKeyName = 'invitations';
 
     const { data: invitations, isLoading: isLoadingInvitations, isError: isErrorInvitations } = useQuery({
@@ -15,10 +15,17 @@ export function useInvitations(subdomain?: string, serviceToken?: string, search
 
 
     const { data: userInvitations, isLoading: isLoadingUserInvitation, isError: isErrorUserInvitation } = useQuery({
-        queryKey: [queryKeyName, subdomain, serviceToken, search],
+        queryKey: [queryKeyName, subdomain, serviceToken, id],
         queryFn: () => getUserInvitation(serviceToken as never, subdomain as never, search as never),
         enabled: !!serviceToken && search != ''
     });
+
+    const { data: invitationId, isLoading: isLoadingInvitationId, isError: isErrorInvitationId } = useQuery({
+        queryKey: [queryKeyName, token, id],
+        queryFn: () => getInvitationById(token as never, id as never),
+        enabled: !!token && !!id
+    });
+
 
     const createInvitationMutation = useMutation({
         mutationFn: async ({ subdomain, serviceToken, invitation }: { serviceToken: string, subdomain: string, invitation: PostInvitationParams }) => {
@@ -41,7 +48,7 @@ export function useInvitations(subdomain?: string, serviceToken?: string, search
     })
 
     const patchAcceptInvitationMutation = useMutation({
-        mutationFn: async ({ token, subdomain, id, invitation }: { token: string, subdomain: string, id: string, invitation: PostInvitationParams }) => {
+        mutationFn: async ({ token, subdomain, id, invitation }: { token: string, subdomain: string, id: string, invitation: PatchInvitationParams }) => {
             return patchAcceptInvitationById(token, subdomain, id, invitation);
         },
         onSuccess: () => {
@@ -70,6 +77,9 @@ export function useInvitations(subdomain?: string, serviceToken?: string, search
         deleteInvitation: deleteInvitationMutation,
         patchAcceptInvitation: patchAcceptInvitationMutation,
         patchResendInvitation: patchResendInvitationMutation,
+        invitationId,
+        isErrorInvitationId,
+        isLoadingInvitationId
         // search:setSearch,
         // searchValue:search
     };

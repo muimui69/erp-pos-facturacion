@@ -11,7 +11,8 @@ import {
 } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Image from "next/image";
-import img_team from "@/assets/img/team.jpg"
+// import img_team from "@/assets/img/team.jpg"
+import img_team from "@/assets/img/team_two.png"
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Icons } from "./icons";

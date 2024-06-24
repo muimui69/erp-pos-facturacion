@@ -1,6 +1,7 @@
 "use client"
 
 import Cookie from 'js-cookie';
+import { setCookie } from 'cookies-next';
 import { useRouter, useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
@@ -58,7 +59,8 @@ export function UserSigninSubdomainForm({ className, ...props }: UserSigninFormP
       });
       const user = response.data.data;
       const data = JSON.stringify(user);
-      Cookie.set('user', data);
+      console.log(data);
+      Cookie.set("user", data, { path: window.location.hostname })
       navigate.push('/dashboard');
       setIsLoading(false);
       return toast({
@@ -137,6 +139,7 @@ export function UserSigninSubdomainForm({ className, ...props }: UserSigninFormP
           <Button
             className={cn(buttonVariants())}
             disabled={isLoading}
+            type='submit'
           >
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

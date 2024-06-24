@@ -4,17 +4,18 @@ import { queryClient } from '@/provider/ReactQueryClient';
 import { deleteProductById, getAllProducts, patchProviderById, postCreateProduct } from '@/lib/queries/product';
 import { PatchProductParams } from '@/lib/queries/interfaces/product.interface';
 
-export function useProducts(subdomain?: string) {
+export function useProducts(subdomain?: string, serviceToken?: string) {
     const queryKeyName = 'products';
 
     const { data: products, isLoading, isError } = useQuery({
-        queryKey: [queryKeyName, subdomain],
-        queryFn: async () => getAllProducts(subdomain as never)
+        queryKey: [queryKeyName, subdomain, serviceToken],
+        queryFn: async () => getAllProducts(subdomain as never, serviceToken as never),
+        enabled: !!subdomain && !!serviceToken
     });
 
     const createProductMutation = useMutation({
-        mutationFn: async ({ subdomain, formData }: { subdomain: string, formData: FormData }) => {
-            return postCreateProduct(subdomain, formData);
+        mutationFn: async ({ subdomain, serviceToken, formData }: { subdomain: string, serviceToken: string, formData: FormData }) => {
+            return postCreateProduct(subdomain,serviceToken, formData);
         },
 
         onSuccess: () => {

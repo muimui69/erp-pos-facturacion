@@ -1,5 +1,5 @@
 import api, { converToStringfy } from "../api";
-import { GetInvitationsResponse, GetUserInvitationResponse, PostInvitationParams } from "./interfaces/invitation.interface";
+import { GetInvitationByID, GetInvitationsResponse, GetUserInvitationResponse, PatchInvitationParams, PostInvitationParams } from "./interfaces/invitation.interface";
 
 export const getAllInvitations = async (serviceToken: string, subdomain: string) => {
     try {
@@ -67,15 +67,29 @@ export const deleteInvitationById = async (serviceToken: string, subdomain: stri
 
 
 // ! ojo
-export const patchAcceptInvitationById = async (token: string, subdomain: string, id: string, invitation: PostInvitationParams) => {
+export const patchAcceptInvitationById = async (token: string, subdomain: string, id: string, invitation: PatchInvitationParams) => {
     try {
-        const obj: PostInvitationParams = {
+        const obj:PatchInvitationParams = {
             rolId: invitation.rolId,
-            users: invitation.users
+            userId: invitation.userId
         }
         const { data } = await api.patch(`/invitation/accept/${id}`, converToStringfy(obj), {
             headers: {
                 subdomain,
+                "auth-token": token
+            }
+        })
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+export const getInvitationById = async (token: string, id: string) => { 
+    try {
+        const { data } = await api.get<GetInvitationByID>(`/invitation/${id}`, {
+            headers: {
                 "auth-token": token
             }
         })

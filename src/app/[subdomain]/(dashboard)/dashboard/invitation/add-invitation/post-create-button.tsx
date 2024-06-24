@@ -5,7 +5,6 @@ import { Icons } from "@/components/icons"
 import { useState } from "react"
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
 
-import { postCreateAtm } from "@/lib/queries/employee"
 import { toast } from "@/components/ui/use-toast"
 import { DialogCreate } from "./create-dialog"
 import { columns } from './columns';
@@ -43,7 +42,7 @@ export function PostAddButtonRol({
           users: userIds
         }
       });
-      navigate.push('http://rog.zephyrus.uagrm.localhost:3001/dashboard/invitation');
+      navigate.push(`${window.location.hostname}:3001/dashboard/invitation`);
       setIsLoading(false);
       toast({
         description: "Invitacion enviada correctamente"

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "./ui/button";
 
-export default function WorkAreaTenants({ tenants,pathToSubdomain }: { tenants: GetTenantsResponse, pathToSubdomain: (hosting: string) => string }) {
+export default function WorkAreaTenants({ tenants, pathToSubdomain }: { tenants: GetTenantsResponse, pathToSubdomain: (hosting: string) => string }) {
     return (
         <section className="w-full py-12 md:py-16 lg:py-20">
             <div className="container grid gap-8 px-4 md:px-6">
@@ -17,16 +17,17 @@ export default function WorkAreaTenants({ tenants,pathToSubdomain }: { tenants: 
 
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {
-                        tenants.data.allTenants.map(({  tenant: { hosting, createdAt } }, index) => (
+                        tenants.data.allTenants.map(({ tenant: { hosting, createdAt, name } }, index) => (
                             <>
-                                <div key={index} className="rounded-lg border bg-background p-6 shadow-xl transition-all hover:shadow-md">
+                                <div key={index} className="rounded-lg border bg-background p-6 shadow-xl transition-all hover:shadow-md ">
                                     <div className="mb-4 flex items-center gap-4">
                                         <div className="h-10 w-10 rounded-full bg-muted/50 p-2">
                                             <Icons.billing />
                                         </div>
                                         <div>
-                                            <h3 className="text-lg font-medium">{hosting}</h3>
-                                            <p className="text-sm text-muted-foreground">{createdAt}</p>
+                                            <h1 className="text-lg font-bold uppercase">{name}</h1>
+                                            <h3 className="text-xm font-medium">{hosting}</h3>
+                                            <p className="text-xs text-muted-foreground">{createdAt}</p>
                                         </div>
                                     </div>
                                     <p className="text-sm text-muted-foreground">

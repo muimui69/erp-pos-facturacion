@@ -26,6 +26,7 @@ export interface Role {
 export interface Tenants {
     id:        number;
     hosting:   string;
+    name:string;
     createdAt: string;
     updatedAt: string;
     status:    boolean;

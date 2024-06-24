@@ -1,11 +1,12 @@
 import api, { converToStringfy } from "../api";
 import { GetProductsResponse, GetProdutIdResponse, PatchProductParams } from "./interfaces/product.interface";
 
-export const getAllProducts = async (subdomain: string) => {
+export const getAllProducts = async (subdomain: string, serviceToken: string) => {
     try {
         const { data } = await api.get<GetProductsResponse>('/product', {
             headers: {
                 "subdomain": subdomain,
+                "service-token": serviceToken
             }
         });
         return data;
@@ -27,11 +28,12 @@ export const getProductById = async (subdomain: string, id: string) => {
     }
 }
 
-export const postCreateProduct = async (subdomain: string, formData: FormData) => {
+export const postCreateProduct = async (subdomain: string, serviceToken: string, formData: FormData) => {
     try {
         return await api.post('/product', formData, {
             headers: {
                 "subdomain": subdomain,
+                "service-token":serviceToken,
                 "Content-Type": 'multipart/form-data',
             }
         });

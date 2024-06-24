@@ -1,11 +1,12 @@
 import api, { converToStringfy } from "../api";
 import { GetProviderIdResponse, GetProvidersResponse, PatchProviderParams, PostProviderParams } from "./interfaces/provider.intreface";
 
-export const getAllProviders = async (subdomain: string) => {
+export const getAllProviders = async (subdomain: string, serviceToken: string) => {
     try {
         return await api.get<GetProvidersResponse>('/provider', {
             headers: {
-                subdomain
+                subdomain,
+                "service-token": serviceToken
             }
         });
     } catch (error) {
@@ -28,7 +29,7 @@ export const getProviderById = async (subdomain: string, id: string) => {
 }
 
 
-export const postCreateProvider = async (subdomain: string, provider: PostProviderParams) => {
+export const postCreateProvider = async (subdomain: string, serviceToken: string,provider: PostProviderParams) => {
     try {
         const obj: PostProviderParams = {
             name: provider.name,
@@ -37,7 +38,8 @@ export const postCreateProvider = async (subdomain: string, provider: PostProvid
         }
         return await api.post('/provider', converToStringfy(obj), {
             headers: {
-                subdomain
+                subdomain,
+                "service-token": serviceToken
             }
         });
     } catch (error) {

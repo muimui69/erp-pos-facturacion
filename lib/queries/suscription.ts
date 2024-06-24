@@ -15,7 +15,8 @@ export const postCreateSuscription = async (token: string, suscription: PostSusc
     try {
         const obj: PostSuscriptionParams = {
             suscriptionId: suscription.suscriptionId,
-            hosting: suscription.hosting
+            hosting: suscription.hosting,
+            name: suscription.name
         }
         return await api.post<GetStripeResponse>('/suscription', converToStringfy(obj), {
             headers: {

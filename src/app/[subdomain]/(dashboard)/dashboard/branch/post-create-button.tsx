@@ -24,11 +24,9 @@ export function PostCreateButtonBranch({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { subdomain, user } = useParamsClient();
-  const { createBranch } = useBranchs();
+  const { createBranch } = useBranchs(subdomain as never, user?.token!);
 
-
-
-  const handleSubmit = async (branch: PostBranchParams): Promise<void>  => {
+  const handleSubmit = async (branch: PostBranchParams): Promise<void> => {
     try {
       setIsLoading(true);
       await createBranch.mutateAsync({

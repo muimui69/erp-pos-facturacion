@@ -18,6 +18,7 @@ interface UserPaynamentFormProps extends React.HTMLAttributes<HTMLDivElement> { 
 interface PaynamentData {
   suscription_name: string;
   hosting: string;
+  name: string;
 }
 
 export function UserPaynamentForm({ className, ...props }: UserPaynamentFormProps) {
@@ -32,7 +33,8 @@ export function UserPaynamentForm({ className, ...props }: UserPaynamentFormProp
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [paynamentData, setPaynamentData] = useState<PaynamentData>({
     suscription_name: searchParamName || '',
-    hosting: ''
+    hosting: '',
+    name: ''
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +56,8 @@ export function UserPaynamentForm({ className, ...props }: UserPaynamentFormProp
         token,
         suscription: {
           hosting: paynamentData.hosting,
-          suscriptionId: parseInt(searchParamId!)
+          suscriptionId: parseInt(searchParamId!),
+          name: paynamentData.name
         }
       });
       const urlStripe = response.data.data.paymentSuscription.paymentStripe.url;
@@ -111,6 +114,24 @@ export function UserPaynamentForm({ className, ...props }: UserPaynamentFormProp
     <div className={cn("grid gap-6", className)} {...props}>
       <form onSubmit={handleSubmit}>
         <div className="grid gap-2">
+
+
+          <div className="grid gap-1 py-2">
+
+            <Label htmlFor="name">
+              Nombre de la empresa:
+            </Label>
+            <Input
+              id="name"
+              placeholder="mi empresa.com"
+              name="name"
+              type="text"
+              autoCapitalize="none"
+              autoCorrect="off"
+              onChange={handleChange}
+              value={paynamentData.name}
+            />
+          </div>
 
           <div className="grid gap-1 py-2">
 

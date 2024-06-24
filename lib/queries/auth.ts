@@ -1,5 +1,5 @@
 import api, { converToStringfy } from "../api";
-import { PostUserSigninParams, GetSigninResponse, PostUserSingupParams, PostUserSingupResponse } from "./interfaces/auth.interface";
+import { PostUserSigninParams, GetSigninResponse, PostUserSingupParams, PostUserSingupResponse, GetSigninTenantResponse } from "./interfaces/auth.interface";
 
 export const postSigninUser = async (user: PostUserSigninParams) => {
     try {
@@ -19,7 +19,7 @@ export const postSigninTenantUser = async (user: PostUserSigninParams, subdomain
             email: user.email,
             password: user.password
         }
-        return await api.post<GetSigninResponse>('/auth/login/service', converToStringfy(obj),{
+        return await api.post<GetSigninTenantResponse>('/auth/login/service', converToStringfy(obj),{
             headers: {
                 "subdomain": subdomain
             }

@@ -4,6 +4,12 @@ export interface PostInvitationParams {
 }
 
 
+export interface PatchInvitationParams {
+    rolId: number;
+    userId: string;
+}
+
+
 export interface GetUserInvitationResponse {
     statusCode: number;
     message:    string;
@@ -119,6 +125,53 @@ export interface Rol {
 }
 
 export interface User {
+    id:        string;
+    email:     string;
+    password:  string;
+    name:      string;
+    phone:     string;
+    photo:     null;
+    status:    boolean;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+
+export interface GetInvitationByID {
+    statusCode: number;
+    message:    string;
+    data:       DataInvitationByID;
+}
+
+export interface DataInvitationByID {
+    rol:       RolDataInvitationByID;
+    id:        number;
+    state:     string;
+    createdAt: Date;
+    tenant:    TenantRolDataInvitationByID;
+    user:      UserTenantRolDataInvitationByID;
+}
+
+export interface RolDataInvitationByID {
+    id:        number;
+    desc:      string;
+    status:    boolean;
+    tenantId:  number;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface TenantRolDataInvitationByID {
+    id:        number;
+    hosting:   string;
+    name:      string;
+    logo:      null;
+    createdAt: Date;
+    updatedAt: Date;
+    status:    boolean;
+}
+
+export interface UserTenantRolDataInvitationByID {
     id:        string;
     email:     string;
     password:  string;

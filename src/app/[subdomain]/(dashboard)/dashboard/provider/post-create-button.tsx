@@ -5,7 +5,6 @@ import { Icons } from "@/components/icons"
 import { useState } from "react"
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogCreate } from "./create-dialog"
-import { postCreateAtm } from "@/lib/queries/employee"
 import { toast } from "@/components/ui/use-toast"
 import { useParamsClient } from "@/hooks/use-params"
 import { useProviders } from "@/hooks/use-provider"
@@ -17,7 +16,7 @@ export function PostCreateButtonProvider({
   variant,
   ...props
 }: PostCreateButtonProps) {
-  const { subdomain } = useParamsClient();
+  const { subdomain,user } = useParamsClient();
   const { createProvider } = useProviders(subdomain as never);
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -28,6 +27,7 @@ export function PostCreateButtonProvider({
       setIsLoading(true);
       await createProvider.mutateAsync({
         subdomain: subdomain as never,
+        serviceToken:user?.token as never,
         provider: {
           name,
           email,

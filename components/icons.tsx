@@ -44,6 +44,10 @@ import {
   SquareArrowRight,
   SquareArrowLeft,
   SunMoon,
+  Upload,
+  Eye,
+  FilePenIcon,
+  PackageOpenIcon,
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -92,4 +96,8 @@ export const Icons = {
   colapse: SquareArrowLeft,
   check: Check,
   sunMoon:SunMoon,
+  upload:Upload,
+  eye:Eye,
+  filePenIcon:FilePenIcon,
+  packageOpenIcon:PackageOpenIcon
 }

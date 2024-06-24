@@ -4,18 +4,19 @@ import { queryClient } from '@/provider/ReactQueryClient';
 import { deleteProviderById, getAllProviders, patchProviderById, postCreateProvider } from '@/lib/queries/provider';
 import { PatchProviderParams, PostProviderParams } from '@/lib/queries/interfaces/provider.intreface';
 
-export function useProviders(subdomain?: string) {
+export function useProviders(subdomain?: string, serviceToken?: string) {
     const queryKeyName = 'providers';
 
     const { data: providers, isLoading, isError } = useQuery({
-        queryKey: [queryKeyName, subdomain],
-        queryFn: async () => getAllProviders(subdomain as never)
+        queryKey: [queryKeyName, subdomain, serviceToken],
+        queryFn: async () => getAllProviders(subdomain as never, serviceToken as never),
+        enabled: !!subdomain && !!serviceToken
     });
 
 
     const createProviderMutation = useMutation({
-        mutationFn: async ({ subdomain, provider }: { subdomain: string, provider: PostProviderParams }) => {
-            return postCreateProvider(subdomain, provider);
+        mutationFn: async ({ subdomain, provider, serviceToken }: { subdomain: string, serviceToken: string, provider: PostProviderParams }) => {
+            return postCreateProvider(subdomain, serviceToken, provider);
         },
 
         onSuccess: () => {

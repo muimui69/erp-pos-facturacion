@@ -23,4 +23,5 @@ export interface SuscriptionElement {
 export interface PostSuscriptionParams {
     suscriptionId: number;
     hosting: string;
+    name: string;
 }
