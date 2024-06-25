@@ -64,5 +64,6 @@ export const dashboardConfig: DashboardConfig = {
       icon:"mail"
 
     }
+    
   ],
 }

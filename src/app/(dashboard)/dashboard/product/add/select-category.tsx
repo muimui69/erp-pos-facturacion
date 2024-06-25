@@ -1,9 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
-
-import { cn } from "@/lib/utils"
+import { ChevronsUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Command,
@@ -23,34 +21,6 @@ const frameworks = [
   {
     value: "next.js",
     label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-  {
-    value: "vue.js",
-    label: "Vue.js",
-  },
-  {
-    value: "angular",
-    label: "Angular",
-  },
-  {
-    value: "react",
-    label: "React",
   },
   {
     value: "sveltekit",
@@ -128,7 +98,7 @@ export function SelectCa() {
                       type="checkbox"
                       className="form-checkbox h-4 w-4 mr-2"
                       checked={selectedValues.includes(framework.value)}
-                      onChange={() => {}}
+                      onChange={() => handleToggleOption(framework.value)}
                     />
                     {framework.label}
                   </label>

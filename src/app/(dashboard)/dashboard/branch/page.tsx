@@ -37,7 +37,7 @@ async function getData(): Promise<Branch[]> {
         "lat": 22.10,
         "lng": 19.05,
         "city": "Cochabamba"
-    }
+    },
 ]
 }
 

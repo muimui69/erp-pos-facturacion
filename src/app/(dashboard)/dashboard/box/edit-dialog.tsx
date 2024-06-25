@@ -1,23 +1,25 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
-    Dialog,
     DialogContent,
     DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { patchBranchOffice } from "@/lib/queries/branch-office";
-import { BranchElement } from "@/lib/queries/interfaces/branch.interface";
 import { Dispatch, SetStateAction, useState } from "react";
-// falta la interface de ATM
+import SelectBranch from "./select-sucursal";
+ // Asegúrate de que la ruta sea correcta
+
 export function DialogEdit({ setIsDialogOpen, data }: { setIsDialogOpen: Dispatch<SetStateAction<boolean>>, data: any }) {
     const [userData, setUserData] = useState({
-        name: data,
-        sucursalName: data.city.name
+        name: data.name,
+        sucursalName: data.branch,
     });
+
+    const [selectedBranch, setSelectedBranch] = useState(data.branchId);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -27,25 +29,27 @@ export function DialogEdit({ setIsDialogOpen, data }: { setIsDialogOpen: Dispatc
         }));
     };
 
-    
-
     const handleEditBranch = async () => {
         try {
             //api para editar ATM
-            // await patchBranchOffice(data.id.toString(), { name: userData.name, cityId: data.city.id.toString(), status: true });
-            setIsDialogOpen(false)
+            // await patchBranchOffice(data.id.toString(), {
+            //     name: userData.name,
+            //     branchId: selectedBranch,
+            //     status: true
+            // });
+            setIsDialogOpen(false);
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
-    }
+    };
 
     return (
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-            <DialogTitle>Editar datos</DialogTitle>
-            <DialogDescription>
-                Realice cambios en el perfil de la Caja. Haga clic en guardar cuambios cuando haya terminado.
-            </DialogDescription>
+                <DialogTitle>Editar datos</DialogTitle>
+                <DialogDescription>
+                    Realice cambios en el perfil de la Caja. Haga clic en guardar cambios cuando haya terminado.
+                </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
@@ -61,25 +65,19 @@ export function DialogEdit({ setIsDialogOpen, data }: { setIsDialogOpen: Dispatc
                         className="col-span-3"
                     />
                 </div>
-               
+
                 <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="phone" className="text-right">
+                    <Label htmlFor="sucursalName" className="text-right">
                         Sucursal
                     </Label>
-                    <Input
-                        id="sucursalName"
-                        name="sucursalName"
-                        placeholder="..."
-                        onChange={handleChange}
-                        value={userData.sucursalName}
-                        className="col-span-3"
-                    />
+                    <div className="col-span-3">
+                        <SelectBranch  setUserBranch={setSelectedBranch} />
+                    </div>
                 </div>
-
             </div>
             <DialogFooter>
                 <Button type="submit" onClick={handleEditBranch}>Guardar cambios</Button>
             </DialogFooter>
         </DialogContent>
-    )
+    );
 }
