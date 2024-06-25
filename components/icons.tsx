@@ -1,4 +1,5 @@
 import {
+  MapPin ,
   AlertTriangle,
   ArrowRight,
   Check,
@@ -44,6 +45,7 @@ import {
 export type Icon = LucideIcon
 
 export const Icons = {
+  mappin:MapPin,
   notification:Bell,
   confirmation:CircleCheck,
   reset:RotateCcw,

@@ -38,9 +38,12 @@ const ActionCell = ({ product }: { product: Product }) => {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Acciones</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Ver detalles</DropdownMenuItem>
-        <Link href={`dashboard/product/edit/${product.id}`} passHref>
-          <DropdownMenuItem as="a">Editar</DropdownMenuItem>
+        <Link href={`/dashboard/product/view/${product.id}`} passHref>
+        <DropdownMenuItem >Ver detalles</DropdownMenuItem>
+        </Link>
+
+        <Link href={`/dashboard/product/edit/${product.id}`} passHref>
+          <DropdownMenuItem >Editar</DropdownMenuItem>
         </Link>
         <DropdownMenuItem>Eliminar</DropdownMenuItem>
       </DropdownMenuContent>
