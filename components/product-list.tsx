@@ -8,15 +8,16 @@ import { useProducts } from "@/hooks/use-product"
 import ProductListSkeleton from "./product-list-skeleton"
 import LayoutEmptyCustom from "./layout-empty-custom"
 import { Icons } from "./icons"
+import { useRouter } from "next/navigation"
 
 export default function ProductList() {
     const { subdomain, user } = useParamsClient();
     const { products, isLoading } = useProducts(subdomain as never, user?.token);
+    const navigate = useRouter();
 
-    if (!isLoading && !products) {
-        return (
-            <LayoutEmptyCustom title="producto" />
-        )
+
+    if (products.length === 0) {
+        return <LayoutEmptyCustom title="productos" subtitle="producto" />
     }
 
     return (
@@ -48,11 +49,11 @@ export default function ProductList() {
                                                         </Button>
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
-                                                        <DropdownMenuItem>
+                                                        <DropdownMenuItem onClick={()=>navigate.push(`/dashboard/product/edit/${product.id}`)}>
                                                             <Icons.filePenIcon className="h-4 w-4 mr-2" />
                                                             Editar
                                                         </DropdownMenuItem>
-                                                        <DropdownMenuItem>
+                                                        <DropdownMenuItem >
                                                             <Icons.eye className="h-4 w-4 mr-2" />
                                                             Ver
                                                         </DropdownMenuItem>

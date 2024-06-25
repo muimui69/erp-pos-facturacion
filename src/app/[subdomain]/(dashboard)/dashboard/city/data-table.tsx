@@ -35,6 +35,7 @@ import { useState } from "react"
 import { useTranslation } from "@/hooks/use-translation-columns"
 import { useParamsClient } from "@/hooks/use-params"
 import { useCities } from "@/hooks/use-city"
+import LayoutEmptyCustom from "@/components/layout-empty-custom"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -75,6 +76,9 @@ export function DataTable<TData, TValue>({
     },
   })
 
+  if (cities.length === 0) {
+    return <LayoutEmptyCustom title="ciudades" subtitle="ciudad" />
+  }
 
   return (
     <div className="w-full">

@@ -35,6 +35,7 @@ import { useState } from "react"
 import { useTranslation } from "@/hooks/use-translation-columns"
 import { useParamsClient } from "@/hooks/use-params"
 import { useInvitations } from "@/hooks/user-invitation"
+import LayoutEmptyCustom from "@/components/layout-empty-custom"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -72,6 +73,10 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   })
+
+  if (invitations.length === 0) {
+    return <LayoutEmptyCustom title="invitaciones" subtitle="invitacion" />
+  }
 
   return (
     <div className="w-full">

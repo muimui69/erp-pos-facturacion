@@ -36,6 +36,7 @@ import { useParamsClient } from "@/hooks/use-params"
 import { useRols } from "@/hooks/use-rol"
 import { useTranslation } from "@/hooks/use-translation-columns"
 import { WithIP } from "@/components/utils/ip"
+import LayoutEmptyCustom from "@/components/layout-empty-custom"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -73,6 +74,11 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   })
+
+  if (rols.length === 0) {
+    return <LayoutEmptyCustom title="roles" subtitle="rol" />
+  }
+
 
   return (
     <div className="w-full">

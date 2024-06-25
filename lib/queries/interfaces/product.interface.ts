@@ -30,20 +30,7 @@ export interface CategoryCategory {
     description: string;
 }
 
-interface Stock {
-    id: number;
-    cantTotal: number;
-    inventorys: any[]
-}
 
-export type GetProdutIdResponse = Pick<GetProductsResponse, keyof GetProductsResponse> & {
-    data: {
-        product: (AllProduct & {
-            stock: Stock,
-            status: boolean,
-        })[];
-    }
-};
 
 export type PostProductParams = Omit<AllProduct, 'id' | 'images' | 'createdAt' | 'updatedAt'> & {
     photo: File;
@@ -61,3 +48,37 @@ interface Elemento {
 export interface CategoriesProduct {
     categories: Elemento[];
 }
+
+
+
+
+export interface GetProductIDResponse {
+    statusCode: number;
+    message:    string;
+    data:       Data;
+}
+
+export interface Data {
+    product: ProductIDResponse;
+}
+
+export interface ProductIDResponse  {
+    id:          number;
+    name:        string;
+    description: string;
+    price:       string;
+    discount:    string;
+    images:      string[];
+    stock:       Stock;
+    status:      boolean;
+    categories:  CategoryElement[];
+    createdAt:   string;
+    updatedAt:   string;
+}
+
+export interface Stock {
+    id:         number;
+    cantTotal:  number;
+    inventorys: any[];
+}
+

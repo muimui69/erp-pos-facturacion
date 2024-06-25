@@ -3,15 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { SelectCa } from "./select-category";
 import { Icons } from "@/components/icons";
 import Image from "next/image";
-import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useParamsClient } from "@/hooks/use-params";
 import { useProducts } from "@/hooks/use-product";
-import { CategoriesProduct } from "@/lib/queries/interfaces/product.interface";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { SelectCa } from "../../add/select-category";
+import EditProductSkeleton from "@/components/edit-product-skeleton";
+import { SelectCaEdit } from "./select-category";
 
 
 interface Product {
@@ -26,12 +27,20 @@ interface Categories {
     description: string;
 }
 
-export default function CreateProduct() {
+interface EditProductProps {
+    params: {
+        id: number;
+    }
+}
+
+export default function EditProduct({ params: { id } }: EditProductProps) {
     const { subdomain, user } = useParamsClient();
-    const { createProduct } = useProducts();
+    const { productId, isLoadingProductId, isErrorProductId, patchProduct } = useProducts(subdomain as never, user?.token, id.toString());
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [selectedValues, setSelectedValues] = useState<Categories[]>([]);
     const navigate = useRouter()
+
+    console.log(productId)
 
     const [productData, setProductData] = useState<Product>({
         name: '',
@@ -80,27 +89,44 @@ export default function CreateProduct() {
             formData.append('name', productData.name);
             formData.append('description', productData.description);
             formData.append('price', productData.price);
-            formData.append('photo', selectedFile!);
+            if (selectedFile) {
+                formData.append('photo', selectedFile);
+            }
             formData.append('discount', productData.discount as never);
             formData.append('categories', JSON.stringify(selectedValues));
-            await createProduct.mutateAsync({
+            await patchProduct.mutateAsync({
+                id: id.toString(),
                 serviceToken: user?.token as never,
                 subdomain: subdomain as never,
-                formData,
+                formData
             });
             navigate.push("/dashboard/product")
             setIsLoading(false);
             toast({
-                description: "Producto creado correctamente"
+                description: "Producto actualizado correctamente"
             })
         } catch (err) {
-            console.error("Error creando el Producto", err);
+            console.error("Error actulizando el Producto", err);
             setIsLoading(false);
             toast({
-                description: "No se creo el Producto. Intente de nuevo",
+                description: "No se actualizo el Producto. Intente de nuevo",
                 variant: "destructive"
             })
         }
+    }
+
+    useEffect(() => {
+        setProductData({
+            name: productId?.data.product.name!,
+            description: productId?.data.product.description!,
+            price: productId?.data.product.price!,
+            discount: +productId?.data.product.discount! || 0,
+        });
+        setImagePreview(productId?.data.product.images[0]!);
+    }, [subdomain, id, user?.token, productId]);
+
+    if (isLoadingProductId) {
+        return <EditProductSkeleton />
     }
 
     return (
@@ -206,7 +232,7 @@ export default function CreateProduct() {
                                 <Label htmlFor="category" className="text-base">
                                     Categoria
                                 </Label>
-                                <SelectCa setUserCategory={setSelectedValues} />
+                                <SelectCaEdit setUserCategory={setSelectedValues} productId={productId!} />
                             </div>
                         </form>
                     </div>

@@ -36,6 +36,7 @@ import { useTranslation } from "@/hooks/use-translation-columns"
 import { useParamsClient } from "@/hooks/use-params"
 import { useProviders } from "@/hooks/use-provider"
 import { AllProvider } from "@/lib/queries/interfaces/provider.intreface"
+import LayoutEmptyCustom from "@/components/layout-empty-custom"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -73,6 +74,11 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   })
+
+  if (providers.length === 0) {
+    return <LayoutEmptyCustom title="proveedores" subtitle="proveedor" />
+  }
+
 
   return (
     <div className="w-full">

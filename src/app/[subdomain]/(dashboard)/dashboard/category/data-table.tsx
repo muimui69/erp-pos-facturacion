@@ -35,6 +35,7 @@ import { useState } from "react"
 import { useCategories } from "@/hooks/use-category"
 import { useParamsClient } from "@/hooks/use-params"
 import { useTranslation } from "@/hooks/use-translation-columns"
+import LayoutEmptyCustom from "@/components/layout-empty-custom"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -72,6 +73,11 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   })
+
+  if (categories.length === 0) {
+    return <LayoutEmptyCustom title="categorias" subtitle="categoria" />
+  }
+
 
   return (
     <div className="w-full">
