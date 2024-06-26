@@ -33,6 +33,7 @@ export default function ViewProduct({ params}: EditProductProps) {
                         layout="responsive"
                         width={800}
                         height={800}
+                        priority
                     />
                 </div>
             </div>
@@ -42,7 +43,8 @@ export default function ViewProduct({ params}: EditProductProps) {
                         <TabsTrigger value="details">Detalles del Producto</TabsTrigger>
                         <TabsTrigger value="stock">Stock del Producto</TabsTrigger>
                     </TabsList>
-                    <TabsContent value="details">
+
+                    <TabsContent value="details" >
                         <div className="mt-6 bg-background rounded-lg shadow-lg overflow-hidden w-full max-w-full md:max-w-sm">
                             <div className="p-6">
                                 <div className="flex flex-wrap gap-2">
@@ -66,11 +68,13 @@ export default function ViewProduct({ params}: EditProductProps) {
                             </div>
                         </div>
                     </TabsContent>
+
                     <TabsContent value="stock">
                         <div className="grid gap-4">
                             <ProductStock params={params}/>
                         </div>
                     </TabsContent>
+                    
                 </Tabs>
             </div>
         </div>
