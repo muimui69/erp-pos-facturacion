@@ -37,17 +37,19 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
     Cookie.remove('tenant-user-member-role');
 
     setIsOpen(false);
-    if (!subdomain) {
-      navigate.push('/');
-    }
-    navigate.push(`http://localhost:3001/`);
+    // if (!subdomain) {
+    //   navigate.push('/');
+    // }
+    // navigate.push(`http://localhost:3001/`);
+    navigate.push(`${process.env.NEXT_PUBLIC_BASE_URL_LOCALHOST_SASS}/`);
   };
 
   const pathToSubdomain = () => {
-    if (!subdomain) {
-      return '/tenants';
-    }
-    return `http://localhost:3001/tenants`;
+    // if (!subdomain) {
+    //   return '/tenants';
+    // }
+    // return `http://localhost:3001/tenants`;
+    return `${process.env.NEXT_PUBLIC_BASE_URL_LOCALHOST_SASS}/tenants` 
   };
 
   const handleLogout = () => {

@@ -9,7 +9,7 @@ interface EditProductProps {
     }
 }
 
-export default function editProducto({params}:EditProductProps) {
+export default function EditPage({params}:EditProductProps) {
     return (
         <>
             <DashboardShell>

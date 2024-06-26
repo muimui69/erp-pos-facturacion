@@ -49,6 +49,10 @@ import {
   FilePenIcon,
   PackageOpenIcon,
   Bell,
+  Package,
+  Gauge,
+  Building,
+  Locate,
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -102,4 +106,8 @@ export const Icons = {
   filePenIcon: FilePenIcon,
   packageOpenIcon: PackageOpenIcon,
   notification: Bell,
+  package:Package,
+  gauge:Gauge,
+  building:Building,
+  locate:Locate
 }

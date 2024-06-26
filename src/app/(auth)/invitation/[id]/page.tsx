@@ -79,7 +79,7 @@ export default function InvitationPage({ params: { id } }: InvitationProps) {
     }
 
 
-    if (isErrorInvitationId || !isLoadingInvitationId) {
+    if (isErrorInvitationId && !isLoadingInvitationId) {
         return (
             <div className="container flex h-screen w-screen flex-col items-center justify-center">
                 <Link

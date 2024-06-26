@@ -10,7 +10,9 @@ export default async function addroles() {
             <DashboardShell>
                 <DashboardHeader heading="Roles" text="Cree y gestione los diferentes Roles de su punto de venta.">
                 </DashboardHeader>
-                <div className="overflow-x-auto">
+                
+
+                <div className="flex-grow overflow-y-auto md:pb-48 pb-64 max-h-screen scroll-smooth scroll-pt-px">
                     <DataTable columns={columns} />
                 </div>
             </DashboardShell>

@@ -20,7 +20,6 @@ export default async function middleware(req: NextRequest) {
 
   console.log('>>>>>>>>>>>>>>>>>>>>', subdomainTest, cookie)
 
-  console.log("chiiii")
 
 
   if (!cookie && !token && subdomainTest) {
@@ -57,7 +56,7 @@ export default async function middleware(req: NextRequest) {
 
   // Define los dominios permitidos (localhost y dominio para producción)
   // Define allowed Domains (localhost and production domain)
-  const allowedDomains = ["localhost:3001", "tudominio.com"];
+  const allowedDomains = ["localhost:3001","localhost:3000", "tudominio.com"];
 
   // Verificamos si el hostname existe en los dominios permitidos
   // Verify if hostname exist in allowed domains
@@ -96,7 +95,7 @@ export default async function middleware(req: NextRequest) {
 
 
 const getTenants = async (token: string) => {
-  const response = await fetch('http://localhost:3000/api/tenant/user', {
+  const response = await fetch(`${process.env.BASE_URL_LOCALHOST_BACK}/tenant/user`, {
     headers: {
       "auth-token": token
     },
@@ -109,104 +108,3 @@ const getTenants = async (token: string) => {
   const data = await response.json();
   return data;
 }
-
-// import { NextRequest, NextResponse } from "next/server";
-// import { GetTenantsResponse } from "@/lib/queries/interfaces/tenant.interface";
-// import { Data } from "@/lib/queries/interfaces/auth.interface";
-// import { headers } from "next/headers";
-
-// export const config = {
-//   matcher: [
-//     /*
-//     //  * Match all paths except for:
-//     //  * 1. /api routes
-//     //  * 2. /_next (Next.js internals)
-//     //  * 3. /_static (inside /public)
-//     //  * 4. all root files inside /public
-//     */
-//     "/((?!api/|_next/|_static/|[\\w-]+\\.\\w+).*)",
-//   ],
-// };
-
-// const allowedDomains = ["localhost:3001", "tudominio.com"];
-
-// export default async function middleware(req: NextRequest) {
-//   const url = req.nextUrl;
-//   const hostname = req.headers.get("host")!;
-//   const path = url.pathname;
-
-//   // Extraemos el posible subdominio en la URL
-//   const subdomain = hostname.split(".").slice(0, -1).join(".");
-
-//   const cookie = req.cookies.get('user');
-//   const tenantsCookie = req.cookies.get('tenants');
-
-//   let tenants: GetTenantsResponse | null = null;
-
-//   const tokens: Data = JSON.parse(cookie?.value!);
-//   const USERD = req.cookies.get('token');
-//   console.log('?????????', USERD)
-
-
-//   if (tenantsCookie) {
-//     tenants = JSON.parse(tenantsCookie.value);
-//   } else if (cookie) {
-//     const user: Data = JSON.parse(cookie.value);
-//     tenants = await getTenants(user.token);
-
-//     const response = NextResponse.next();
-//     response.cookies.set('tenants', JSON.stringify(tenants), { path: '/', httpOnly: true, secure: true });
-//     response.cookies.set('token', JSON.stringify(tokens), { path: '/', httpOnly: true, secure: true });
-
-//     // Add the token to the headers
-//     // response.headers.set('auth-token', user.token);
-
-//     return response;
-//   } else {
-//     console.log(req)
-//     return NextResponse.rewrite(new URL('/unauthorized', req.url));
-//   }
-
-//   const allTenants = tenants?.data.allTenants.map(tenant => tenant.tenant.hosting);
-//   console.log('???????????????????????????????????', allTenants);
-//   console.log('???????????????????????????????????', );
-
-
-//   // Verificamos si el hostname existe en los dominios permitidos
-//   const isAllowedDomain = allowedDomains.some(domain => hostname.includes(domain));
-
-//   // Si estamos en un dominio habilitado y no es un subdominio, permitimos la solicitud.
-//   if (isAllowedDomain && !allTenants?.includes(subdomain)) {
-//     if (path.startsWith('/dashboard')) {
-//       return NextResponse.rewrite(new URL('/unauthorized', req.url));
-//     }
-//     return NextResponse.next();
-//   }
-
-//   const subdomainData = allTenants?.find(d => d === subdomain);
-
-//   if (subdomainData) {
-//     // Reescribe la URL a una ruta dinámica basada en el subdominio
-//     return NextResponse.rewrite(new URL(`/${subdomain}${path}`, req.url, {
-//       headers: cookie
-//     }));
-//   }
-
-//   return NextResponse.next();
-// }
-
-// const getTenants = async (token: string) => {
-//   const response = await fetch('http://localhost:3000/api/tenant/user', {
-//     headers: {
-//       "auth-token": token
-//     },
-//   });
-
-//   if (!response.ok) {
-//     throw new Error('Network response was not ok');
-//   }
-
-//   const data = await response.json();
-//   return data;
-// }
-
