@@ -105,65 +105,49 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const config = {
   matcher: [
-    /*
-    //  * Match all paths except for:
-    //  * 1. /api routes
-    //  * 2. /_next (Next.js internals)
-    //  * 3. /_static (inside /public)
-    //  * 4. all root files inside /public
-     */
     "/((?!api/|_next/|_static/|[\\w-]+\\.\\w+).*)",
   ],
 };
-
-// const subdomains = [
-//   {
-//     subdomain: "penesito.uagrm",
-//   },
-//   {
-//     subdomain: "trabajos.dinos.uagrm",
-//   },
-//   {
-//     subdomain: "autist.boy.uagrm"
-//   },
-//   {
-//     subdomain: "rog.zephyrus.uagrm",
-//   },
-//   {
-//     subdomain: "sprint2.hoy.uagrm"
-//   }
-// ]
 
 export default async function middleware(req: NextRequest) {
   const url = req.nextUrl;
 
   const hostname = req.headers.get("host")!;
   const path = url.pathname;
-  const cookie = req.cookies.get('user');
+  const cookie = req.cookies.get('user') || req.cookies.get('tenant-user');
+  const cookieTokenTenant = req.cookies.get('tenant-user-token');
   const token = url.searchParams.get('oauth');
   const subdomainTest = hostname.split(".").slice(0, -1).join(".");
 
-  console.log('>>>>>>>>>>>>>>>>>>>>',subdomainTest,cookie)
+  console.log('>>>>>>>>>>>>>>>>>>>>', subdomainTest, cookie)
 
-  if (!cookie && !token && subdomainTest ) {
+  console.log("chiiii")
+
+
+  if (!cookie && !token && subdomainTest) {
     return NextResponse.rewrite(new URL('/unauthorized', req.url));
   }
 
-  if(!cookie && !subdomainTest){
+  if (!cookie && !subdomainTest) {
     return NextResponse.next();
   }
 
   let user: Data | null = null;
+  let tokenTenant: string ="";
   if (cookie) {
     try {
       user = JSON.parse(cookie.value);
+      if (cookieTokenTenant) {
+        tokenTenant = JSON.parse(cookieTokenTenant?.value!)
+      }
     } catch (error) {
       console.error('Error parsing cookie:', error);
       return NextResponse.rewrite(new URL('/unauthorized', req.url));
     }
   }
 
-  const tokenToUse = user?.token || token;
+
+  const tokenToUse = user?.token || token || tokenTenant;
 
   if (!tokenToUse) {
     return NextResponse.rewrite(new URL('/unauthorized', req.url));
@@ -186,7 +170,7 @@ export default async function middleware(req: NextRequest) {
   const subdomain = hostname.split(".").slice(0, -1).join(".");
 
 
-  console.log('========subdomain=========>', subdomain,tenants)
+  console.log('========subdomain=========>', subdomain, tenants)
 
 
   // Si estamos en un dominio habilitado y no es un subdominio, permitimos la solicitud.

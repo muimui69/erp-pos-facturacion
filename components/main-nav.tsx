@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 import { MobileNav } from "@/components/mobile-nav"
 import { useState } from "react"
+import { Notificacionesnav } from "./notification-nav"
 
 
 interface MainNavProps {
@@ -54,9 +55,13 @@ export function MainNav({ items, children }: MainNavProps) {
         {showMobileMenu ? <Icons.close /> : <Icons.store />}
         <span className="font-bold">Menu</span>
       </button>
+
       {showMobileMenu && items && (
         <MobileNav items={items} closeMenu={() => setShowMobileMenu(false)}> {children}</MobileNav>
       )}
+
+      <div className="flex-1"></div>
+      <Notificacionesnav />
 
     </div>
   )

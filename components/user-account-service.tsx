@@ -11,31 +11,34 @@ import { useEffect } from "react";
 
 export const UserAccountService = () => {
 
-    const { user, setUser, loading, setLoading } = useAuthStore((state) => ({
-        user: state.user,
-        loading: state.loading,
-        setLoading: state.setLoading,
-        setUser: state.setUser,
+    const { userTenant, setUserTenant, loadingUserTenant, setLoadingUserTenant } = useAuthStore((state) => ({
+        userTenant: state.userTenant,
+        loadingUserTenant: state.loadingUserTenant,
+        setLoadingUserTenant: state.setLoadingUserTenant,
+        setUserTenant: state.setUserTenant,
     }));
+    
 
     useEffect(() => {
         const fetchUser = () => {
-            const userString = Cookie.get('user');
+            // const userString = Cookie.get('user');
+            const userString = Cookie.get('tenant-user');
+
             if (!userString) {
-                setUser(null);
-                setLoading(false);
+                setUserTenant(null);
+                setLoadingUserTenant(false);
                 return;
             }
             const userData = JSON.parse(userString);
-            setUser(userData);
-            setLoading(false);
+            setUserTenant(userData);
+            setLoadingUserTenant(false);
         };
 
         fetchUser();
-    }, [setUser, setLoading]);
+    }, [setUserTenant, setLoadingUserTenant]);
 
 
-    if (!user && !loading) {
+    if (!userTenant && !loadingUserTenant) {
         return (
             <nav>
                 <Link
@@ -51,7 +54,7 @@ export const UserAccountService = () => {
         );
     }
 
-    if (loading) {
+    if (loadingUserTenant) {
         return (
             <>
                 <div className="flex-1">
@@ -71,8 +74,8 @@ export const UserAccountService = () => {
             </div>
             <UserAccountNav
                 user={{
-                    name: user?.user.name!,
-                    email: user?.user.email!,
+                    name: userTenant?.name!,
+                    email: userTenant?.email!,
                 }}
             />
         </>

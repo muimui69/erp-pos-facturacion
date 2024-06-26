@@ -45,7 +45,6 @@ export default function HeroCards() {
           <Image
             src={img_team}
             alt="team"
-            layout="responsive"
             priority
           />
         </div>

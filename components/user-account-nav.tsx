@@ -28,10 +28,14 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
   const navigate = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { setUser } = useAuthStore();
+  const { setUser,setUserTenant } = useAuthStore();
 
   const signOut = () => {
     Cookie.remove('user');
+    Cookie.remove('tenant-user');
+    Cookie.remove('tenant-user-token');
+    Cookie.remove('tenant-user-member-role');
+
     setIsOpen(false);
     if (!subdomain) {
       navigate.push('/');
@@ -49,6 +53,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
   const handleLogout = () => {
     signOut();
     setUser(null);
+    setUserTenant(null);
   };
 
   return (
@@ -69,7 +74,6 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         <DropdownMenuItem asChild className="cursor-pointer">
           <Link href={pathToSubdomain()}>Mis áreas de trabajo</Link>
         </DropdownMenuItem>
-        {/* Aquí puedes agregar más elementos del menú según sea necesario */}
         <DropdownMenuItem className="cursor-pointer" onSelect={handleLogout}>
           Cerrar sesión
         </DropdownMenuItem>

@@ -57,10 +57,17 @@ export function UserSigninSubdomainForm({ className, ...props }: UserSigninFormP
           password: userData.password
         }
       });
-      const user = response.data.data;
-      const data = JSON.stringify(user);
-      console.log(data);
-      Cookie.set("user", data, { path: window.location.hostname })
+      const user = response.data.data.user;
+      const userMemberRole = response.data.data.memberRole;
+      const userToken = response.data.data.token;
+      const dataUser = JSON.stringify(user);
+      const dataUserToken = JSON.stringify(userToken);
+      const dataMemberRole = JSON.stringify(userMemberRole);
+
+      Cookie.set("tenant-user", dataUser);
+      Cookie.set("tenant-user-token", dataUserToken);
+      Cookie.set("tenant-user-member-role", dataMemberRole);
+
       navigate.push('/dashboard');
       setIsLoading(false);
       return toast({
