@@ -182,3 +182,43 @@ export interface UserTenantRolDataInvitationByID {
     createdAt: Date;
     updatedAt: Date;
 }
+
+
+export interface GetUserInvitations {
+    statusCode: number;
+    message:    string;
+    data:       DataUserInvitations;
+}
+
+export interface DataUserInvitations  {
+    total:       number;
+    invitations: InvitationDataUserInvitations[];
+}
+
+export interface InvitationDataUserInvitations {
+    id:        number;
+    rol:       RolUserInvitations;
+    tenant:    TenantUserInvitations;
+    state:     string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface RolUserInvitations {
+    id:        number;
+    desc:      string;
+    status:    boolean;
+    tenantId:  number;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface TenantUserInvitations {
+    id:        number;
+    hosting:   string;
+    name:      string;
+    logo:      null;
+    createdAt: Date;
+    updatedAt: Date;
+    status:    boolean;
+}

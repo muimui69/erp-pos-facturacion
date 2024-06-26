@@ -1,7 +1,3 @@
-import Link from "next/link"
-
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
 import { getUserCredentials } from "@/lib/auth"
 import { getAllTenantsUser } from "@/lib/queries/tenant"
 import { notFound } from "next/navigation"

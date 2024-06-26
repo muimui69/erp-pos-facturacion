@@ -6,6 +6,7 @@ import {
 
 import {
     ColumnDef,
+    Row,
 } from "@tanstack/react-table"
 
 import { Button } from "@/components/ui/button"
@@ -21,43 +22,70 @@ import { Dialog } from "@/components/ui/dialog"
 import { useState } from "react"
 import { DialogDemo } from "@/components/dialog"
 import { DialogTrigger } from "@radix-ui/react-dialog"
-
-export type Payment = {
-    id: string
-    amount: number
-    status: "pending" | "processing" | "success" | "failed"
-    email: string
-}
+import { DialogEdit } from "./edit-dialog"
+import { ATM } from "@/lib/queries/interfaces/box.interface"
+import { useParamsClient } from "@/hooks/use-params"
+import { useBoxes } from '../../../../../../hooks/use-box';
 
 
-export const columns: ColumnDef<Payment>[] = [
+
+export const columns: ColumnDef<ATM>[] = [
     {
         accessorKey: "name",
         header: "Nombre",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status")}</div>
+            <div className="capitalize">{row.getValue("name")}</div>
         ),
-    }, {
+    },
+    {
+        accessorKey: "branch",
+        header: "Sucursal",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.original.branch.name}</div>
+        ),
+    },
+    {
+        accessorKey: "city",
+        header: "Ciudad de la sucursal",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.original.branch.city.name}</div>
+        ),
+    },
+    {
         accessorKey: "status",
         header: "Estado",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status") === true ? "Activo" : "Inactivo"}</div>
+            <div className="capitalize">{row.getValue("status") === false ? "Activo" : "Activo"}</div>
         ),
     },
-    
-   
+
     {
         id: "actions",
         enableHiding: false,
         cell: ({ row }) => {
             const payment = row.original
-            return <ActionCell payment={payment} />;
+            return <ActionCell row={row} />;
         },
     },
 ]
 
-const ActionCell = ({ payment }: { payment: Payment }) => {
+const ActionCell = ({ row }: { row: Row<ATM> }) => {
+    const { subdomain, user } = useParamsClient();
+    const { deleteAtm } = useBoxes(subdomain as never, user?.token);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const atmId = row.original.id;
+
+    const deleteAtmById = async (id: number) => {
+        try {
+            await deleteAtm.mutateAsync({
+                subdomain: subdomain as never,
+                serviceToken: user?.token!,
+                id: id.toString()
+            });
+        } catch (error) {
+            console.error("Error al eliminar una caja: ", error);
+        }
+    }
 
     return (
         <>
@@ -77,7 +105,7 @@ const ActionCell = ({ payment }: { payment: Payment }) => {
                     <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
                         Editar
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => deleteAtmById(atmId)}>
                         Eliminar
                     </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -86,7 +114,10 @@ const ActionCell = ({ payment }: { payment: Payment }) => {
             {isDialogOpen && (
                 <Dialog onOpenChange={setIsDialogOpen} open={isDialogOpen}>
                     <DialogTrigger asChild>
-                        <DialogDemo />
+                        <DialogEdit
+                            setIsDialogOpen={setIsDialogOpen}
+                            data={row.original}
+                        />
                     </DialogTrigger>
                 </Dialog>
             )}
