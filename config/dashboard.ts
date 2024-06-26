@@ -64,6 +64,11 @@ export const dashboardConfig: DashboardConfig = {
       icon:"mail"
 
     }
+    ,{
+      title:"Compras",
+      href:"/dashboard/compra",
+      icon:"compra"
+    }
     
   ],
 }
