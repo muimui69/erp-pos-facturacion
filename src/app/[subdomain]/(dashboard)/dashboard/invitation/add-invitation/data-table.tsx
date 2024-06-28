@@ -74,7 +74,7 @@ export function DataTable<TData extends { id?: number | string }, TValue>({
   };
 
   const table = useReactTable({
-    data: searchResults as unknown  as TData[],
+    data: searchResults as unknown as TData[],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -104,15 +104,16 @@ export function DataTable<TData extends { id?: number | string }, TValue>({
     const usersSelect = table.getSelectedRowModel().flatRows
       .map(({ original }) => original.id)
       .filter((id: string | number | undefined): id is string => typeof id === 'string');
-  
+
     onUserSelect(usersSelect);
   }, [table.getSelectedRowModel()]);
-  
+
 
   return (
-    <div className="w-full">
-      <div className="flex items-center">
-        {/* <Input
+    <div className="flex-grow overflow-y-auto md:pb-48 pb-64 max-h-screen scroll-smooth scroll-pt-px">
+      <div className="w-full">
+        <div className="flex items-center">
+          {/* <Input
           placeholder="Buscar por nombre o correo..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
@@ -121,93 +122,114 @@ export function DataTable<TData extends { id?: number | string }, TValue>({
           className="max-w-sm "
         /> */}
 
-        <Input
-          placeholder="Buscar por nombre o correo..."
-          value={search}
-          onChange={handleSearchChange}
-          className="max-w-sm"
-        />
-        <Button onClick={handleSearch} disabled={isLoading} className="ml-2">
-          {isLoading ? "Buscando..." : "Buscar"}
-        </Button>
+          <Input
+            placeholder="Buscar por nombre o correo..."
+            value={search}
+            onChange={handleSearchChange}
+            className="max-w-sm"
+          />
+          <Button onClick={handleSearch} disabled={isLoading} className="ml-2">
+            {isLoading ? "Buscando..." : "Buscar"}
+          </Button>
 
 
-        <DropdownMenu>
+          <DropdownMenu>
 
-          {/* <Input type="email" placeholder="Enviar Correo..." className=" ml-auto  max-w-sm"/> */}
+            {/* <Input type="email" placeholder="Enviar Correo..." className=" ml-auto  max-w-sm"/> */}
 
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-      <div className="rounded-md border mt-8">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
                   return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                    </TableHead>
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
                   )
                 })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+        <div className="rounded-md border mt-8">
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead key={header.id}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                      </TableHead>
+                    )
+                  })}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  {isLoading ? "Cargando datos ..." : "No hay resultados."}
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
+                    {isLoading ? "Cargando datos ..." : "No hay resultados."}
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+        <div className="flex items-center justify-end space-x-2 py-4">
+          <div className="space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Anterior
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Siguiente
+            </Button>
+          </div>
+        </div>
       </div>
-    </div>
+    </div >
   )
 }

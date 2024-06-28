@@ -31,7 +31,8 @@ export const PersonalizationBody = () => {
 
     return (
         <>
-            {/* <p className="px-2 mt-5 scroll-m-20  pb-1 text-3xl font-semibold tracking-tight first:mt-0">
+            <div className="flex-grow overflow-y-auto md:pb-48 pb-64 max-h-screen scroll-smooth scroll-pt-px">
+                {/* <p className="px-2 mt-5 scroll-m-20  pb-1 text-3xl font-semibold tracking-tight first:mt-0">
                 Menu lateral
             </p>
             <div className="grid sm:grid-cols-2 gap-4">
@@ -101,29 +102,30 @@ export const PersonalizationBody = () => {
                 </Button>
             </div> */}
 
-            <p className="px-2 mt-5 scroll-m-20  pb-1 text-3xl font-semibold tracking-tight first:mt-0">
-                Seleccionar tema global
-            </p>
-            <div className="grid sm:grid-cols-2 gap-4 mb-10">
-                <button className="group relative flex justify-between items-center rounded-lg border p-6 shadow-md transition-shadow hover:shadow-lg text-xl font-semibold tracking-tight"
-                    onClick={() => setTheme("light")}
-                >
-                    Modo claro
-                    <SunIcon className="h-[2rem] w-[2rem]  " />
-                </button>
-                <button className="group relative flex justify-between items-center rounded-lg border p-6 shadow-md transition-shadow hover:shadow-lg text-xl font-semibold tracking-tight"
-                    onClick={() => setTheme("dark")}
-                >
-                    Modo oscuro
-                    <MoonIcon className="h-[2rem] w-[2rem]" />
-                </button>
+                <p className="px-2 mt-5 scroll-m-20  pb-1 md:text-3xl font-semibold tracking-tight first:mt-0 text-xl">
+                    Seleccionar tema global
+                </p>
+                <div className="grid sm:grid-cols-2 gap-4 mb-10">
+                    <button className="group relative flex justify-between items-center rounded-lg border p-6 shadow-md transition-shadow hover:shadow-lg text-xl font-semibold tracking-tight"
+                        onClick={() => setTheme("light")}
+                    >
+                        Modo claro
+                        <SunIcon className="h-[2rem] w-[2rem]  " />
+                    </button>
+                    <button className="group relative flex justify-between items-center rounded-lg border p-6 shadow-md transition-shadow hover:shadow-lg text-xl font-semibold tracking-tight"
+                        onClick={() => setTheme("dark")}
+                    >
+                        Modo oscuro
+                        <MoonIcon className="h-[2rem] w-[2rem]" />
+                    </button>
 
-                <button className="group relative flex justify-between items-center rounded-lg border p-6 shadow-md transition-shadow hover:shadow-lg text-xl font-semibold tracking-tight"
-                    onClick={() => setTheme("system")}
-                >
-                    Tema del sistema
-                    <PcCaseIcon className="h-[2rem] w-[2rem]" />
-                </button>
+                    <button className="group relative flex justify-between items-center rounded-lg border p-6 shadow-md transition-shadow hover:shadow-lg text-xl font-semibold tracking-tight"
+                        onClick={() => setTheme("system")}
+                    >
+                        Tema del sistema
+                        <PcCaseIcon className="h-[2rem] w-[2rem]" />
+                    </button>
+                </div>
             </div>
         </>
     );
