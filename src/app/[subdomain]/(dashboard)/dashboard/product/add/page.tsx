@@ -3,7 +3,7 @@ import CreateProduct from "./create-product";
 import { DashboardHeader } from "@/components/header";
 
 
-export default function addProducto() {
+export default function ProductoAdd() {
     return (
         <>
             <DashboardShell>

@@ -43,7 +43,7 @@ interface DataTableProps<TData, TValue> {
   onUserSelect: (userIds: string[]) => void
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends { id?: number | string }, TValue>({
   columns,
   data,
   onUserSelect
@@ -74,7 +74,7 @@ export function DataTable<TData, TValue>({
   };
 
   const table = useReactTable({
-    data: searchResults as TData[],
+    data: searchResults as unknown  as TData[],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -92,13 +92,22 @@ export function DataTable<TData, TValue>({
     },
   })
 
-  const usersSelect = table.getSelectedRowModel().flatRows.map(({ original }) => original.id)
-  console.log(usersSelect)
+  // const usersSelect = table.getSelectedRowModel().flatRows.map(({ original }) => original.id)
+  // console.log(usersSelect)
 
+  // useEffect(() => {
+  //   const usersSelect = table.getSelectedRowModel().flatRows.map(({ original }) => original.id)
+  //   onUserSelect(usersSelect)
+  // }, [table.getSelectedRowModel()])
   useEffect(() => {
-    const usersSelect = table.getSelectedRowModel().flatRows.map(({ original }) => original.id)
-    onUserSelect(usersSelect)
-  }, [table.getSelectedRowModel()])
+    // Filtrar los IDs válidos (string) y pasarlos a onUserSelect
+    const usersSelect = table.getSelectedRowModel().flatRows
+      .map(({ original }) => original.id)
+      .filter((id: string | number | undefined): id is string => typeof id === 'string');
+  
+    onUserSelect(usersSelect);
+  }, [table.getSelectedRowModel()]);
+  
 
   return (
     <div className="w-full">

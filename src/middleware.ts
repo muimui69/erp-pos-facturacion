@@ -18,7 +18,7 @@ export default async function middleware(req: NextRequest) {
   const token = url.searchParams.get('oauth');
   const subdomainTest = hostname.split(".").slice(0, -1).join(".");
 
-  console.log('>>>>>>>>>>>>>>>>>>>>', subdomainTest, cookie)
+  console.log('>>>>>>>>>>>>>>>>>>>>', subdomainTest, cookie,cookieTokenTenant)
 
 
 

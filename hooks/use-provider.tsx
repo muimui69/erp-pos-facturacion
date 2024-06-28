@@ -50,6 +50,7 @@ export function useProviders(subdomain?: string, serviceToken?: string) {
         isError,
         createProvider: createProviderMutation,
         deleteProvider: deleteProviderMutation,
-        patchProvider: patchProviderMutation
+        patchProvider: patchProviderMutation,
+        total:providers?.data.data.total || 0
     };
 }

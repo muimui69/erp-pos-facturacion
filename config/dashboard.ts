@@ -23,6 +23,11 @@ export const dashboardConfig: DashboardConfig = {
       icon: "layoutDashboard",
     },
     {
+      title: "Compras",
+      href: "/dashboard/buy",
+      icon: "shoppingCart",
+    },
+    {
       title: "Empleados",
       href: "/dashboard/employee",
       icon: "user",

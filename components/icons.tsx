@@ -53,6 +53,10 @@ import {
   Gauge,
   Building,
   Locate,
+  ShoppingCart,
+  Pyramid,
+  Clock,
+  Coins
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -106,8 +110,12 @@ export const Icons = {
   filePenIcon: FilePenIcon,
   packageOpenIcon: PackageOpenIcon,
   notification: Bell,
-  package:Package,
-  gauge:Gauge,
-  building:Building,
-  locate:Locate
+  package: Package,
+  gauge: Gauge,
+  building: Building,
+  locate: Locate,
+  shoppingCart: ShoppingCart,
+  pyramid:Pyramid,
+  clock:Clock,
+  sale:Coins
 }
