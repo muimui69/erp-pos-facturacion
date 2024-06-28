@@ -197,7 +197,7 @@ export default async function middleware(req: NextRequest) {
 
 
 const getTenants = async (token: string) => {
-  const response = await fetch('http://localhost:3000/api/tenant/user', {
+  const response = await fetch('http://localhost:3001/api/tenant/user', {
     headers: {
       "auth-token": token
     },
