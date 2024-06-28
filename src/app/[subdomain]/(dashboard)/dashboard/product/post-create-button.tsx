@@ -93,7 +93,7 @@
 import { cn } from "@/lib/utils";
 import { ButtonProps, buttonVariants } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface PostCreateButtonProps extends ButtonProps { }
 
@@ -103,8 +103,10 @@ export function PostCreateButtonProduct({
   ...props
 }: PostCreateButtonProps) {
 
+  const navigate = useRouter();
+
   const handleClick = () => {
-    window.location.href = "/dashboard/product/add";
+    navigate.push("/dashboard/product/add")
   };
 
   return (

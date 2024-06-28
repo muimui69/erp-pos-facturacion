@@ -23,6 +23,11 @@ export const dashboardConfig: DashboardConfig = {
       icon: "layoutDashboard",
     },
     {
+      title: "Compras",
+      href: "/dashboard/buy",
+      icon: "shoppingCart",
+    },
+    {
       title: "Empleados",
       href: "/dashboard/employee",
       icon: "user",
@@ -37,11 +42,11 @@ export const dashboardConfig: DashboardConfig = {
       href: "/dashboard/branch",
       icon: "mapPinned",
     },
-    // {
-    //   title: "Cajas",
-    //   href: "/dashboard/box ",
-    //   icon: "handCoins",
-    // },
+    {
+      title: "Cajas",
+      href: "/dashboard/box ",
+      icon: "handCoins",
+    },
     {
       title: "Categorias",
       href: "/dashboard/category",

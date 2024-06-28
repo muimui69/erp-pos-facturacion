@@ -31,7 +31,7 @@ export const PersonalizationBody = () => {
 
     return (
         <>
-            <p className="px-2 mt-5 scroll-m-20  pb-1 text-3xl font-semibold tracking-tight first:mt-0">
+            {/* <p className="px-2 mt-5 scroll-m-20  pb-1 text-3xl font-semibold tracking-tight first:mt-0">
                 Menu lateral
             </p>
             <div className="grid sm:grid-cols-2 gap-4">
@@ -99,7 +99,7 @@ export const PersonalizationBody = () => {
                 >
                     Aplicar cambios
                 </Button>
-            </div>
+            </div> */}
 
             <p className="px-2 mt-5 scroll-m-20  pb-1 text-3xl font-semibold tracking-tight first:mt-0">
                 Seleccionar tema global

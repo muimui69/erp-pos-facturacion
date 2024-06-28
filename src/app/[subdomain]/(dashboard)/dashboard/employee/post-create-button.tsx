@@ -5,7 +5,6 @@ import { Icons } from "@/components/icons"
 import { useState } from "react"
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogCreate } from "./create-dialog"
-import { postCreateAtm } from "@/lib/queries/employee"
 import { toast } from "@/components/ui/use-toast"
 
 interface PostCreateButtonProps extends ButtonProps { }
@@ -22,8 +21,8 @@ export function PostCreateButtonEmployee({
   const handleSubmit = async (email: string, name: string, phone: string, idBranch: string): Promise<void> => {
     try {
       setIsLoading(true);
-      const new_employee = await postCreateAtm(email, name, phone, idBranch);
-      console.log('=-=========', new_employee)
+      // const new_employee = await postCreateAtm(email, name, phone, idBranch);
+      // console.log('=-=========', new_employee)
       setIsDialogOpen(false)
       setIsLoading(false);
       toast({

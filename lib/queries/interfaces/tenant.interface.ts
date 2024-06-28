@@ -1,4 +1,4 @@
-export interface GetTenantsResponse {
+export interface GetTenantsUserResponse {
     statusCode: number;
     message:    string;
     data:       Data;
@@ -10,8 +10,8 @@ export interface Data {
 }
 
 export interface AllTenant {
-    rol:    Role[];
-    tenant: Tenants;
+    rol:    Rol;
+    tenant: Tenant;
 }
 
 export interface Rol {
@@ -19,24 +19,12 @@ export interface Rol {
     desc: string;
 }
 
-export interface Role {
-    rol: Rol;
-}
-
-export interface Tenants {
+export interface Tenant {
     id:        number;
     hosting:   string;
-    name:string;
+    name:      string;
+    logo:      null;
     createdAt: string;
     updatedAt: string;
     status:    boolean;
 }
-
-
-
-
-
-
-
-
-

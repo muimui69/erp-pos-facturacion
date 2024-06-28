@@ -223,7 +223,11 @@ export function DataTable<TData extends { id?: number | string }, TValue>({
           </TableBody>
         </Table>
       </div>
-      {/* <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="flex-1 text-sm text-muted-foreground">
+          {table.getFilteredSelectedRowModel().rows.length} de{" "}
+          {table.getFilteredRowModel().rows.length} fila(s) seleccioandas.
+        </div>
         <div className="space-x-2">
           <Button
             variant="outline"
@@ -231,7 +235,7 @@ export function DataTable<TData extends { id?: number | string }, TValue>({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            Anterior
           </Button>
           <Button
             variant="outline"
@@ -239,10 +243,10 @@ export function DataTable<TData extends { id?: number | string }, TValue>({
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            Siguiente
           </Button>
         </div>
-      </div> */}
+      </div>
     </div>
   )
 }

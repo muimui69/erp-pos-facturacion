@@ -15,6 +15,7 @@ const translationMap = {
     state: "Estado",
     address:"Direccion",
     city:"Ciudad",
+    branch:"Sucursal",
 };
 
 export function useTranslation() {

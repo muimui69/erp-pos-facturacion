@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useBranchs } from "@/hooks/use-branch";
+import { useParamsClient } from "@/hooks/use-params";
 
 import { Dispatch, SetStateAction } from "react";
 
@@ -17,7 +18,8 @@ interface SelectBranchProps {
 }
 
 export default function SelectSucursal({ setUserBranch }: SelectBranchProps) {
-  const { branchs, isLoading, isError } = useBranchs();
+  const { subdomain, user } = useParamsClient();
+  const { branchs, isLoading } = useBranchs(subdomain as never, user?.token);
 
   const handleSelectBranch = (value: string) => {
     setUserBranch({ idBranch: value })

@@ -1,5 +1,5 @@
 import api, { converToStringfy } from "../api";
-import { GetInvitationByID, GetInvitationsResponse, GetUserInvitationResponse, PatchInvitationParams, PostInvitationParams } from "./interfaces/invitation.interface";
+import { GetInvitationByID, GetInvitationsResponse, GetUserInvitationResponse, GetUserInvitations, PatchInvitationParams, PostInvitationParams } from "./interfaces/invitation.interface";
 
 export const getAllInvitations = async (serviceToken: string, subdomain: string) => {
     try {
@@ -13,6 +13,20 @@ export const getAllInvitations = async (serviceToken: string, subdomain: string)
         throw error;
     }
 }
+
+
+export const getAllUserInvitations = async (token: string) => {
+    try {
+        return await api.get<GetUserInvitations>('/users/invitation', {
+            headers: {
+                "auth-token": token
+            },
+        });
+    } catch (error) {
+        throw error;
+    }
+}
+
 
 
 export const getUserInvitation = async (serviceToken: string, subdomain: string, search: string) => {

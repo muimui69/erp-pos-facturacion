@@ -53,6 +53,7 @@ export function useEmployees(subdomain?: string, serviceToken?: string, id?: str
         isLoadingEmpleyoeeId,
         // createCity: createCityMutation,
         // deleteCity: deleteCityMutation,
-        patchEmployee: patchEmployeeMutation
+        patchEmployee: patchEmployeeMutation,
+        total: employee?.data.data.total || 0
     };
 }

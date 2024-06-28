@@ -1,7 +1,3 @@
-import Link from "next/link"
-
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
 import { getUserCredentials } from "@/lib/auth"
 import { getAllTenantsUser } from "@/lib/queries/tenant"
 import { notFound } from "next/navigation"
@@ -23,7 +19,7 @@ export default async function TenantsPage() {
   console.log(tenantsData)
 
   const pathToSubdomain = (hosting:string) => {
-    return `http://${hosting}.localhost:3001?email=${user?.user.email}&workspace=${hosting}&oauth=${user?.token}`;
+    return `http://${hosting}.${process.env.NEXT_PUBLIC_HOST}?email=${user?.user.email}&workspace=${hosting}&oauth=${user?.token}`;
   }
 
   return (

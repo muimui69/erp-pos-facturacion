@@ -1,5 +1,5 @@
 import api, { converToStringfy } from "../api";
-import { GetProductIDResponse, GetProductsResponse, PatchProductParams } from "./interfaces/product.interface";
+import { BranchIdsPayload, GetBranchsInProduct, GetProductIDResponse, GetProductsResponse, PatchProductParams } from "./interfaces/product.interface";
 
 export const getAllProducts = async (subdomain: string, serviceToken: string) => {
     try {
@@ -24,6 +24,36 @@ export const getProductById = async (subdomain: string, serviceToken: string, id
             }
         });
         return data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getBranchsInProduct = async (subdomain: string, serviceToken: string, id: string) => {
+    try {
+        const { data } = await api.get<GetBranchsInProduct>(`/branch/product/${id}/view`, {
+            headers: {
+                "subdomain": subdomain,
+                "service-token": serviceToken
+            }
+        });
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const postCreateBranchProduct = async (subdomain: string, serviceToken: string, branchIds: BranchIdsPayload, id: string) => {
+    try {
+        const obj: BranchIdsPayload = {
+            branchIds: branchIds.branchIds
+        }
+        return await api.post(`/branch/product/${id}`, converToStringfy(obj), {
+            headers: {
+                "subdomain": subdomain,
+                "service-token": serviceToken,
+            }
+        });
     } catch (error) {
         throw error;
     }
@@ -70,3 +100,4 @@ export const patchProductById = async (subdomain: string, serviceToken: string, 
         throw err;
     }
 }
+

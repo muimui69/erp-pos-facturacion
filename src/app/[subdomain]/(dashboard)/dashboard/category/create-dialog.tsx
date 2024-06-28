@@ -31,7 +31,7 @@ export function DialogCreate({ HandleSubmit }: DialogCreateProps) {
     };
 
     const handleCreateCategoria = async () => {
-        HandleSubmit(categoryData.description);
+        await HandleSubmit(categoryData.description);
     };
 
     return (

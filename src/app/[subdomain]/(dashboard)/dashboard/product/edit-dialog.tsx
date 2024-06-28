@@ -4,7 +4,7 @@ import { DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFoot
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { putUpdateCity } from "@/lib/queries/city";
+// import { putUpdateCity } from "@/lib/queries/city";
 import { Product } from "./columns";
 
 export const DialogEditProducto = ({data, setIsDialogOpen }: { setIsDialogOpen: Dispatch<SetStateAction<boolean>>, data: Product }) => {

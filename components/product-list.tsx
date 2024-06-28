@@ -12,12 +12,23 @@ import { useRouter } from "next/navigation"
 
 export default function ProductList() {
     const { subdomain, user } = useParamsClient();
-    const { products, isLoading } = useProducts(subdomain as never, user?.token);
+    const { products, isLoading, deleteProduct } = useProducts(subdomain as never, user?.token);
     const navigate = useRouter();
 
 
     if (products.length === 0) {
         return <LayoutEmptyCustom title="productos" subtitle="producto" />
+    }
+
+    const deleteProductById = async (id: number) => {
+        try {
+            await deleteProduct.mutateAsync({
+                subdomain: subdomain as never,
+                id: id.toString()
+            });
+        } catch (error) {
+            console.error("Error al eliminar una producto: ", error);
+        }
     }
 
     return (
@@ -49,15 +60,15 @@ export default function ProductList() {
                                                         </Button>
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
-                                                        <DropdownMenuItem onClick={()=>navigate.push(`/dashboard/product/edit/${product.id}`)}>
+                                                        <DropdownMenuItem onClick={() => navigate.push(`/dashboard/product/edit/${product.id}`)}>
                                                             <Icons.filePenIcon className="h-4 w-4 mr-2" />
                                                             Editar
                                                         </DropdownMenuItem>
-                                                        <DropdownMenuItem >
+                                                        <DropdownMenuItem onClick={() => navigate.push(`/dashboard/product/view/${product.id}`)}>
                                                             <Icons.eye className="h-4 w-4 mr-2" />
                                                             Ver
                                                         </DropdownMenuItem>
-                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuSeparator onClick={() => deleteProductById(product.id)} />
                                                         <DropdownMenuItem className="text-red-500">
                                                             <Icons.trash className="h-4 w-4 mr-2" />
                                                             Eliminar
@@ -69,7 +80,7 @@ export default function ProductList() {
 
                                         <div className="p-4">
                                             <h3 className="text-lg font-bold">{product.name}</h3>
-                                            <p className="text-primary font-sans">BS {product.price}</p>
+                                            <p className="text-primary font-sans">{product.price} BS</p>
                                         </div>
                                     </div>
                                 </>

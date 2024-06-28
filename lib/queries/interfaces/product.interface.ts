@@ -54,31 +54,77 @@ export interface CategoriesProduct {
 
 export interface GetProductIDResponse {
     statusCode: number;
-    message:    string;
-    data:       Data;
+    message: string;
+    data: DataProductIDResponse;
 }
 
-export interface Data {
+export interface DataProductIDResponse {
     product: ProductIDResponse;
 }
 
-export interface ProductIDResponse  {
-    id:          number;
-    name:        string;
+export interface ProductIDResponse {
+    id: number;
+    name: string;
     description: string;
-    price:       string;
-    discount:    string;
-    images:      string[];
-    stock:       Stock;
-    status:      boolean;
-    categories:  CategoryElement[];
-    createdAt:   string;
-    updatedAt:   string;
+    price: string;
+    discount: string;
+    images: string[];
+    stock: Stock;
+    status: boolean;
+    categories: CategoryElement[];
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface Stock {
-    id:         number;
-    cantTotal:  number;
+    id: number;
+    cantTotal: number;
     inventorys: any[];
 }
 
+
+
+export interface GetBranchsInProduct {
+    statusCode: number;
+    message: string;
+    data: DataInventoryBranchsInProduct;
+}
+
+export interface DataInventoryBranchsInProduct {
+    stock: StockInventoryBranchsInProduct;
+}
+
+export interface StockInventoryBranchsInProduct {
+    id: number;
+    inventorys: InventoryBranchsInProduct[];
+    cantTotal: number;
+    updatedAt: Date;
+}
+
+export interface InventoryBranchsInProduct {
+    cant: number;
+    branch: BranchBranchsInProduct;
+}
+
+export interface BranchBranchsInProduct {
+    id: number;
+    city: CityBranchBranchsInProduct;
+    name: string;
+    address: string;
+    status: boolean;
+    updatedAt: Date;
+}
+
+export interface CityBranchBranchsInProduct {
+    id: number;
+    name: string;
+    status: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    tenantId: number;
+}
+
+
+export interface BranchIdsPayload {
+    branchIds: number[];
+}

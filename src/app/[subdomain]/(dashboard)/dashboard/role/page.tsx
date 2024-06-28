@@ -18,7 +18,7 @@ export default async function Roles() {
                     <PostCreateButtonRoles className="w-full m-2" />
                 </div>
 
-                <div className="overflow-x-auto">
+                <div className="flex-grow overflow-y-auto md:pb-48 pb-64 max-h-screen scroll-smooth scroll-pt-px">
                     <DataTable columns={columns} />
                 </div>
             </DashboardShell>
