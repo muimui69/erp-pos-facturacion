@@ -1,16 +1,22 @@
 "use client"
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/provider/ReactQueryClient';
-import { getAllBuys, postCreateBuy } from '@/lib/queries/buys';
+import { getAllBuys, getProductForBuysById, postCreateBuy } from '@/lib/queries/buys';
 import { PostBuyParams, RangeDate } from '@/lib/queries/interfaces/buys';
 
-export function useBuys(subdomain?: string, serviceToken?: string, rangeDate?: RangeDate) {
+export function useBuys(subdomain?: string, serviceToken?: string, rangeDate?: RangeDate,id?:string,search?:string) {
     const queryKeyName = 'buys';
 
     const { data: buys, isLoading, isError } = useQuery({
         queryKey: [queryKeyName, subdomain, serviceToken],
         queryFn: () => getAllBuys(serviceToken as never, subdomain as never, rangeDate as never),
         enabled: !!serviceToken && !!subdomain && !!rangeDate
+    });
+
+    const { data: productForBuys, isLoading:isLoadingProductForBuys, isError:isErrorProductForBuys } = useQuery({
+        queryKey: [queryKeyName, subdomain, serviceToken,id,search],
+        queryFn: () => getProductForBuysById(serviceToken as never, subdomain as never, id as never,search as never),
+        enabled: !!serviceToken && !!subdomain && !!id && !!search
     });
 
     const createBuyMutation = useMutation({
@@ -48,6 +54,9 @@ export function useBuys(subdomain?: string, serviceToken?: string, rangeDate?: R
         isLoading,
         isError,
         createBuy: createBuyMutation,
+        productForBuys:productForBuys?.data.product || {},
+        isLoadingProductForBuys,
+        isErrorProductForBuys
         // deleteCategory: deleteCategoryMutation,
         // patchCategory: patchCategoryMutation
     };

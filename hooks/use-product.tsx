@@ -65,7 +65,7 @@ export function useProducts(subdomain?: string, serviceToken?: string, id?: stri
     })
 
 
-    return {
+    return {    
         products: products?.data?.allProducts || [],
         // branchsInProduct: branchsInProduct?.data?.stock?.inventorys || [],
         isLoading,

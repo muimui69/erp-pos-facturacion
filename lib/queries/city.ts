@@ -15,6 +15,19 @@ export const getAllCities = async (serviceToken: string, subdomain: string) => {
 }
 
 
+export const getAllCitiesBranch = async (serviceToken: string, subdomain: string) => {
+    try {
+        return await api.get<GetCitiesResponse>('/branch/city', {
+            headers: {
+                subdomain,
+                "service-token": serviceToken
+            },
+        });
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const getCityById = async (serviceToken: string, subdomain: string, id: string) => {
     try {
         return await api.get<GetCityByID>(`/city/${id}`, {

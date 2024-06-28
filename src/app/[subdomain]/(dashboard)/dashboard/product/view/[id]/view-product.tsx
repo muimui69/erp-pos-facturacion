@@ -44,7 +44,7 @@ export default function ViewProduct({ params}: EditProductProps) {
                         <TabsTrigger value="stock">Stock del Producto</TabsTrigger>
                     </TabsList>
 
-                    <TabsContent value="details" >
+                    <TabsContent value="details">
                         <div className="mt-6 bg-background rounded-lg shadow-lg overflow-hidden w-full max-w-full md:max-w-sm">
                             <div className="p-6">
                                 <div className="flex flex-wrap gap-2">

@@ -1,6 +1,6 @@
 "use client"
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { deleteBranchId, getAllBranchs, patchBranchById, postCreateBranch } from '@/lib/queries/branch-office';
+import { deleteBranchId, getAllBranchs, getAllBranchsAtm, patchBranchById, postCreateBranch } from '@/lib/queries/branch-office';
 import { queryClient } from '@/provider/ReactQueryClient';
 import { PatchBranchParams, PostBranchParams } from '@/lib/queries/interfaces/branch.interface';
 
@@ -10,6 +10,12 @@ export function useBranchs(subdomain?: string, serviceToken?: string) {
     const { data: branchs, isLoading, isError } = useQuery({
         queryKey: [queryKeyName],
         queryFn: () => getAllBranchs(serviceToken as never, subdomain as never),
+        enabled: !!serviceToken
+    });
+
+    const { data: branchsAtm, isLoading:isLoadingBranchsAtm, isError:isErrorBranchsAtm } = useQuery({
+        queryKey: [queryKeyName],
+        queryFn: () => getAllBranchsAtm(serviceToken as never, subdomain as never),
         enabled: !!serviceToken
     });
 
@@ -48,6 +54,9 @@ export function useBranchs(subdomain?: string, serviceToken?: string) {
         isError,
         createBranch: createBranchMutation,
         deleteBranch: deleteBranchMutation,
-        patchBranch: patchBranchMutation
+        patchBranch: patchBranchMutation,
+        branchsAtm:branchsAtm?.data.data.branchs || [],
+        isLoadingBranchsAtm,
+        isErrorBranchsAtm
     };
 }

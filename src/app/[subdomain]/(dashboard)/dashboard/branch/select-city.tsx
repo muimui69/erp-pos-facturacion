@@ -18,11 +18,15 @@ interface SelectBranchProps {
 
 export default function SelectCity({ setUserCity }: SelectBranchProps) {
   const { subdomain, user } = useParamsClient();
-  const { cities, isLoadingCities } = useCities(subdomain as never, user?.token);
+  const { citiesBranch, isLoadingCityBranch } = useCities(subdomain as never, user?.token);
 
   const handleSelectBranch = (value: string) => {
     setUserCity({ idCity: value })
   };
+
+  if(isLoadingCityBranch){
+    return <span>Cargando ..,</span>
+  }
 
   return (
     <Select onValueChange={handleSelectBranch}>
@@ -31,7 +35,7 @@ export default function SelectCity({ setUserCity }: SelectBranchProps) {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {cities.map(({ id, name }) => (
+          {citiesBranch.map(({ id, name }) => (
             <SelectItem key={id} value={id.toString()}>
               {name}
             </SelectItem>

@@ -140,16 +140,15 @@ export default function AddNotePage() {
                         <CardContent>
                             {productState?.map((product, index) => (
                                 <div key={index} className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
-                                    <div>
+                                    <div className="flex-grow">
                                         <label className="block text-sm font-medium text-gray-700">
                                             Producto
                                         </label>
-
                                         <SelectProduct
-                                            selectedProductId={product.productId}
+                                            branchId={selectedValueBranch?.id as never}
                                             onChange={(value: string) => handleProductChange(index, "productId", value)}
                                         />
-                                    </div>
+                                    </div> 
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700">
                                             Cantidad

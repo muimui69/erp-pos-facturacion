@@ -1,5 +1,5 @@
 import api, { converToStringfy } from "../api";
-import { PostUserSigninParams, GetSigninResponse, PostUserSingupParams, PostUserSingupResponse, GetSigninTenantResponse } from "./interfaces/auth.interface";
+import { PostUserSigninParams, GetSigninResponse, PostUserSingupParams, PostUserSingupResponse, GetSigninTenantResponse, PacthPasswordUserTenant } from "./interfaces/auth.interface";
 
 export const postSigninUser = async (user: PostUserSigninParams) => {
     try {
@@ -19,7 +19,7 @@ export const postSigninTenantUser = async (user: PostUserSigninParams, subdomain
             email: user.email,
             password: user.password
         }
-        return await api.post<GetSigninTenantResponse>('/auth/login/service', converToStringfy(obj),{
+        return await api.post<GetSigninTenantResponse>('/auth/login/service', converToStringfy(obj), {
             headers: {
                 "subdomain": subdomain
             }
@@ -43,3 +43,20 @@ export const postSingupUser = async (user: PostUserSingupParams) => {
     }
 }
 
+
+export const patchPasswordTenantUser = async (subdomain: string, serviceToken: string, password: PacthPasswordUserTenant) => {
+    try {
+        const obj: PacthPasswordUserTenant = {
+            password: password.password,
+            password_update: password.password_update
+        }
+        return await api.patch<GetSigninTenantResponse>('/auth/password-update/service', converToStringfy(obj), {
+            headers: {
+                "subdomain": subdomain,
+                "service-token": serviceToken
+            }
+        })
+    } catch (err) {
+        throw err;
+    }
+}

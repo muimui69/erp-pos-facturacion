@@ -15,6 +15,20 @@ export const getAllBranchs = async (serviceToken: string, subdomain: string) => 
     }
 }
 
+
+export const getAllBranchsAtm = async (serviceToken: string, subdomain: string) => {
+    try {
+        return await api.get<GetBranchsResponse>('/atm/branch', {
+            headers: {
+                subdomain,
+                "service-token": serviceToken
+            }
+        })
+    } catch (error) {
+        throw error
+    }
+}
+
 export const getBranchById = async (id: number, serviceToken: string, subdomain: string) => {
     try {
         return await api.get<GetBranchIdResponse>(`/branch/${id}`, {

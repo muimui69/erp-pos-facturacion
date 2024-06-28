@@ -1,7 +1,7 @@
 "use client"
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/provider/ReactQueryClient';
-import { deleteCategoryById, getAllCategories, patchCategoryById, postCreateCategory } from '@/lib/queries/category';
+import { deleteCategoryById, getAllCategories, getAllCategoriesProd, patchCategoryById, postCreateCategory } from '@/lib/queries/category';
 import { PatchCategoryParams, PostCategoryParams } from '@/lib/queries/interfaces/category.interface';
 
 export function useCategories(subdomain?: string, serviceToken?: string) {
@@ -12,6 +12,13 @@ export function useCategories(subdomain?: string, serviceToken?: string) {
         queryFn: () => getAllCategories(serviceToken as never, subdomain as never),
         enabled:!!serviceToken
     });
+    
+    const { data: categoriesProd, isLoading:isLoadingProd, isError:isErrorProd } = useQuery({
+        queryKey: [queryKeyName, subdomain, serviceToken],
+        queryFn: () => getAllCategoriesProd(serviceToken as never, subdomain as never),
+        enabled:!!serviceToken
+    });
+
 
     const createCategoryMutation = useMutation({
         mutationFn: async ({ subdomain, category, serviceToken }: { subdomain: string, serviceToken: string, category: PostCategoryParams }) => {
@@ -49,6 +56,9 @@ export function useCategories(subdomain?: string, serviceToken?: string) {
         isError,
         createCategory: createCategoryMutation,
         deleteCategory: deleteCategoryMutation,
-        patchCategory: patchCategoryMutation
+        patchCategory: patchCategoryMutation,
+        categoriesProd:categoriesProd?.data.data.allCategories || [],
+        isLoadingProd,
+        isErrorProd
     };
 }

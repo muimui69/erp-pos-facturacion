@@ -1,8 +1,8 @@
 "use client"
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/provider/ReactQueryClient';
-import { postSigninTenantUser, postSigninUser, postSingupUser } from '@/lib/queries/auth';
-import { PostUserSigninParams } from '@/lib/queries/interfaces/auth.interface';
+import { patchPasswordTenantUser, postSigninTenantUser, postSigninUser, postSingupUser } from '@/lib/queries/auth';
+import { PacthPasswordUserTenant, PostUserSigninParams } from '@/lib/queries/interfaces/auth.interface';
 
 export function useAuth() {
     const queryKeyName = 'auth';
@@ -32,9 +32,21 @@ export function useAuth() {
         },
     })
 
+
+    const patchPasswordTenantUserMutation = useMutation({
+        mutationFn: async ({ password, subdomain, serviceToken }: { subdomain: string, serviceToken: string, password: PacthPasswordUserTenant }) => {
+            return patchPasswordTenantUser(subdomain, serviceToken, password);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [queryKeyName] });
+        },
+    })
+
+
     return {
         signinUser: signinUserMutation,
         signinTenantUser: signinTenantUserMutation,
-        signupUser: signupUserMutation
+        signupUser: signupUserMutation,
+        patchPasswordTenantUser: patchPasswordTenantUserMutation
     };
 }

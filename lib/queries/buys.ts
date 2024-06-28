@@ -1,5 +1,5 @@
 import api, { converToStringfy } from "../api";
-import { GetBuysResponse, PostBuyParams, RangeDate } from './interfaces/buys';
+import { GetBuysResponse, GetProductForBuys, PostBuyParams, RangeDate } from './interfaces/buys';
 
 export const getAllBuys = async (serviceToken: string, subdomain: string, rangeDate: RangeDate) => {
     try {
@@ -19,18 +19,22 @@ export const getAllBuys = async (serviceToken: string, subdomain: string, rangeD
 }
 
 
-// export const getCategoryById = async (subdomain: string, id: number) => {
-//     try {
-//         const { data } = await api.get<GetCategoryIdResponse>(`/category/${id}`, {
-//             headers: {
-//                 subdomain
-//             }
-//         })
-//         return data;
-//     } catch (error) {
-//         throw error;
-//     }
-// }
+export const getProductForBuysById = async (serviceToken: string, subdomain: string, id: string, branchId: string) => {
+    try {
+        const { data } = await api.get<GetProductForBuys>(`/buy/product/${id}`, {
+            headers: {
+                subdomain,
+                "service-token": serviceToken
+            },
+            params: {
+                branchId
+            }
+        })
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
 
 
 export const postCreateBuy = async (subdomain: string, serviceToken: string, buy: PostBuyParams) => {

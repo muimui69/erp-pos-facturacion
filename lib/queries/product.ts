@@ -1,5 +1,5 @@
 import api, { converToStringfy } from "../api";
-import { BranchIdsPayload, GetBranchsInProduct, GetProductIDResponse, GetProductsResponse, PatchProductParams } from "./interfaces/product.interface";
+import { BranchIdsPayload, GetBranchInNotProductReponse, GetBranchsInProduct, GetProductIDResponse, GetProductsResponse, PatchProductParams } from "./interfaces/product.interface";
 
 export const getAllProducts = async (subdomain: string, serviceToken: string) => {
     try {
@@ -42,6 +42,22 @@ export const getBranchsInProduct = async (subdomain: string, serviceToken: strin
         throw error;
     }
 }
+
+export const getBranchsInNotProduct = async (subdomain: string, serviceToken: string, id: string) => {
+    try {
+        const { data } = await api.get(`/branch/product/${id}`, {
+            headers: {
+                "subdomain": subdomain,
+                "service-token": serviceToken
+            }
+        });
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
 
 export const postCreateBranchProduct = async (subdomain: string, serviceToken: string, branchIds: BranchIdsPayload, id: string) => {
     try {

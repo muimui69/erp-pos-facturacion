@@ -19,11 +19,15 @@ interface SelectBranchProps {
 
 export default function SelectSucursal({ setUserBranch }: SelectBranchProps) {
   const { subdomain, user } = useParamsClient();
-  const { branchs, isLoading } = useBranchs(subdomain as never, user?.token);
+  const { branchsAtm, isLoadingBranchsAtm } = useBranchs(subdomain as never, user?.token);
 
   const handleSelectBranch = (value: string) => {
     setUserBranch({ idBranch: value })
   };
+
+  if (isLoadingBranchsAtm) {
+    return <span>Cargando ...</span>
+  }
 
   return (
     <Select onValueChange={handleSelectBranch}>
@@ -32,7 +36,7 @@ export default function SelectSucursal({ setUserBranch }: SelectBranchProps) {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {branchs.map(({ id, name }) => (
+          {branchsAtm.map(({ id, name }) => (
             <SelectItem key={id} value={id.toString()}>
               {name}
             </SelectItem>

@@ -36,7 +36,7 @@ export function SelectCa({ setUserCategory }: SelectBranchProps) {
   const [selectedValues, setSelectedValues] = useState<Categories[]>([])
 
   const { subdomain, user } = useParamsClient();
-  const { categories } = useCategories(subdomain as never, user?.token);
+  const { categoriesProd,isLoadingProd } = useCategories(subdomain as never, user?.token);
 
   const handleToggleOption = (value: Categories) => {
     const isSelected = selectedValues.some((v) => v.id === value.id);
@@ -46,6 +46,10 @@ export function SelectCa({ setUserCategory }: SelectBranchProps) {
 
     setSelectedValues(newSelectedValues);
     setUserCategory(newSelectedValues);
+  }
+
+  if(isLoadingProd){
+    return <span>Cargando ...</span>
   }
 
   return (
@@ -59,7 +63,7 @@ export function SelectCa({ setUserCategory }: SelectBranchProps) {
         >
           {selectedValues.length > 0
             ? selectedValues.map((value) =>
-              categories.find((fw) => fw.id === value.id)?.description
+              categoriesProd.find((fw) => fw.id === value.id)?.description
             ).join(", ")
             : "Seleccione las categorias ..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -71,7 +75,7 @@ export function SelectCa({ setUserCategory }: SelectBranchProps) {
           <CommandList>
             <CommandEmpty>Categoria no encontrada.</CommandEmpty>
             <CommandGroup>
-              {categories.map((category) => (
+              {categoriesProd.map((category) => (
                 <CommandItem
                   key={category.id}
                   value={category.description}

@@ -14,6 +14,8 @@ import { useDateStore } from "@/context/data-range-store";
 export default function BuyDetail() {
     const { rangeDate } = useDateStore();
     const { subdomain, user } = useParamsClient();
+    const [loading, setIsloading] = useState(true);
+    const [data, setData] = useState<Buy[]>();
 
     const { buys, isLoading, isError } = useBuys(subdomain as never, user?.token!, rangeDate);
 
@@ -21,18 +23,24 @@ export default function BuyDetail() {
     const [currentPage, setCurrentPage] = useState(1);
     const handleNextPage = () => {
         setCurrentPage((prevPage) => prevPage + 1);
-    }; 
- 
+    };
+
     const handlePrevPage = () => {
         setCurrentPage((prevPage) => prevPage - 1);
     };
 
-    const startIndex = (currentPage - 1) * pageSize; 
-    const endIndex = startIndex + pageSize; 
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
 
     const currentPageData = buys?.slice(startIndex, endIndex);
 
-    if (isLoading) {
+    useEffect(() => {
+        setData(buys);
+        setIsloading(false);
+    }, [setData, setIsloading]);
+
+
+    if (loading) {
         return <BuyDetailSkeleton />
     }
 

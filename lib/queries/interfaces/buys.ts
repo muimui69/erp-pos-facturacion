@@ -47,3 +47,27 @@ export interface PostBuyParams {
         proce: string;
     }[]
 }
+
+
+export interface GetProductForBuys {
+    statusCode: number;
+    message:    string;
+    data:       DataProductForBuys;
+}
+
+export interface DataProductForBuys {
+    product: Product;
+}
+
+export interface Product {
+    id:          number;
+    name:        string;
+    description: string;
+    price:       string;
+    discount:    string;
+    status:      boolean;
+    images:      string[];
+    createdAt:   Date;
+    updatedAt:   Date;
+    tenantId:    number;
+}

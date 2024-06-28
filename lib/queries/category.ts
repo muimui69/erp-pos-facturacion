@@ -14,6 +14,19 @@ export const getAllCategories = async(serviceToken: string, subdomain: string) =
     }
 }
 
+export const getAllCategoriesProd = async(serviceToken: string, subdomain: string) => {
+    try {
+        return await api.get<GetCategoriesResponse>('/product/category', {
+            headers: {
+                subdomain,
+                "service-token": serviceToken
+            }
+        });
+    } catch (error) {
+        throw error;
+    }
+}
+
 
 export const getCategoryById = async (subdomain: string, id: number) => {
     try {

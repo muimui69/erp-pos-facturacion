@@ -47,7 +47,7 @@ export function DialogEdit({ data, setIsDialogOpen }: DialogEditProps) {
             await patchEmployee.mutateAsync({
                 serviceToken: user?.token!,
                 subdomain: subdomain as never,
-                id: data.id.toString(),
+                id: data?.id.toString(),
                 rolId: rol.idRol
             });
             setIsloading(false);
@@ -73,7 +73,7 @@ export function DialogEdit({ data, setIsDialogOpen }: DialogEditProps) {
                     <Label className="text-right">
                         Asignar:
                     </Label>
-                    <SelectRoles setRol={setRol} initialRol={rolData.id}/>
+                    <SelectRoles setRol={setRol} data={data} />
                 </div>
             </div>
             <DialogFooter>

@@ -18,9 +18,8 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import { useParamsClient } from "@/hooks/use-params"
-import { useCategories } from "@/hooks/use-category"
 import { Dispatch, SetStateAction, useState } from "react"
-import { useBranchs } from "@/hooks/use-branch"
+import { useStocksSection } from "@/hooks/use-stock-section"
 
 
 interface Branchs {
@@ -40,7 +39,8 @@ export function SelectBranch({ setUserCategory, params: { id } }: SelectBranchPr
     const [selectedValues, setSelectedValues] = useState<Branchs[]>([])
 
     const { subdomain, user } = useParamsClient();
-    const { branchs, isLoading } = useBranchs(subdomain as never, user?.token);
+    const { branchsNotInProductTest, isLoadingBranchInNotProduct } = useStocksSection(subdomain as never, user?.token, id.toString());
+
 
     const handleToggleOption = (value: Branchs) => {
         const isSelected = selectedValues.some((v) => v.id === value.id);
@@ -50,6 +50,10 @@ export function SelectBranch({ setUserCategory, params: { id } }: SelectBranchPr
 
         setSelectedValues(newSelectedValues);
         setUserCategory(newSelectedValues);
+    }
+
+    if (isLoadingBranchInNotProduct) {
+        return <span>Cargando ... </span>
     }
 
     return (
@@ -64,7 +68,7 @@ export function SelectBranch({ setUserCategory, params: { id } }: SelectBranchPr
                     >
                         {selectedValues.length > 0
                             ? selectedValues.map((value) =>
-                                branchs.find((fw) => fw.id === value.id)?.name
+                                branchsNotInProductTest.find((fw: any) => fw.id === value.id)?.name
                             ).join(", ")
                             : "Seleccione las sucursales ..."}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -76,7 +80,7 @@ export function SelectBranch({ setUserCategory, params: { id } }: SelectBranchPr
                         <CommandList>
                             <CommandEmpty>Sucursal no encontrada.</CommandEmpty>
                             <CommandGroup>
-                                {branchs.map((branch) => (
+                                {branchsNotInProductTest?.map((branch: any) => (
                                     <CommandItem
                                         key={branch.id}
                                         value={branch.name}

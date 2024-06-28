@@ -11,25 +11,29 @@ import {
 import { useBranchs } from '@/hooks/use-branch';
 import { useParamsClient } from "@/hooks/use-params";
 import { useRols } from "@/hooks/use-rol";
+import { AllUser } from "@/lib/queries/interfaces/employee.interface";
 import { Dispatch, SetStateAction } from "react";
 
 interface SelectBranchProps {
   setRol: Dispatch<SetStateAction<{ idRol: string; }>>;
-  initialRol: string;
+  data: AllUser
 }
 
-export default function SelectRoles({ setRol, initialRol }: SelectBranchProps) {
+export default function SelectRoles({ data, setRol }: SelectBranchProps) {
 
   const { subdomain, user } = useParamsClient();
-  const { rols } = useRols(subdomain as never, user?.token);
-
+  const { rols, isLoadingRols } = useRols(subdomain as never, user?.token);
 
   const handleSelectBranch = (value: string) => {
     setRol({ idRol: value })
   };
 
+  if (isLoadingRols) {
+    return <span>Cargando ...</span>
+  }
+
   return (
-    <Select onValueChange={handleSelectBranch} defaultValue={initialRol}>
+    <Select onValueChange={handleSelectBranch} defaultValue={data.rol.id.toString()} >
 
       <SelectTrigger className="col-span-3">
         <SelectValue placeholder="Selecciona un rol" />
@@ -37,7 +41,7 @@ export default function SelectRoles({ setRol, initialRol }: SelectBranchProps) {
       <SelectContent>
         <SelectGroup>
           {rols?.map(({ id, desc }) => (
-            <SelectItem className="capitalize" key={id} value={id.toString()}>
+            <SelectItem className="capitalize" key={id} value={id?.toString()}>
               {desc}
             </SelectItem>
           ))}

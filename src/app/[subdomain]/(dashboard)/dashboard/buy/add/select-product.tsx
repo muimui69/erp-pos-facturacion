@@ -15,9 +15,10 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import { Dispatch, SetStateAction, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { useParamsClient } from "@/hooks/use-params"
 import { useProducts } from "@/hooks/use-product"
+import { useBuys } from "@/hooks/use-buys"
 
 interface Product {
     id: string;
@@ -25,66 +26,60 @@ interface Product {
 }
 
 interface SelectProductProps {
-    selectedProductId: string;
+    branchId: string;
     onChange: (value: string) => void;
 }
 
 
-export function SelectProduct({ selectedProductId, onChange }: SelectProductProps) {
-    const [open, setOpen] = useState(false)
-    const [selectedValue, setSelectedValue] = useState<Product>()
+export function SelectProduct({ branchId, onChange }: SelectProductProps) {
+    const [inputValue, setInputValue] = useState("");
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [searched, setSearched] = useState(false);
 
     const { subdomain, user } = useParamsClient();
-    const { products, isLoading } = useProducts(subdomain as never, user?.token);
+    const { productForBuys, isLoading } = useBuys(subdomain as never, user?.token, undefined, inputValue as never, branchId as never);
 
-    const handleToggleOption = (product: Product) => {
-        setSelectedValue({
-            id: product.id,
-            name: product.name
-        });
-        onChange(product.id);
-        setOpen(false);
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(event.target.value);
+    };
+
+    const handleSearch = () => {
+        onChange(inputValue);
+        if (productForBuys) {
+            setSelectedProduct(productForBuys as never);
+            setSearched(true);
+        } else {
+            setSearched(false);
+            setSelectedProduct(null);
+        }
     };
 
     if (isLoading) {
-        return <span>Cargando ... </span>
+        return <span>Cargando ... </span>;
     }
 
     return (
-        <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-                <Button
-                    variant="outline"
-                    role="combobox"
-                    aria-expanded={open}
-                    className="w-[200px] justify-between"
-                >
-                    {selectedValue ? selectedValue.name : "Seleccionar producto..."}
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0 max-h-[200px] overflow-auto">
-                <Command>
-                    <CommandInput placeholder="Search branches..." />
-                    <CommandList>
-                        <CommandEmpty>No se encontro el producto.</CommandEmpty>
-                        <CommandGroup>
-                            {products.map((product) => (
-                                <CommandItem
-                                    key={product.id}
-                                    value={product.name}
-                                    onSelect={() => handleToggleOption({
-                                        id: product.id.toString(),
-                                        name: product.name
-                                    })}
-                                >
-                                    {product.name}
-                                </CommandItem>
-                            ))}
-                        </CommandGroup>
-                    </CommandList>
-                </Command>
-            </PopoverContent>
-        </Popover>
+        <>
+            <div className="flex items-center mb-4 space-x-2">
+                <input
+                    type="text"
+                    value={inputValue}
+                    onChange={handleInputChange}
+                    placeholder="Ingrese ID de producto"
+                    className="border border-gray-300 rounded px-2 py-1 flex-grow"
+                />
+            </div>
+            <Button type="button" className="flex-shrink-0" onClick={handleSearch}>Buscar</Button>
+            {selectedProduct ? (
+                <div>
+                    <p>Producto encontrado:</p>
+                    <p>ID: {selectedProduct.id} </p>
+                    <p>Nombre: {selectedProduct.name}</p>
+                </div>
+            ) : (
+                inputValue && !searched && <p>No se encontró el producto.</p>
+            )}
+        </>
     )
 }

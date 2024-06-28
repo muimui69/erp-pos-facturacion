@@ -2,7 +2,6 @@
 
 import { useParams } from "next/navigation";
 import Cookie from 'js-cookie';
-import { Data } from "@/lib/queries/interfaces/auth.interface";
 import { useEffect, useState } from "react";
 
 export function useParamsClient() {

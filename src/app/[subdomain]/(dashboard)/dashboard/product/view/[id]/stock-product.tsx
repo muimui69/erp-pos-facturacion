@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
@@ -10,6 +10,7 @@ import { useBranchs } from '@/hooks/use-branch';
 import { useProducts } from '@/hooks/use-product';
 import { toast } from '@/components/ui/use-toast';
 import { useStocks } from '@/hooks/use-stock';
+import { InventoryBranchsInProduct } from '@/lib/queries/interfaces/product.interface';
 
 interface Branchs {
   id: number;
@@ -23,11 +24,13 @@ interface EditProductProps {
 }
 
 export default function StockProduct({ params }: EditProductProps) {
- 
+
 
   const { subdomain, user } = useParamsClient();
-  const { createBranchProduct, branchsInProduct, isLoadingBranchInProduct } = useStocks(subdomain as never, user?.token, params.id.toString());
+  const { createBranchProduct, branchsInProduct, isLoadingBranchInProduct } = useStocks(subdomain as never, user?.token, params.id.toString() as never);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [branchsInProductData, setBranchsInProduct] = useState<InventoryBranchsInProduct[]>([]);
+  // const [loadingData,setIsloading]=useState(true);
 
   const itemsPerPage = 2;
   const [currentPage, setCurrentPage] = useState(1);
@@ -36,7 +39,6 @@ export default function StockProduct({ params }: EditProductProps) {
   const [selectedValues, setSelectedValues] = useState<Branchs[]>([])
 
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = branchsInProduct.slice(startIndex, startIndex + itemsPerPage);
 
 
   const handleNextPage = () => {
@@ -47,10 +49,17 @@ export default function StockProduct({ params }: EditProductProps) {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
+  // useEffect(() => {
+  //   setBranchsInProduct(branchsInProduct);
+  //   setIsloading(false);
+  // }, [setBranchsInProduct,isLoadingBranchInProduct])
+
+  const currentItems = branchsInProduct?.slice(startIndex, startIndex + itemsPerPage);
+
   const handleSubmit = async () => {
     try {
       setIsLoading(true);
-      const branchIds = selectedValues.map(branch => branch.id) ;
+      const branchIds = selectedValues.map(branch => branch.id);
       await createBranchProduct.mutateAsync({
         serviceToken: user?.token as never,
         subdomain: subdomain as never,
@@ -89,7 +98,7 @@ export default function StockProduct({ params }: EditProductProps) {
         <div className="flex justify-end gap-2 mb-10">
           <Button
             disabled={isLoading}
-            onClick={handleSubmit}
+            onClick={handleSubmit} 
             type="button">
             Guardar
           </Button>
@@ -97,7 +106,7 @@ export default function StockProduct({ params }: EditProductProps) {
       </div>
 
       <div className="grid gap-6">
-        {currentItems.map((item) => (
+        {currentItems?.map((item) => (
           <Card key={item.branch.id} className="grid gap-4 p-4 md:p-8 rounded-lg shadow-lg">
             <div className="flex items-center gap-4">
               <div className="bg-muted rounded-md flex items-center justify-center aspect-square w-12 md:w-16">

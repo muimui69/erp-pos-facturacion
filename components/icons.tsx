@@ -56,7 +56,8 @@ import {
   ShoppingCart,
   Pyramid,
   Clock,
-  Coins
+  Coins,
+  ListRestart,
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -117,5 +118,6 @@ export const Icons = {
   shoppingCart: ShoppingCart,
   pyramid:Pyramid,
   clock:Clock,
-  sale:Coins
+  sale:Coins,
+  listRestart:ListRestart
 }

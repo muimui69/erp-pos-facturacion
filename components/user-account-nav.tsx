@@ -24,11 +24,10 @@ interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
 export function UserAccountNav({ user }: UserAccountNavProps) {
 
   const { subdomain } = useParamsClient()
-
   const navigate = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { setUser,setUserTenant } = useAuthStore();
+  const { setUser, setUserTenant } = useAuthStore();
 
   const signOut = () => {
     Cookie.remove('user');
@@ -49,7 +48,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
     //   return '/tenants';
     // }
     // return `http://localhost:3001/tenants`;
-    return `${process.env.NEXT_PUBLIC_BASE_URL_LOCALHOST_SASS}/tenants` 
+    return `${process.env.NEXT_PUBLIC_BASE_URL_LOCALHOST_SASS}/tenants`
   };
 
   const handleLogout = () => {
@@ -76,6 +75,12 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         <DropdownMenuItem asChild className="cursor-pointer">
           <Link href={pathToSubdomain()}>Mis áreas de trabajo</Link>
         </DropdownMenuItem>
+        {
+          subdomain &&
+          <DropdownMenuItem asChild className="cursor-pointer">
+            <Link href="/auth/reset_password">Cambiar contraseña</Link>
+          </DropdownMenuItem>
+        }
         <DropdownMenuItem className="cursor-pointer" onSelect={handleLogout}>
           Cerrar sesión
         </DropdownMenuItem>

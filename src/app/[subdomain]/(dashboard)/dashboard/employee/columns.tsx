@@ -68,7 +68,7 @@ export const columns: ColumnDef<AllUser>[] = [
 
 const ActionCell = ({ row }: { row: Row<AllUser> }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const employeeId = row.original.id;
+    // const employeeId = row.original.rol.id;
 
     return (
         <>

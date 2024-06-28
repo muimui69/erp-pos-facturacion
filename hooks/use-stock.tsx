@@ -1,7 +1,7 @@
 "use client"
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/provider/ReactQueryClient';
-import { deleteProductById, getAllProducts, getBranchsInProduct, getProductById, patchProductById, postCreateBranchProduct, postCreateProduct } from '@/lib/queries/product';
+import { deleteProductById, getAllProducts, getBranchsInNotProduct, getBranchsInProduct, getProductById, patchProductById, postCreateBranchProduct, postCreateProduct } from '@/lib/queries/product';
 import { BranchIdsPayload } from '@/lib/queries/interfaces/product.interface';
 
 export function useStocks(subdomain?: string, serviceToken?: string, id?: string) {
@@ -12,6 +12,13 @@ export function useStocks(subdomain?: string, serviceToken?: string, id?: string
         queryFn: async () => getBranchsInProduct(subdomain as never, serviceToken as never, id as never),
         enabled: !!subdomain && !!serviceToken && !!id
     });
+
+    // const { data: branchsNotInProductTest, isLoading: isLoadingBranchInNotProduct, isError: isErrorBranchNotInProduct } = useQuery({
+    //     queryKey: [queryKeyName, subdomain, serviceToken, id],
+    //     queryFn: async () => getBranchsInNotProduct(subdomain as never, serviceToken as never, id as never),
+    //     enabled: !!subdomain && !!serviceToken && !!id
+    // });
+
 
     const createBranchProductMutation = useMutation({
         mutationFn: async ({ subdomain, serviceToken, branchIds, id }: { subdomain: string, serviceToken: string, branchIds: BranchIdsPayload, id: string }) => {
@@ -27,6 +34,9 @@ export function useStocks(subdomain?: string, serviceToken?: string, id?: string
         branchsInProduct: branchsInProduct?.data?.stock?.inventorys || [],
         isLoadingBranchInProduct,
         isErrorBranchInProduct,
-        createBranchProduct:createBranchProductMutation
+        createBranchProduct:createBranchProductMutation,
+        // branchsNotInProductTest:branchsNotInProductTest?.data?.branchs || [],
+        // isLoadingBranchInNotProduct,
+        // isErrorBranchNotInProduct
     };
 }

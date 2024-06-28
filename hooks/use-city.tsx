@@ -1,7 +1,7 @@
 "use client"
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/provider/ReactQueryClient';
-import { deleteCityById, getAllCities, getCityById, patchCityById, postCreateCity } from '@/lib/queries/city';
+import { deleteCityById, getAllCities, getAllCitiesBranch, getCityById, patchCityById, postCreateCity } from '@/lib/queries/city';
 
 export function useCities(subdomain?: string, serviceToken?: string, id?: string) {
     const queryKeyName = 'cities'
@@ -9,6 +9,12 @@ export function useCities(subdomain?: string, serviceToken?: string, id?: string
     const { data: cities, isLoading: isLoadingCities, isError: isErrorCities } = useQuery({
         queryKey: [queryKeyName, subdomain, serviceToken],
         queryFn: () => getAllCities(serviceToken as never, subdomain as never),
+        enabled: !!serviceToken
+    });
+
+    const { data: citiesBranch, isLoading: isLoadingCityBranch, isError: isErrorCitiesBranch } = useQuery({
+        queryKey: [queryKeyName, subdomain, serviceToken],
+        queryFn: () => getAllCitiesBranch(serviceToken as never, subdomain as never),
         enabled: !!serviceToken
     });
 
@@ -58,6 +64,9 @@ export function useCities(subdomain?: string, serviceToken?: string, id?: string
         isErrorCityId,
         createCity: createCityMutation,
         deleteCity: deleteCityMutation,
-        patchCity: patchCityMutation
+        patchCity: patchCityMutation,
+        citiesBranch:citiesBranch?.data.data.citys || [],
+        isLoadingCityBranch,
+        isErrorCitiesBranch
     };
 }

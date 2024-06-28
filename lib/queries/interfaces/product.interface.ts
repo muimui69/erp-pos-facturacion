@@ -69,14 +69,14 @@ export interface ProductIDResponse {
     price: string;
     discount: string;
     images: string[];
-    stock: Stock;
+    stock: StockIDRespons;
     status: boolean;
     categories: CategoryElement[];
     createdAt: string;
     updatedAt: string;
 }
 
-export interface Stock {
+export interface StockIDRespons {
     id: number;
     cantTotal: number;
     inventorys: any[];
@@ -127,4 +127,35 @@ export interface CityBranchBranchsInProduct {
 
 export interface BranchIdsPayload {
     branchIds: number[];
+}
+
+
+
+export interface GetBranchInNotProductReponse {
+    statusCode: number;
+    message:    string;
+    data:       DataBranchInNotProductReponse;
+}
+
+export interface DataBranchInNotProductReponse {
+    total:   number;
+    branchs: BranchBranchInNotProductReponse[];
+}
+
+export interface BranchBranchInNotProductReponse {
+    id:        number;
+    city:      CityBranchInNotProductReponse;
+    name:      string;
+    address:   string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface CityBranchInNotProductReponse  {
+    id:        number;
+    name:      string;
+    status:    boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    tenantId:  number;
 }
